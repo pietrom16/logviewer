@@ -1,0 +1,15 @@
+*.tmp
+*.o
+*.obj
+*~
+*.lib
+*.so
+*.a
+*.dll
+a.out
+*.app
+*.exe
+build/
+dist/
+tmp/
+temp/

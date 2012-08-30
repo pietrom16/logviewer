@@ -1,0 +1,17 @@
+# backup_config.txt
+
+###########################################################
+### Configuration parameters for the "backup.sh" script ###
+
+PRJOWNER=PietroMele
+
+### Backup directories ###
+
+# Local backup directory
+LOCAL_BACKUP_DIR=/Users/pietro/myProgs/backups
+
+# Remote backup directory
+BACKUP_SERVER_DIR=/Volumes/PietroMele_backup/backups
+
+###########################################################
+
