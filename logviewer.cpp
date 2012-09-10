@@ -21,6 +21,9 @@
  */
 
 /* TODO
+	- Recognize other log level formats (e.g. strings)
+		- Load a file with the tag/level mapping.
+		- If the file is not available, use a pseudo random mapping.
 	- Allow to select logs on the basis of their ID.
 	- In the header, add the date of the log file in Windows (done for POSIX).
 	- Let customise the level's highlighting.
@@ -28,6 +31,7 @@
 
 #include "progArgs.h"
 #include "textModeFormatting.h"
+#include <cctype>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
@@ -58,6 +62,8 @@ using namespace Utilities;
 const int version = 1, subversion = 4;
 
 
+int GetLevel(const string &_level);
+int LogLevelMapping(const string &_level);
 void PrintHelp(const ProgArgs &_args, const char* _progName);
 void PrintVersion(const char* _progName);
 
@@ -284,8 +290,8 @@ int main(int argc, char* argv[])
 			for(int i = 0; i < levelColumn; ++i)
 				str >> token;
 
-			level = atoi(token.c_str());
-
+			level = GetLevel(token);
+			
 			if(level >= minLevel)
 			{
 				if(incStrFlag) {
@@ -320,6 +326,38 @@ int main(int argc, char* argv[])
 	}
 	
 	return 0;
+}
+
+
+int GetLevel(const string &_level)
+{
+	if(isdigit(_level[0]))
+		// A number, use it directly
+		return atoi(_level.c_str()) % nLevels;
+	
+	if(_level[0] == 'L')
+		// The 'L' special character
+		return 0;
+	
+	//+TODO check for string level
+
+	return LogLevelMapping(_level);
+}
+
+
+int LogLevelMapping(const string &_level)
+{
+	//+TEST
+	int colorCode = 0;
+	
+	for(size_t i = 0; i < _level.size(); ++i)
+	{
+		colorCode += _level[i];		//+TODO: more randomness
+	}
+	
+	colorCode = colorCode % 6 + 1;		// use the first 6 colors only
+	
+	return colorCode;
 }
 
 

@@ -1,28 +1,26 @@
-abc abc 4 [microLog_test.cpp:main:12] Test log message number 0.
-abc abc 1 [microLog_test.cpp:main:12] Test log message number 1.
-abc abc 2 [microLog_test.cpp:main:12] Test log message number 2.
-abc abc 3 [microLog_test.cpp:main:12] Test log message number 3.
-abc abc 4 [microLog_test.cpp:main:15] Test log message number 4 with value 4.92
-abc abc 5 [microLog_test.cpp:main:15] Test log message number 5 with value 6.15
-abc abc 6 [microLog_test.cpp:main:15] Test log message number 6 with value 7.38
-abc abc 7 [microLog_test.cpp:main:15] Test log message number 7 with value 8.61
-abc abc 8 [microLog_test.cpp:main:15] Test log message number 8 with value 9.84
-abc abc 9 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 10 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 11 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 12 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 13 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 14 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 15 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 16 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 17 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 18 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 11 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 11 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 18 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 18 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 16 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 16 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 15 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 15 [microLog_test.cpp:main:15] Test log message number 9 with value 11.07
-abc abc 6 [microLog_test.cpp:main:15] Test log message number 6 with value 7.38
+Delta_t Date                L - Log message                                     
+0.00247 2012-08-31T21:16:53 1 - Test log message n.1
+0.00249 2012-08-31T21:16:53 2 - Test log message n.2
+0.00252 2012-08-31T21:16:53 3 - Test log message n.3
+0.00253 2012-08-31T21:16:53 4 - Test log message n.4
+0.00254 2012-08-31T21:16:53 5 - Test log message n.5
+0.00255 2012-08-31T21:16:53 6 - Test log message n.6
+0.00256 2012-08-31T21:16:53 7 - Test log message n.7
+Delta_t Date                L Process:PID      Source:Function:Line    - Log message                                     
+0.00259 2012-08-31T21:16:53 6 plogger_test:17832 Logger_test.cpp:main:83 - Test log message n.2
+Delta_t Date                L - Log message                                     
+0.00247 2012-08-31T21:16:53 DETAIL - Test log message n.1
+0.00249 2012-08-31T21:16:53 INFO - Test log message n.2
+0.00252 2012-08-31T21:16:53 WARNING - Test log message n.3
+0.00253 2012-08-31T21:16:53 ERROR - Test log message n.4
+0.00254 2012-08-31T21:16:53 CRITICAL - Test log message n.5
+0.00255 2012-08-31T21:16:53 FATAL - Test log message n.6
+Delta_t Date                L Process:PID      Source:Function:Line    - Log message                                     
+0.00259 2012-08-31T21:16:53 6 plogger_test:17832 Logger_test.cpp:main:83 - Test log message n.2
+Delta_t Date                L - Log message                                     
+0.00247 2012-08-31T21:16:53 MY_DETAIL - Test log message n.1
+0.00249 2012-08-31T21:16:53 MY_INFO - Test log message n.2
+0.00252 2012-08-31T21:16:53 MY_WARNING - Test log message n.3
+0.00253 2012-08-31T21:16:53 MY_ERROR - Test log message n.4
+0.00254 2012-08-31T21:16:53 MY_CRITICAL - Test log message n.5
+0.00255 2012-08-31T21:16:53 MY_FATAL - Test log message n.6
