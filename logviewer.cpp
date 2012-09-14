@@ -1,12 +1,12 @@
 /******************************************************************************
  * logviewer.cpp
  *
- * Version 1.4
+ * Version 1.5
  *
  * Utility to display log files in real time.
  *
  * Copyright (C) Pietro Mele 2012
- * Released under a BSD license.
+ * Released under a GPL 3 license.
  *
  * pietrom16@gmail.com
  *
@@ -21,12 +21,9 @@
  */
 
 /* TODO
-	- Recognize other log level formats (e.g. strings)
-		- Load a file with the tag/level mapping.
-		- If the file is not available, use a pseudo random mapping.
+	- Randomize better the colors in LogLevelMapping().
 	- Allow to select logs on the basis of their ID.
 	- In the header, add the date of the log file in Windows (done for POSIX).
-	- Let customise the level's highlighting.
  */
 
 #include "progArgs.h"
@@ -59,7 +56,7 @@ using namespace Utilities;
 #endif
 
 
-const int version = 1, subversion = 4;
+const int version = 1, subversion = 5;
 
 
 int GetLevel(const string &_level);
@@ -335,12 +332,35 @@ int GetLevel(const string &_level)
 		// A number, use it directly
 		return atoi(_level.c_str()) % nLevels;
 	
-	if(_level[0] == 'L')
+	if(_level[0] == 'L' || _level == "NO_LEVEL")
 		// The 'L' special character
 		return 0;
 	
-	//+TODO check for string level
-
+	// Check for string level
+	
+	if(_level == "VERBOSE" || _level == "TRACE")
+		return 1;
+	
+	if(_level == "DETAIL" || _level == "DEBUG" || _level == "Debug")
+		return 2;
+	
+	if(_level == "INFO" || _level == "Info" || _level == "Notice")
+		return 3;
+	
+	if(_level == "WARNING" || _level == "Warning" || _level == "WARN")
+		return 4;
+	
+	if(_level == "ERROR" || _level == "Error")
+		return 5;
+	
+	if(_level == "SEVERE" || _level == "CRITICAL" || _level == "Critical" || _level == "Alert")
+		return 6;
+	
+	if(_level == "FATAL" || _level == "Emergency")
+		return 7;
+	
+	// Nothing found; use a random mapping
+	
 	return LogLevelMapping(_level);
 }
 
@@ -371,7 +391,7 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	cout << "\n" << progName.substr(pos) << ": a text mode log file viewer." << endl;
 	cout << "\n" << "Features:" << endl;
 	cout << "\t- Log file format agnostic." << endl;
-	cout << "\t- Log level based highlighting." << endl;
+	cout << "\t- Log level based highlighting. Levels can be numeric (1-7) or strings." << endl;
 	cout << "\t- Filtering capability." << endl;
 	cout << "\t- Text mode, runs everywhere after recompilation." << endl;
 	cout << "\t- Free software, BSD license." << endl;
@@ -398,7 +418,7 @@ void PrintVersion(const char* _progName)
 	size_t p = progName.find_last_of(slash) + 1;
 	cout << "\n\t" << progName.substr(p) << " version " << version << "." << subversion << endl;
 	cout << "\n\t" << "Copyright 2012 Pietro Mele" << endl;
-	cout << "\n\t" << "Released under a BSD license." << endl;
+	cout << "\n\t" << "Released under a GPL 3 license." << endl;
 	cout << "\n\t" << "pietrom16@gmail.com"
 	     << "\n\t" << "https://sites.google.com/site/pietrom16" << endl;
 	cout << string(80, '-') << "\n";
