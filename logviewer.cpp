@@ -367,7 +367,6 @@ int GetLevel(const string &_level)
 
 int LogLevelMapping(const string &_level)
 {
-	//+TEST
 	int colorCode = 0;
 	
 	for(size_t i = 0; i < _level.size(); ++i)
