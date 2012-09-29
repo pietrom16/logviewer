@@ -1,7 +1,7 @@
 /******************************************************************************
  * logviewer.cpp
  *
- * Version 1.5
+ * Version 1.5.1
  *
  * Utility to display log files in real time.
  *
@@ -21,6 +21,7 @@
  */
 
 /* TODO
+	- Multiple input logs.
 	- Randomize better the colors in LogLevelMapping().
 	- Allow to select logs on the basis of their ID.
 	- In the header, add the date of the log file in Windows (done for POSIX).
@@ -56,7 +57,7 @@ using namespace Utilities;
 #endif
 
 
-const int version = 1, subversion = 5;
+const int version = 1, subversion = 5, subsubversion = 1;
 
 
 int GetLevel(const string &_level);
@@ -190,8 +191,22 @@ int main(int argc, char* argv[])
 		time_t date = st.st_mtime;
 		logDate = ctime(&date);		//+ ctime() deprecated
 	}
+	else
+	{
+		std::time_t t = std::time(NULL);
+		logDate = std::asctime(std::localtime(&t));
+	}
 #else
-	//+TODO
+	if(false)
+	{
+		//+TODO
+		logDate = "\n";
+	}
+	else
+	{
+		std::time_t t = std::time(NULL);
+		logDate = std::asctime(std::localtime(&t));
+	}
 #endif
 	
 	cout << string(80, '-') << "\n";
@@ -415,7 +430,7 @@ void PrintVersion(const char* _progName)
 	cout << string(80, '-') << "\n";
 	string progName = _progName;
 	size_t p = progName.find_last_of(slash) + 1;
-	cout << "\n\t" << progName.substr(p) << " version " << version << "." << subversion << endl;
+	cout << "\n\t" << progName.substr(p) << " version " << version << "." << subversion << "." << subsubversion << endl;
 	cout << "\n\t" << "Copyright 2012 Pietro Mele" << endl;
 	cout << "\n\t" << "Released under a GPL 3 license." << endl;
 	cout << "\n\t" << "pietrom16@gmail.com"
