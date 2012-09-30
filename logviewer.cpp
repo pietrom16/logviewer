@@ -57,7 +57,7 @@ using namespace Utilities;
 #endif
 
 
-const int version = 1, subversion = 5, subsubversion = 1;
+const int version = 1, subversion = 5, subsubversion = 2;
 
 
 int GetLevel(const string &_level);
@@ -209,10 +209,10 @@ int main(int argc, char* argv[])
 	}
 #endif
 	
-	cout << string(80, '-') << "\n";
-	cout << "LogViewer " << version << "." << subversion << " - "
+	cout << string(110, '-') << "\n";
+	cout << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
 	     << "Log file: " << logFile << " - " << logDate;
-	cout << string(80, '-') << endl;
+	cout << string(110, '-') << endl;
 	
 	/// Print extra info
 	if(verbose)
@@ -389,7 +389,7 @@ int LogLevelMapping(const string &_level)
 		colorCode += _level[i];		//+TODO: more randomness
 	}
 	
-	colorCode = colorCode % 6 + 1;		// use the first 6 colors only
+	colorCode = colorCode % 7;		// use the first 7 colors only
 	
 	return colorCode;
 }

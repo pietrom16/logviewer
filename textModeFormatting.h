@@ -79,14 +79,14 @@ namespace textModeFormatting
 	// Predefined text formats as levels
 
 	const char level[][nLevels] = {
-		"7;37m",	/* NO_LEVEL_, normal, grey background */
 		"0;37m",	/* VERBOSE_, detail, grey */
 		"1m",		/* DETAIL_, bold, white */
 		"0;32m",	/* INFO_, normal, green */
 		"0;33m",	/* WARNING_, normal, yellow */
 		"1;31m",	/* ERROR_, bold, red */
 		"7;31m",	/* SEVERE_, red background */
-		"5;31m"		/* FATAL_, blinking red */
+		"5;31m",	/* FATAL_, blinking red */
+		"7;37m"		/* NO_LEVEL_, normal, grey background */
 	};
 
 #endif
