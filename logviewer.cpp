@@ -209,10 +209,15 @@ int main(int argc, char* argv[])
 	}
 #endif
 	
-	cout << string(110, '-') << "\n";
-	cout << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
-	     << "Log file: " << logFile << " - " << logDate;
-	cout << string(110, '-') << endl;
+	stringstream header;
+	header << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
+	       << "Log file: " << logFile << " - " << logDate;
+	
+	int barLen = header.str().length();
+	
+	cout << string(barLen, '-') << "\n";
+	cout << header.str();
+	cout << string(barLen, '-') << endl;
 	
 	/// Print extra info
 	if(verbose)
@@ -349,7 +354,7 @@ int GetLevel(const string &_level)
 	
 	if(_level[0] == 'L' || _level == "NO_LEVEL")
 		// The 'L' special character
-		return 0;
+		return nLevels - 1;
 	
 	// Check for string level
 	
