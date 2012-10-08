@@ -1,4 +1,4 @@
-//  progArgs.cpp
+///  progArgs.cpp
 
 #include "progArgs.h"
 #include <cstdlib>
@@ -8,231 +8,277 @@ using namespace std;
 
 namespace Utilities {
 
-	
-	ProgArgs::Argument::Argument(string name_, string shortName_, string desc_, bool optional_, bool valueNeeded_, string defaultValue_)
-	{
-		Set(name_, shortName_, desc_, optional_, valueNeeded_, defaultValue_);
-	}
-	
-	
-	int ProgArgs::Argument::Set(string name_, string shortName_, string desc_, bool optional_, bool valueNeeded_, string defaultValue_)
-	{
-		name = name_;
-		shortName = shortName_;
-		desc = desc_;
-		value = defaultValue_;
-		defaultValue = defaultValue_;
-		
-		if (defaultValue_.empty())
-			defaultAvailable = false;
-		else
-			defaultAvailable = true;
-		
-		valueNeeded = valueNeeded_;
-		present = false;
-		return  0;
-	}
-	
-	
-	
-	void ProgArgs::Argument::Set(const std::string &value_)
-	{
-		value = value_;
-		present = true;
-	}
-	
-	
-	
-	
-	void ProgArgs::Argument::Reset(void)
-	{
-		value = defaultValue;
-	}
-	
-	
-	
-	
-	void ProgArgs::Argument::Print(void) const
-	{
-		cout << "Name:           " << name << "\n"
-			 << "Short name:     " << shortName << "\n"
-			 << "Description:    " << desc << "\n";
-		
-		if(valueNeeded)
-		{
-			cout << "Value:          " << value << "\n"
-				 << "Default value:  ";
 
-			if (defaultAvailable)
-				cout << defaultValue;
-			
-			cout << "\n";
-		}
-		
-		cout << "Notes:          ";
-		
-		if(!valueNeeded)
-			cout << "No value;  ";
-		
-		if(optional)
-			cout << "Optional parameter;  ";
-		else
-			cout << "Necessary parameter;  ";
-		
-		if(present)
-			cout << "Specified value.";
-		else
-			cout << "Unspecified value.";
-		
-		cout << "\n" << endl;
-	}
-	
-	
-	
-	void ProgArgs::Argument::Help(void) const
+ProgArgs::Argument::Argument(
+		std::string _tag, 
+		std::string _shortTag,
+		std::string _desc,
+		bool _optional, 
+		bool _needed, 
+		std::string _default)
+{
+	Set(_tag, _shortTag, _desc, _optional, _needed, _default);
+}
+
+
+int ProgArgs::Argument::Set(
+		std::string _tag, 
+		std::string _shortTag, 
+		std::string _desc, 
+		bool _optional, 
+		bool _needed, 
+		std::string _default)
+{
+	tag = _tag;
+	shortTag = _shortTag;
+	desc = _desc;
+	optional = _optional;
+	val = _default;
+	defaultValue = _default;
+
+	if (_default.empty())
+		defaultAvailable = false;
+	else
+		defaultAvailable = true;
+
+	valueNeeded = _needed;
+	present = false;
+	return  0;
+}
+
+
+void ProgArgs::Argument::Set(const std::string &_val)
+{
+	val = _val;
+	present = true;
+}
+
+
+void ProgArgs::Argument::Reset()
+{
+	val = defaultValue;
+}
+
+
+void ProgArgs::Argument::Print() const
+{
+	cout << "Name:           " << tag << "\n"
+		 << "Short name:     " << shortTag << "\n"
+		 << "Description:    " << desc << "\n";
+
+	if(valueNeeded)
 	{
-		// Alignment of the description field:
-		int     desc_dist = desc_dist_max - (2 + shortName.size() + 2 + name.size() + 3);
-		string  tabulation;
-		
-		if (desc_dist > 0)
-		{
-			tabulation.append (desc_dist, ' ');
-		}
-		else
-		{
-			tabulation.append ("\n\r");
-			tabulation.append (desc_dist_max, ' ');
-		}
-		
-		cout << "  " << shortName << ", " << name << tabulation << desc;
-		
+		cout << "Value:          " << val << "\n"
+			 << "Default value:  ";
+
 		if (defaultAvailable)
-			cout << " (default = " << defaultValue << ")";
-		
-		cout << "." << endl;
+			cout << defaultValue;
+
+		cout << "\n";
 	}
-	
-	
-	
-	ProgArgs::ProgArgs (void)
+
+	cout << "Notes:          ";
+
+	if(!valueNeeded)
+		cout << "No value;  ";
+
+	if(optional)
+		cout << "Optional parameter;  ";
+	else
+		cout << "Necessary parameter;  ";
+
+	if(present)
+		cout << "Specified value.";
+	else
+		cout << "Unspecified value.";
+
+	cout << "\n" << endl;
+}
+
+
+void ProgArgs::Argument::Help() const
+{
+	// Alignment of the description field:
+	int     desc_dist = desc_dist_max - (2 + shortTag.size() + 2 + tag.size() + 3);
+	string  tabulation;
+
+	if (desc_dist > 0)
 	{
-		//...
+		tabulation.append (desc_dist, ' ');
 	}
-	
-	
-	
-	int ProgArgs::AddArg(const Argument& arg)
+	else
 	{
-		args.push_back (arg);
-		return  0;
+		tabulation.append ("\n\r");
+		tabulation.append (desc_dist_max, ' ');
 	}
-	
-	
-	
-	// Parse: get the argv strings and copy their parameters into args[]
-	
-	int ProgArgs::Parse(int argc, char *argv[])
+
+	cout << "  " << shortTag << ", " << tag << tabulation << desc;
+
+	if (defaultAvailable)
+		cout << " (default = " << defaultValue << ")";
+
+	cout << "." << endl;
+}
+
+
+ProgArgs::ProgArgs()
+{
+	//...
+}
+
+
+int ProgArgs::AddArg(const Argument& _arg)
+{
+	args.push_back(_arg);
+	return 0;
+}
+
+
+// Parse: get the _argv strings and copy their parameters into args[]
+
+int ProgArgs::Parse(int _argc, char *_argv[])
+{
+	programName = _argv[0];
+
+	int i = 1;
+	while(i < _argc)
 	{
-		programName = argv[0];
-		
-		int i = 1;
-		while (i < argc)
+		for(int j = 0; j < args.size(); ++j)
 		{
-			for (int j = 0; j < args.size(); ++j)
+			if(args[j].tag == _argv[i] || args[j].shortTag == _argv[i])
 			{
-				if (args[j].name == argv[i] || args[j].shortName == argv[i])
+				if(args[j].present == false)
 				{
+					// First time this tag has been found
+
 					args[j].present = true;
-					
-					if (args[j].valueNeeded)  {
+
+					if(args[j].valueNeeded) {
 						++i;
-						if (i >= argc)  {
-							cerr << programName << " error:  the argument " << args[j].name <<
-									" (" << args[j].shortName << ") needs a value." << endl;
+						if(i >= _argc) {
+							cerr << programName << " error:  the argument " << args[j].tag <<
+									" (" << args[j].shortTag << ") needs a value." << endl;
 							exit(1);
 						}
-						args[j].value = argv[i];
+						args[j].val = _argv[i];
 					}
-					
-					break;
 				}
-			}
-			
-			++i;
-		}
-		
-		return  0;
-	}
-	
-	
-	
-	int ProgArgs::GetArg(int i, Argument &arg) const
-	{
-		if (i < 0 || i >= args.size())
-			return -1;
-		
-		arg = args[i];
-		
-		return 0;
-	}
-	
-	
-	
-	int ProgArgs::GetValue(const string &name, string &value) const
-	{
-		for (int i = 0; i < args.size(); ++i)
-		{
-			if (name == args[i].name)  {
-				value = args[i].value;
-				return  i;
-			}
-		}
-		
-		return  -1;
-	}
-	
-	
-	
-	bool ProgArgs::GetValue(const string &name) const
-	{
-		for (int i = 0; i < args.size(); ++i)
-		{
-			if (name == args[i].name)  {
-				if (args[i].present)
-					return  true;
 				else
-					return  false;
+				{
+					// This tag has been found multiple times
+
+					// Copy the j-th arg at the end of args
+					args.push_back(args[j]);
+
+					if(args[j].valueNeeded) {
+						++i;
+						if(i >= _argc) {
+							cerr << programName << " error:  the argument " << args[j].tag <<
+									" (" << args[j].shortTag << ") needs a value." << endl;
+							exit(1);
+						}
+						args.back().val = _argv[i];
+					}
+				}
+
+				break;
 			}
 		}
-		
-		return  false;
+
+		++i;
 	}
-	
-	
-	
-	void ProgArgs::Print(void) const
+
+	return  0;
+}
+
+
+int ProgArgs::GetArg(int _i, Argument &_arg) const
+{
+	if(_i < 0 || _i >= args.size())
+		return -1;
+
+	_arg = args[_i];
+
+	return 0;
+}
+
+
+int ProgArgs::GetValue(const string &_tag, string &_val) const
+{
+	for(int i = 0; i < args.size(); ++i)
 	{
-		cout << endl;
-		
-		for (int j = 0; j < args.size(); ++j)
-		{
-			args[j].Print();
+		if(_tag == args[i].tag) {
+			_val = args[i].val;
+			return i;
 		}
 	}
-	
-	
-	
-	void ProgArgs::Help(void) const
+
+	return  -1;
+}
+
+
+// Get the n-th value, in case of multiple equal tags
+//	n is zero based.
+
+int ProgArgs::GetValue(const std::string& _tag, std::string& _val, int _n) const
+{
+	int id = 0;
+
+	for(int i = 0; i < args.size(); ++i)
 	{
-		cout << endl;
-		
-		for (int j = 0; j < args.size(); ++j)
+		if(_tag == args[i].tag)
 		{
-			args[j].Help();
+			if(id == _n)
+			{
+				_val = args[i].val;
+				return(id + 1);
+			}
+
+			++id;
 		}
 	}
-	
-	
+
+	return  -1;
+}
+
+
+bool ProgArgs::GetValue(const string &_tag) const
+{
+	for (int i = 0; i < args.size(); ++i)
+	{
+		if(_tag == args[i].tag)  {
+			if(args[i].present)
+				return true;
+			else
+				return false;
+		}
+	}
+
+	return false;
+}
+
+
+void ProgArgs::Print() const
+{
+	cout << endl;
+
+	for(int j = 0; j < args.size(); ++j)
+	{
+		args[j].Print();
+	}
+}
+
+
+void ProgArgs::Help() const
+{
+	cout << endl;
+
+	for(int j = 0; j < args.size(); ++j)
+	{
+		args[j].Help();
+	}
+}
+
+
 }  // Utilities
 
