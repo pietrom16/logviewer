@@ -1,7 +1,7 @@
 /******************************************************************************
  * logviewer.cpp
  *
- * Version 1.6.0
+ * Version 1.8.0
  *
  * Utility to display log files in real time.
  *
@@ -21,10 +21,8 @@
  */
 
 /* TODO
-	- Filter based on time/date.
-	- Multiple input logs.
-	- Randomize better the colors in LogLevelMapping().
-	- Allow to select logs on the basis of their ID.
+	- Multiple input log files.
+	- Better randomize the colors in LogLevelMapping().
 	- In the header, add the date of the log file in Windows (done for POSIX).
  */
 
@@ -59,8 +57,13 @@ using namespace Utilities;
 #endif
 
 
-const int version = 1, subversion = 5, subsubversion = 2;
+const int version = 1, subversion = 8, subsubversion = 0;
 
+struct Compare {
+	string value;
+	int column;
+	bool comparison;	// false = less than; true = greater than
+};
 
 int GetLevel(const string &_level);
 int LogLevelMapping(const string &_level);
@@ -82,6 +85,8 @@ int main(int argc, char* argv[])
 	string tempStr;
 	bool   incStrFlag = false, excStrFlag = false;		// flags to decide whether to check for substrings
 	
+	vector<Compare> compare;		// set of comparisons to be done
+
 	struct timespec pause;
     pause.tv_sec  = 1;
     pause.tv_nsec = 0;
@@ -107,6 +112,10 @@ int main(int argc, char* argv[])
 	arg.Set("--subString", "-s", "Print the logs which contain the specified substring", true, true);
 	arguments.AddArg(arg);
 	arg.Set("--notSubString", "-ns", "Print the logs which do not contain the specified substring", true, true);
+	arguments.AddArg(arg);
+	arg.Set("--lessThan", "-lt", "Print the logs whose i-th token is less than the specified i_value", true, true);
+	arguments.AddArg(arg);
+	arg.Set("--greaterThan", "-gt", "Print the logs whose i-th token is greater than the specified i_value", true, true);
 	arguments.AddArg(arg);
 	arg.Set("--verbose", "-vb", "Print extra information");
 	arguments.AddArg(arg);
@@ -184,6 +193,44 @@ int main(int argc, char* argv[])
 		}
 	}
 	
+	if(arguments.GetValue("--lessThan"))
+	{
+		int n = 0;
+		Compare cmp;
+		while(n >= 0) {
+			n = arguments.GetValue("--lessThan", tempStr, n);
+			if(n >= 0) {
+				if(tempStr.length() < 3) {
+					cerr << "Error in the format of the --lessThan parameter." << endl;
+					exit(-1);
+				}
+				cmp.value = tempStr.substr(2);
+				cmp.column = tempStr[0] - '0';
+				cmp.comparison = false;
+				compare.push_back(cmp);
+			}
+		}
+	}
+	
+	if(arguments.GetValue("--greaterThan"))
+	{
+		int n = 0;
+		Compare cmp;
+		while(n >= 0) {
+			n = arguments.GetValue("--greaterThan", tempStr, n);
+			if(n >= 0) {
+				if(tempStr.length() < 3) {
+					cerr << "Error in the format of the --greaterThan parameter." << endl;
+					exit(-1);
+				}
+				cmp.value = tempStr.substr(2);
+				cmp.column = tempStr[0] - '0';
+				cmp.comparison = true;
+				compare.push_back(cmp);
+			}
+		}
+	}
+	
 	if(arguments.GetValue("--beepLevel")) {
 		string level;
 		arguments.GetValue("--beepLevel", level);
@@ -215,10 +262,10 @@ int main(int argc, char* argv[])
 		std::time_t t = std::time(NULL);
 		logDate = std::asctime(std::localtime(&t));
 	}
-#else
+#else // WIN32
 	if(false)
 	{
-		//+TODO
+		//+TODO: get the file timestamp
 		logDate = "\n";
 	}
 	else
@@ -256,6 +303,18 @@ int main(int argc, char* argv[])
 			for(size_t i = 0; i < excludeStrings.size(); ++i)
 				cout << "\"" << excludeStrings[i] << "\" ";
 			cout << endl;
+		}
+		
+		if(compare.empty() == false)
+		{
+			for(size_t i = 0; i < compare.size(); ++i) {
+				cout << "Column " << compare[i].column << " must be ";
+				if(compare[i].comparison == false)
+					cout << "less";
+				else
+					cout << "greater";
+				cout << " than " << compare[i].value << endl;
+			}
 		}
 		
 		cout << "Interval between checks of the log file: " << pause.tv_sec + 1.0e-9*pause.tv_nsec << " seconds" << endl;
@@ -350,6 +409,25 @@ int main(int argc, char* argv[])
 					for(size_t s = 0; s < excludeStrings.size(); ++s) {
 						if(log.find(excludeStrings[s]) != string::npos)
 							goto nextLine;
+					}
+				}
+				
+				if(compare.empty() == false)
+				{
+					for(size_t c = 0; c < compare.size(); ++c)
+					{
+						stringstream str(log);
+						for(int i = 0; i < compare[c].column; ++i)
+							str >> token;
+					
+						if(compare[c].comparison == false) {	// check less than
+							if(token >= compare[c].value)
+								goto nextLine;
+						}
+						else {									// check greater than
+							if(token <= compare[c].value)
+								goto nextLine;
+						}
 					}
 				}
 				
@@ -464,8 +542,12 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	cout << "Print the logs in the specified file, with minimum level 1, "
 	        "with level placed in the second column, which include the "
 	        "substrings \"abc def\" and \"123\", which do not include the "
-			"substring \"ghi\", in verbose mode:\n\n";
-	cout << progName.substr(pos) << " -i /path/to/test.log -m 1 -l 2 -s \"abc def\" -s \"123\" -ns \"ghi\" -vb" << endl;
+	        "substring \"ghi\", with timestamp between 0.123 and 0.125 seconds, "
+			"done after 2012-10-08T14:11:09, "
+	        "in verbose mode:\n\n";
+	cout << progName.substr(pos) 
+	     << " -i /path/to/test.log -m 1 -l 2 -s \"abc def\" -s \"123\" -ns \"ghi\""
+	     << " -gt 1_0.123 -lt 1_0.125 -gt 3_2012-10-08T14:11:09 -vb" << endl;
 	
 	cout << "\n" << string(110, '-') << "\n";
 	cout << endl;
