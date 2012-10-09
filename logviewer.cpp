@@ -1,7 +1,7 @@
 /******************************************************************************
  * logviewer.cpp
  *
- * Version 1.5.1
+ * Version 1.6.0
  *
  * Utility to display log files in real time.
  *
@@ -21,6 +21,7 @@
  */
 
 /* TODO
+	- Filter based on time/date.
 	- Multiple input logs.
 	- Randomize better the colors in LogLevelMapping().
 	- Allow to select logs on the basis of their ID.
@@ -38,6 +39,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 #if defined(__unix__) || defined(__linux__) || \
     defined(BSD) || (defined (__APPLE__) && defined (__MACH__)) || defined(__bsdi__) || \
@@ -76,7 +78,8 @@ int main(int argc, char* argv[])
 	int nLatest = printAll;				// number of latest logs to be printed (-1 = all)
 	int nLatestChars = printAll;		// number of latest characters to be printed (-1 = all)
 	
-	string includeString, excludeString;				// sub strings to be included/excluded by the logs
+	vector<string> includeStrings, excludeStrings;		// sub strings to be included/excluded by the logs
+	string tempStr;
 	bool   incStrFlag = false, excStrFlag = false;		// flags to decide whether to check for substrings
 	
 	struct timespec pause;
@@ -158,12 +161,28 @@ int main(int argc, char* argv[])
 	}
 	
 	if(arguments.GetValue("--subString"))
-		if(arguments.GetValue("--subString", includeString) >= 0)
-			incStrFlag = true;
+	{
+		int n = 0;
+		while(n >= 0) {
+			n = arguments.GetValue("--subString", tempStr, n);
+			if(n >= 0) {
+				includeStrings.push_back(tempStr);
+				incStrFlag = true;
+			}
+		}
+	}
 	
 	if(arguments.GetValue("--notSubString"))
-		if(arguments.GetValue("--notSubString", excludeString) >= 0)
-			excStrFlag = true;
+	{
+		int n = 0;
+		while(n >= 0) {
+			n = arguments.GetValue("--notSubString", tempStr, n);
+			if(n >= 0) {
+				excludeStrings.push_back(tempStr);
+				excStrFlag = true;
+			}
+		}
+	}
 	
 	if(arguments.GetValue("--beepLevel")) {
 		string level;
@@ -225,11 +244,20 @@ int main(int argc, char* argv[])
 		cout << "Column ID containing the log level: " << levelColumn << endl;
 		cout << "Minimum log level for a log to be shown: " << minLevel << endl;
 		
-		if(incStrFlag)
-			cout << "Show logs which include the string: " << includeString << endl;
-		if(excStrFlag)
-			cout << "Hide logs which include the string: " << excludeString << endl;
-
+		if(incStrFlag) {
+			cout << "Show logs which include the string(s): ";
+			for(size_t i = 0; i < includeStrings.size(); ++i)
+				cout << "\"" << includeStrings[i] << "\" ";
+			cout << endl;
+		}
+		
+		if(excStrFlag) {
+			cout << "Hide logs which include the string(s): ";
+			for(size_t i = 0; i < excludeStrings.size(); ++i)
+				cout << "\"" << excludeStrings[i] << "\" ";
+			cout << endl;
+		}
+		
 		cout << "Interval between checks of the log file: " << pause.tv_sec + 1.0e-9*pause.tv_nsec << " seconds" << endl;
 		
 		if(nLatestChars >= 0)
@@ -312,13 +340,17 @@ int main(int argc, char* argv[])
 			if(level >= minLevel)
 			{
 				if(incStrFlag) {
-					if(log.find(includeString) == string::npos)
-						continue;
+					for(size_t s = 0; s < includeStrings.size(); ++s) {
+						if(log.find(includeStrings[s]) == string::npos)
+							goto nextLine;
+					}
 				}
 				
 				if(excStrFlag) {
-					if(log.find(excludeString) != string::npos)
-						continue;
+					for(size_t s = 0; s < excludeStrings.size(); ++s) {
+						if(log.find(excludeStrings[s]) != string::npos)
+							goto nextLine;
+					}
 				}
 				
 #ifdef POSIX
@@ -330,6 +362,9 @@ int main(int argc, char* argv[])
 				if(level >= beepLevel)
 					cout << char(7) << flush;	// beep
 			}
+			
+			nextLine:
+			;
 		}
 		
 		if(!ifs.eof()) {
@@ -407,14 +442,14 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	size_t pos = progName.rfind(slash) + 1;
 	
 	cout << string(110, '-') << "\n";
-	cout << "\n" << progName.substr(pos) << ": a text mode log file viewer." << endl;
-	cout << "\n" << "Features:" << endl;
-	cout << "\t- Log file format agnostic." << endl;
-	cout << "\t- Log level based highlighting. Levels can be numeric (1-7) or strings." << endl;
-	cout << "\t- Filtering capability." << endl;
-	cout << "\t- Text mode, runs everywhere after recompilation." << endl;
-	cout << "\t- Free software, BSD license." << endl;
-	cout << "\nParameters:" << endl;
+	cout << "\n" << progName.substr(pos) << ": a text mode log file viewer.\n";
+	cout << "\n" << "Features:\n";
+	cout << "\t- Log file format agnostic.\n";
+	cout << "\t- Log level based highlighting. Levels can be numeric (1-7) or strings.\n";
+	cout << "\t- Filtering capability.\n";
+	cout << "\t- Text mode, runs everywhere after recompilation.\n";
+	cout << "\t- Free software, GPL 3 license.\n";
+	cout << "\nParameters:\n";
 	_args.Help();
 	cout << endl;
 
@@ -425,7 +460,14 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	cout << endl;
 #endif
 
-	cout << string(110, '-') << "\n";
+	cout << "\nExample:\n";
+	cout << "Print the logs in the specified file, with minimum level 1, "
+	        "with level placed in the second column, which include the "
+	        "substrings \"abc def\" and \"123\", which do not include the "
+			"substring \"ghi\", in verbose mode:\n\n";
+	cout << progName.substr(pos) << " -i /path/to/test.log -m 1 -l 2 -s \"abc def\" -s \"123\" -ns \"ghi\" -vb" << endl;
+	
+	cout << "\n" << string(110, '-') << "\n";
 	cout << endl;
 }
 
