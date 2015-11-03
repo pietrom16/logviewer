@@ -47,6 +47,41 @@
 #include <sys/stat.h>
 #endif
 
+////////+TEST-OK
+int main()
+{
+	std::ifstream ifs("test0.log");
+	struct timespec pause;
+	pause.tv_sec  = 1;
+	pause.tv_nsec = 0;
+
+	std::streamoff p;
+
+	if(ifs.is_open())
+	{
+		std::string line;
+
+		while(true)
+		{
+			if(ifs.seekg(p))
+			{
+				while(std::getline(ifs, line))
+				{
+					std::cout << line << std::endl;
+					p = ifs.tellg();
+				}
+			}
+
+			ifs.clear();
+
+			nanosleep(&pause, NULL);
+		}
+	}
+
+	return 0;
+}
+////////
+
 using namespace std;
 using namespace textModeFormatting;
 using namespace Utilities;
@@ -72,7 +107,7 @@ void PrintHelp(const ProgArgs &_args, const char* _progName);
 void PrintVersion(const char* _progName);
 
 
-int main(int argc, char* argv[])
+int main2(int argc, char* argv[])
 {
 	int levelColumn = 0;				// depends on the logs format
 	int minLevel = 0;					// minimum level a log must have to be shown
@@ -247,6 +282,10 @@ int main(int argc, char* argv[])
     pause.tv_sec  = trunc(fPause);
     pause.tv_nsec = 1e9 * (fPause - pause.tv_sec);
 
+	//+TEST-START++++
+	logFile = "test.log";
+	//+TEST-END++++
+
 	/// Print header
 	
 	string logDate;		// time the log was generated
@@ -358,7 +397,8 @@ int main(int argc, char* argv[])
 	       token;
 	int    level = 0;
 	
-	ios::pos_type pos;
+	//+? ios::pos_type pos;
+	std::streamoff pos;
 	
 	if(nLatestChars >= 0)
 	{
@@ -386,7 +426,27 @@ int main(int argc, char* argv[])
 			ifs.seekg(-1, ios::cur);
 		}
 	}
-	
+
+	if (ifs.is_open())
+	{
+		std::string line;
+
+		while(true)
+		{
+			while(std::getline(ifs, line))
+				cout << line << endl;
+
+			if(!ifs.eof()) break; // Ensure end of read was EOF.
+
+			ifs.clear();
+
+			nanosleep(&pause, NULL);
+
+			cout << "." << flush;
+		}
+	}
+
+#if 0
 	while(true)
 	{
 		while(getline(ifs, log))
@@ -443,9 +503,9 @@ int main(int argc, char* argv[])
 			}
 			
 			nextLine:
-			;
+			pos = ifs.tellg();
 		}
-		
+
 		if(!ifs.eof()) {
 			cerr << argv[0] << " error: could not read this log file till the end: " << logFile << endl;
 			break;
@@ -455,7 +515,7 @@ int main(int argc, char* argv[])
 
 		nanosleep(&pause, NULL);
 	}
-	
+#endif
 	return 0;
 }
 
