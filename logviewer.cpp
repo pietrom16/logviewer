@@ -48,7 +48,8 @@
 #endif
 
 ////////+TEST-OK
-int main()
+
+int main2()
 {
 	std::ifstream ifs("test0.log");
 	struct timespec pause;
@@ -80,6 +81,7 @@ int main()
 
 	return 0;
 }
+
 ////////
 
 using namespace std;
@@ -107,7 +109,7 @@ void PrintHelp(const ProgArgs &_args, const char* _progName);
 void PrintVersion(const char* _progName);
 
 
-int main2(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
 	int levelColumn = 0;				// depends on the logs format
 	int minLevel = 0;					// minimum level a log must have to be shown
@@ -180,6 +182,7 @@ int main2(int argc, char* argv[])
 	
 	string logFile;
 	arguments.GetValue("--input", logFile);
+	logFile = "test0.log"; //+T+++
 	
 	string levelCol;
 	arguments.GetValue("--levelCol", levelCol);
@@ -282,9 +285,6 @@ int main2(int argc, char* argv[])
     pause.tv_sec  = trunc(fPause);
     pause.tv_nsec = 1e9 * (fPause - pause.tv_sec);
 
-	//+TEST-START++++
-	logFile = "test.log";
-	//+TEST-END++++
 
 	/// Print header
 	
@@ -371,8 +371,10 @@ int main2(int argc, char* argv[])
 	
 	/// Open log file
 	
-	ifstream ifs;
-	
+	ifstream   ifs;
+	string     log;
+	streamoff  pos;
+
 	bool warning = true;
 	
 	while(true)
@@ -393,12 +395,7 @@ int main2(int argc, char* argv[])
 	
 	/// Print log file
 	
-	string log,
-	       token;
-	int    level = 0;
-	
-	//+? ios::pos_type pos;
-	std::streamoff pos;
+	int level = 0;
 	
 	if(nLatestChars >= 0)
 	{
@@ -427,22 +424,22 @@ int main2(int argc, char* argv[])
 		}
 	}
 
-	if (ifs.is_open())
+	if(ifs.is_open())
 	{
-		std::string line;
-
 		while(true)
 		{
-			while(std::getline(ifs, line))
-				cout << line << endl;
-
-			if(!ifs.eof()) break; // Ensure end of read was EOF.
+			if(ifs.seekg(pos))
+			{
+				while(std::getline(ifs, log))
+				{
+					std::cout << log << std::endl;
+					pos = ifs.tellg();
+				}
+			}
 
 			ifs.clear();
 
 			nanosleep(&pause, NULL);
-
-			cout << "." << flush;
 		}
 	}
 
