@@ -47,43 +47,6 @@
 #include <sys/stat.h>
 #endif
 
-////////+TEST-OK
-
-int main2()
-{
-	std::ifstream ifs("test0.log");
-	struct timespec pause;
-	pause.tv_sec  = 1;
-	pause.tv_nsec = 0;
-
-	std::streamoff p;
-
-	if(ifs.is_open())
-	{
-		std::string line;
-
-		while(true)
-		{
-			if(ifs.seekg(p))
-			{
-				while(std::getline(ifs, line))
-				{
-					std::cout << line << std::endl;
-					p = ifs.tellg();
-				}
-			}
-
-			ifs.clear();
-
-			nanosleep(&pause, NULL);
-		}
-	}
-
-	return 0;
-}
-
-////////
-
 using namespace std;
 using namespace textModeFormatting;
 using namespace Utilities;
@@ -422,27 +385,6 @@ int main(int argc, char* argv[])
 			ifs.seekg(-1, ios::cur);
 		}
 	}
-
-#if 0
-	if(ifs.is_open())
-	{
-		while(true)
-		{
-			if(ifs.seekg(pos))
-			{
-				while(getline(ifs, log))
-				{
-					cout << log << endl;		// trivial logging
-					pos = ifs.tellg();
-				}
-			}
-
-			ifs.clear();
-
-			nanosleep(&pause, NULL);
-		}
-	}
-#endif
 
 	while(true)
 	{
