@@ -182,8 +182,7 @@ int main(int argc, char* argv[])
 	
 	string logFile;
 	arguments.GetValue("--input", logFile);
-	logFile = "test0.log"; //+T+++
-	
+
 	string levelCol;
 	arguments.GetValue("--levelCol", levelCol);
 	levelColumn = atoi(levelCol.c_str());
@@ -372,7 +371,7 @@ int main(int argc, char* argv[])
 	/// Open log file
 	
 	ifstream   ifs;
-	string     log;
+	string     log, token;
 	streamoff  pos;
 
 	bool warning = true;
@@ -424,15 +423,16 @@ int main(int argc, char* argv[])
 		}
 	}
 
+#if 0
 	if(ifs.is_open())
 	{
 		while(true)
 		{
 			if(ifs.seekg(pos))
 			{
-				while(std::getline(ifs, log))
+				while(getline(ifs, log))
 				{
-					std::cout << log << std::endl;
+					cout << log << endl;		// trivial logging
 					pos = ifs.tellg();
 				}
 			}
@@ -442,65 +442,68 @@ int main(int argc, char* argv[])
 			nanosleep(&pause, NULL);
 		}
 	}
+#endif
 
-#if 0
 	while(true)
 	{
-		while(getline(ifs, log))
+		if(ifs.seekg(pos))
 		{
-			stringstream str(log);
-			for(int i = 0; i < levelColumn; ++i)
-				str >> token;
-
-			level = GetLevel(token);
-			
-			if(level >= minLevel)
+			while(getline(ifs, log))
 			{
-				if(incStrFlag) {
-					for(size_t s = 0; s < includeStrings.size(); ++s) {
-						if(log.find(includeStrings[s]) == string::npos)
-							goto nextLine;
-					}
-				}
-				
-				if(excStrFlag) {
-					for(size_t s = 0; s < excludeStrings.size(); ++s) {
-						if(log.find(excludeStrings[s]) != string::npos)
-							goto nextLine;
-					}
-				}
-				
-				if(compare.empty() == false)
+				stringstream str(log);
+				for(int i = 0; i < levelColumn; ++i)
+					str >> token;
+
+				level = GetLevel(token);
+
+				if(level >= minLevel)
 				{
-					for(size_t c = 0; c < compare.size(); ++c)
-					{
-						stringstream str(log);
-						for(int i = 0; i < compare[c].column; ++i)
-							str >> token;
-					
-						if(compare[c].comparison == false) {	// check less than
-							if(token >= compare[c].value)
-								goto nextLine;
-						}
-						else {									// check greater than
-							if(token <= compare[c].value)
+					if(incStrFlag) {
+						for(size_t s = 0; s < includeStrings.size(); ++s) {
+							if(log.find(includeStrings[s]) == string::npos)
 								goto nextLine;
 						}
 					}
+
+					if(excStrFlag) {
+						for(size_t s = 0; s < excludeStrings.size(); ++s) {
+							if(log.find(excludeStrings[s]) != string::npos)
+								goto nextLine;
+						}
+					}
+
+					if(compare.empty() == false)
+					{
+						for(size_t c = 0; c < compare.size(); ++c)
+						{
+							stringstream str(log);
+							for(int i = 0; i < compare[c].column; ++i)
+								str >> token;
+
+							if(compare[c].comparison == false) {	// check less than
+								if(token >= compare[c].value)
+									goto nextLine;
+							}
+							else {									// check greater than
+								if(token <= compare[c].value)
+									goto nextLine;
+							}
+						}
+					}
+
+	#ifdef POSIX
+					cout << Format(level) << log << Reset() << endl;
+	#else
+					cout << log << endl;
+	#endif
+
+					if(level >= beepLevel)
+						cout << char(7) << flush;	// beep
 				}
-				
-#ifdef POSIX
-				cout << Format(level) << log << Reset() << endl;
-#else
-				cout << log << endl;
-#endif
-				
-				if(level >= beepLevel)
-					cout << char(7) << flush;	// beep
+
+				nextLine:
+				pos = ifs.tellg();
 			}
-			
-			nextLine:
-			pos = ifs.tellg();
 		}
 
 		if(!ifs.eof()) {
@@ -512,7 +515,7 @@ int main(int argc, char* argv[])
 
 		nanosleep(&pause, NULL);
 	}
-#endif
+
 	return 0;
 }
 
