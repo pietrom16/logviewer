@@ -1,7 +1,7 @@
 /******************************************************************************
  * logviewer.cpp
  *
- * Version 1.8.0
+ * Version 2.0.0
  *
  * Utility to display log files in real time.
  *
@@ -21,7 +21,7 @@
  */
 
 /* TODO
-	-- When the log file grows, print the new logs.
+	- Allow interaction at run time (change -m, -s, -ns, -lt, -gt, -vb, -bl, -p).
 	- Multiple input log files.
 	- Better randomize the colors in LogLevelMapping().
 	- In the header, add the date of the log file in Windows (done for POSIX).
@@ -58,7 +58,7 @@ using namespace Utilities;
 #endif
 
 
-const int version = 1, subversion = 8, subsubversion = 0;
+const int version = 2, subversion = 0, subsubversion = 0;
 
 struct Compare {
 	string value;
