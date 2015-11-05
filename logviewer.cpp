@@ -3,7 +3,7 @@
  *
  * Version 2.0.0
  *
- * Utility to display log files in real time.
+ * Utility to display log files in real time on the console.
  *
  * Copyright (C) 2012-2015 Pietro Mele
  * Released under a GPL 3 license.
@@ -21,8 +21,8 @@
  */
 
 /* TODO
-	- Allow interaction at run time (change -m, -s, -ns, -lt, -gt, -vb, -bl, -p).
-	- Multiple input log files.
+	-- Allow interaction at run time (change -m, -s, -ns, -lt, -gt, -vb, -bl, -p).
+	-- Multiple input log files.
 	- Better randomize the colors in LogLevelMapping().
 	- In the header, add the date of the log file in Windows (done for POSIX).
  */
@@ -454,6 +454,8 @@ int main(int argc, char* argv[])
 		}
 		
 		ifs.clear();		// clear the eof state to keep reading the growing log file
+
+		//+TODO - Read the keyboard for user commands. Allow interaction at run time (change -m, -s, -ns, -lt, -gt, -vb, -bl, -p).
 
 		nanosleep(&pause, NULL);
 	}
