@@ -19,6 +19,7 @@
  */
 
 /* TODO
+	. Bug: text display disabled after help (-h).
 	-- Multiple input log files.
 	- Better randomize the colors in LogLevelMapping().
 	- In the header, add the date of the log file in Windows (done for POSIX).
@@ -56,7 +57,7 @@ using namespace Utilities;
 #endif
 
 
-const int version = 3, subversion = 0, subsubversion = 0;
+const int version = 3, subversion = 0, subsubversion = 1;
 
 struct Compare {
 	string value;
@@ -136,12 +137,14 @@ int main(int argc, char* argv[])
 	if(arguments.GetValue("--help"))
 	{
 		PrintHelp(arguments, argv[0]);
+		rdKb.~ReadKeyboard();
 		exit(0);
 	}
 	
 	if(arguments.GetValue("--version"))
 	{
 		PrintVersion(argv[0]);
+		rdKb.~ReadKeyboard();
 		exit(0);
 	}
 	
@@ -205,6 +208,7 @@ int main(int argc, char* argv[])
 			if(n >= 0) {
 				if(tempStr.length() < 3) {
 					cerr << "Error in the format of the --lessThan parameter." << endl;
+					rdKb.~ReadKeyboard();
 					exit(-1);
 				}
 				cmp.value = tempStr.substr(2);
@@ -224,6 +228,7 @@ int main(int argc, char* argv[])
 			if(n >= 0) {
 				if(tempStr.length() < 3) {
 					cerr << "Error in the format of the --greaterThan parameter." << endl;
+					rdKb.~ReadKeyboard();
 					exit(-1);
 				}
 				cmp.value = tempStr.substr(2);
@@ -485,6 +490,7 @@ int main(int argc, char* argv[])
 		nanosleep(&pause, NULL);
 	}
 
+	rdKb.~ReadKeyboard();
 	return 0;
 }
 
