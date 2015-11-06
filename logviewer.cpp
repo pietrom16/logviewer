@@ -95,6 +95,9 @@ int main(int argc, char* argv[])
 	
 	int verbose = 0;
 
+	utilities::ReadKeyboard rdKb;
+	int key = 0;
+
 	/// Read parameters
 	
 	ProgArgs            arguments;
@@ -456,8 +459,18 @@ int main(int argc, char* argv[])
 		
 		ifs.clear();		// clear the eof state to keep reading the growing log file
 
-		//+TODO - Read the keyboard for user commands. Allow interaction at run time (change -m, -s, -ns, -lt, -gt, -vb, -bl, -p).
-		//+TODO - Reference: myProgs/Utilities/ReadKeyboard
+		///+TODO - Read the keyboard for real time user interaction
+
+		key = rdKb.Get();
+
+		// Pause logs display
+		if(key == 'p' || key == 'P') {
+			cout << "Paused... " << flush;
+			getchar();
+			cout << "Resumed" << endl;
+		}
+
+		if(key >= '1' && key <= '8') {}
 
 		nanosleep(&pause, NULL);
 	}
@@ -556,6 +569,11 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	     << " -i /path/to/test.log -m 1 -l 2 -s \"abc def\" -s \"123\" -ns \"ghi\""
 	     << " -gt 1_0.123 -lt 1_0.125 -gt 3_2012-10-08T14:11:09 -vb" << endl;
 	
+	//+TODO
+	cout << "\nKeystroke runtime commands:\n\n";
+	cout << "\t [1]-[8]   Change mimium log level.\n";
+	cout << "\t [P]       Pause/resume logs display.\n";
+
 	cout << "\n" << string(110, '-') << "\n";
 	cout << endl;
 }

@@ -1,6 +1,12 @@
 /// ReadKeyboard.cpp
 
-#ifdef __POSIX__
+#if defined(__unix__) || defined(__linux__) || \
+	defined(BSD) || (defined (__APPLE__) && defined (__MACH__)) || defined(__bsdi__) || \
+	defined(__minix) || defined(__CYGWIN__) || defined(__FreeBSD__)
+#define POSIX 1
+#endif
+
+#ifdef POSIX
 
 #include <stdio.h>
 #include <termios.h>
