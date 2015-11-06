@@ -8,7 +8,7 @@ set(PRJ logviewer)
 
 project(${PRJ})
 
-set(VERSION 1.8.0)
+set(VERSION 2.0.0)
 
 # Specify the build type on the command line: Release, Debug, RelWithDebInfo, MinSizeRel
 if(CMAKE_BUILD_TYPE MATCHES "")

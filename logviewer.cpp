@@ -28,6 +28,7 @@
  */
 
 #include "progArgs.h"
+#include "ReadKeyboard.h"
 #include "textModeFormatting.h"
 #include <cctype>
 #include <cmath>
@@ -456,6 +457,7 @@ int main(int argc, char* argv[])
 		ifs.clear();		// clear the eof state to keep reading the growing log file
 
 		//+TODO - Read the keyboard for user commands. Allow interaction at run time (change -m, -s, -ns, -lt, -gt, -vb, -bl, -p).
+		//+TODO - Reference: myProgs/Utilities/ReadKeyboard
 
 		nanosleep(&pause, NULL);
 	}
