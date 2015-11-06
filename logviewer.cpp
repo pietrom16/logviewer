@@ -1,8 +1,6 @@
 /******************************************************************************
  * logviewer.cpp
  *
- * Version 2.0.0
- *
  * Utility to display log files in real time on the console.
  *
  * Copyright (C) 2012-2015 Pietro Mele
@@ -21,8 +19,6 @@
  */
 
 /* TODO
-	. Allow interaction at run time.
-		. Check keyboard status at the end!
 	-- Multiple input log files.
 	- Better randomize the colors in LogLevelMapping().
 	- In the header, add the date of the log file in Windows (done for POSIX).
@@ -60,7 +56,7 @@ using namespace Utilities;
 #endif
 
 
-const int version = 2, subversion = 0, subsubversion = 0;
+const int version = 3, subversion = 0, subsubversion = 0;
 
 struct Compare {
 	string value;

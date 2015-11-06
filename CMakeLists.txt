@@ -8,8 +8,6 @@ set(PRJ logviewer)
 
 project(${PRJ})
 
-set(VERSION 2.0.0)
-
 # Specify the build type on the command line: Release, Debug, RelWithDebInfo, MinSizeRel
 if(CMAKE_BUILD_TYPE MATCHES "")
     set(CMAKE_BUILD_TYPE Debug)
@@ -25,7 +23,6 @@ set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
 
 message("==============================================")
 message("Building project: ${PRJ}")
-message("         Version: ${VERSION}")
 message("==============================================")
 
 aux_source_directory(. SRC_LIST)
