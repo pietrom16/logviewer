@@ -10,8 +10,8 @@ project(${PRJ})
 
 # Specify the build type on the command line: Release, Debug, RelWithDebInfo, MinSizeRel
 if(CMAKE_BUILD_TYPE MATCHES "")
-    set(CMAKE_BUILD_TYPE Debug)
-    #set(CMAKE_BUILD_TYPE Release)
+    #set(CMAKE_BUILD_TYPE Debug)
+    set(CMAKE_BUILD_TYPE Release)
 endif()
 
 # Specify compiler path

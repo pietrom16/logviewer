@@ -19,7 +19,6 @@
  */
 
 /* TODO
-	. Bug: text display disabled after help (-h).
 	-- Multiple input log files.
 	- Better randomize the colors in LogLevelMapping().
 	- In the header, add the date of the log file in Windows (done for POSIX).
