@@ -21,7 +21,8 @@
  */
 
 /* TODO
-	-- Allow interaction at run time (change -m, -s, -ns, -lt, -gt, -vb, -bl, -p).
+	. Allow interaction at run time.
+		. Check keyboard status at the end!
 	-- Multiple input log files.
 	- Better randomize the colors in LogLevelMapping().
 	- In the header, add the date of the log file in Windows (done for POSIX).
@@ -68,6 +69,7 @@ struct Compare {
 };
 
 int GetLevel(const string &_level);
+string GetLevel(int _level);
 int LogLevelMapping(const string &_level);
 void PrintHelp(const ProgArgs &_args, const char* _progName);
 void PrintVersion(const char* _progName);
@@ -459,7 +461,7 @@ int main(int argc, char* argv[])
 		
 		ifs.clear();		// clear the eof state to keep reading the growing log file
 
-		///+TODO - Read the keyboard for real time user interaction
+		/// Read the keyboard for real time user interaction
 
 		key = rdKb.Get();
 
@@ -470,8 +472,20 @@ int main(int argc, char* argv[])
 			cout << "Resumed" << endl;
 		}
 
-		if(key >= '1' && key <= '8') {}
+		// Change minimum log level
+		if(key >= '1' && key <= '7') {
+			minLevel = key - char('0');
+			cout << "Minimum log level set to: " << minLevel << " - " << GetLevel(minLevel) << endl;
+		}
 
+		// Exit logviewer
+		if(key == 'q' || key == 'Q') {
+			cout << endl;
+			rdKb.~ReadKeyboard();
+			exit(0);
+		}
+
+		// Take a break
 		nanosleep(&pause, NULL);
 	}
 
@@ -490,6 +504,8 @@ int GetLevel(const string &_level)
 		return nLevels - 1;
 	
 	// Check for string level
+
+	// Omit level 0
 	
 	if(_level == "VERBOSE" || _level == "TRACE")
 		return 1;
@@ -515,6 +531,24 @@ int GetLevel(const string &_level)
 	// Nothing found; use a random mapping
 	
 	return LogLevelMapping(_level);
+}
+
+
+string GetLevel(int _level)
+{
+	switch(_level)
+	{
+	case 0: return "";
+	case 1: return "VERBOSE";
+	case 2: return "DETAIL";
+	case 3: return "INFO";
+	case 4: return "WARNING";
+	case 5: return "ERROR";
+	case 6: return "SEVERE";
+	case 7: return "FATAL";
+	}
+
+	return "FATAL";
 }
 
 
@@ -569,10 +603,10 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	     << " -i /path/to/test.log -m 1 -l 2 -s \"abc def\" -s \"123\" -ns \"ghi\""
 	     << " -gt 1_0.123 -lt 1_0.125 -gt 3_2012-10-08T14:11:09 -vb" << endl;
 	
-	//+TODO
 	cout << "\nKeystroke runtime commands:\n\n";
-	cout << "\t [1]-[8]   Change mimium log level.\n";
 	cout << "\t [P]       Pause/resume logs display.\n";
+	cout << "\t [1]-[7]   Change minimum log level of displayed logs (no effect on their generation).\n";
+	cout << "\t [Q]       Exit logviewer.\n";
 
 	cout << "\n" << string(110, '-') << "\n";
 	cout << endl;
