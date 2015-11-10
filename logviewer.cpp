@@ -19,7 +19,9 @@
  */
 
 /* TODO
+	-- Add 'R' and 'r' reload options. 'R' reloads all the logs; 'r' reloads the last 20 logs.
 	-- Multiple input log files.
+	- Add colors to the Windows console (if possible).
 	- Better randomize the colors in LogLevelMapping().
 	- In the header, add the date of the log file in Windows (done for POSIX).
  */
