@@ -57,7 +57,7 @@ using namespace Utilities;
 #endif
 
 
-const int version = 3, subversion = 0, subsubversion = 1;
+const int version = 3, subversion = 1, subsubversion = 0;
 
 struct Compare {
 	string value;
