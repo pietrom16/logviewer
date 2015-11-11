@@ -19,8 +19,10 @@
  */
 
 /* TODO
+	-- Change pause functionality: stop loading new logs, but keep interacting.
 	-- Multiple input log files.
 	- Better randomize the colors in LogLevelMapping().
+	- Consider modifying CMakeLists.txt, manually specifying the source files.
 	. Add colors to the Windows console (if possible).
 	. In the header, add the date of the log file in Windows (done for POSIX).
  */
@@ -71,11 +73,11 @@ struct Compare {
 
 int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
 
-int GetLevel(const string &_level);
-string GetLevel(int _level);
-int LogLevelMapping(const string &_level);
-void PrintHelp(const ProgArgs &_args, const char* _progName);
-void PrintVersion(const char* _progName);
+int    GetLevel (const string &_level);
+string GetLevel (int _level);
+int    LogLevelMapping (const string &_level);
+void   PrintHelp (const ProgArgs &_args, const char* _progName);
+void   PrintVersion (const char* _progName);
 
 
 int main(int argc, char* argv[])
