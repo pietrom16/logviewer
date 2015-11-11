@@ -46,11 +46,15 @@
 #include <sys/stat.h>
 #endif
 
+#ifdef _WIN32
+#include "windows.h"
+#endif
+
 using namespace std;
 using namespace textModeFormatting;
 using namespace Utilities;
 
-#ifndef WIN32
+#ifndef _WIN32
 	static const char slash = '/';
 #else
 	static const char slash = '\\';
@@ -273,7 +277,7 @@ int main(int argc, char* argv[])
 		std::time_t t = std::time(NULL);
 		logDate = std::asctime(std::localtime(&t));
 	}
-#else // WIN32
+#else // _WIN32
 	if(false)
 	{
 		//+TODO: get the file timestamp
@@ -444,6 +448,10 @@ int main(int argc, char* argv[])
 
 	#ifdef POSIX
 					cout << Format(level) << log << Reset() << endl;
+	#elif defined(_WIN32)
+					//+TEST
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), level);
+					cout << log << endl;
 	#else
 					cout << log << endl;
 	#endif
