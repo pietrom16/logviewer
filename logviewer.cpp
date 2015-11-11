@@ -489,6 +489,23 @@ int main(int argc, char* argv[])
 			pos = ifs.tellg();
 		}
 
+		// Reload last n logs
+		if(key == 'r') {
+			cout << "--- RELOAD LAST " << nLogsReload << " LOGS ---" << endl;
+			ifs.seekg(0); //+TODO
+			pos = ifs.tellg();
+		}
+
+		// Set the number of logs to reload
+		if(key == 'n') {
+			int n;
+			cout << "\nCurrent number of logs to reload: " << nLogsReload << endl;
+			cout <<   "New number of logs to reload:     ";
+			cin >> n;		//+B The number is stored but not displayed
+			if(n > 0)
+				nLogsReload = n;
+		}
+
 		// Exit logviewer
 		if(key == 'q' || key == 'Q') {
 			cout << endl;
@@ -620,6 +637,7 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	cout << "\t [1]-[7]   Change minimum log level of displayed logs (no effect on their generation).\n";
 	cout << "\t [R]       Reload all the logs and display them with the current criteria.\n";
 	cout << "\t [r]       Reload the last " << nLogsReload << " logs and display them with the current criteria. [TODO]\n";
+	cout << "\t [n]       Set the number of logs to reload (default is " << nLogsReload << ").\n";
 	cout << "\t [Q]       Exit logviewer.\n";
 
 	cout << "\n" << string(110, '-') << "\n";
