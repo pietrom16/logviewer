@@ -66,6 +66,8 @@ struct Compare {
 	bool comparison;	// false = less than; true = greater than
 };
 
+int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
+
 int GetLevel(const string &_level);
 string GetLevel(int _level);
 int LogLevelMapping(const string &_level);
@@ -480,6 +482,13 @@ int main(int argc, char* argv[])
 			cout << "Minimum log level set to: " << minLevel << " - " << GetLevel(minLevel) << endl;
 		}
 
+		// Reload all logs
+		if(key == 'R') {
+			cout << "--- RELOAD LOG FILE ---" << endl;
+			ifs.seekg(0);
+			pos = ifs.tellg();
+		}
+
 		// Exit logviewer
 		if(key == 'q' || key == 'Q') {
 			cout << endl;
@@ -609,6 +618,8 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	cout << "\nKeystroke runtime commands:\n\n";
 	cout << "\t [P]       Pause/resume logs display.\n";
 	cout << "\t [1]-[7]   Change minimum log level of displayed logs (no effect on their generation).\n";
+	cout << "\t [R]       Reload all the logs and display them with the current criteria.\n";
+	cout << "\t [r]       Reload the last " << nLogsReload << " logs and display them with the current criteria. [TODO]\n";
 	cout << "\t [Q]       Exit logviewer.\n";
 
 	cout << "\n" << string(110, '-') << "\n";
