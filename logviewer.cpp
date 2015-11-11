@@ -492,7 +492,20 @@ int main(int argc, char* argv[])
 		// Reload last n logs
 		if(key == 'r') {
 			cout << "--- RELOAD LAST " << nLogsReload << " LOGS ---" << endl;
-			ifs.seekg(0); //+TODO
+			{
+				// Start reading from the last "nLogsReload" logs
+				// Reposition the cursor at the end of the file, and go back counting the new lines
+				ifs.seekg(-1, ios::end);
+				int nLogs = 0;
+
+				while(ifs.tellg() > 0)
+				{
+					if(ifs.peek() == '\n') ++nLogs;
+					if(nLogs > nLogsReload) break;
+					ifs.seekg(-1, ios::cur);
+				}
+			}
+
 			pos = ifs.tellg();
 		}
 
