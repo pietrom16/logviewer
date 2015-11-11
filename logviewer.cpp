@@ -492,18 +492,17 @@ int main(int argc, char* argv[])
 		// Reload last n logs
 		if(key == 'r') {
 			cout << "--- RELOAD LAST " << nLogsReload << " LOGS ---" << endl;
-			{
-				// Start reading from the last "nLogsReload" logs
-				// Reposition the cursor at the end of the file, and go back counting the new lines
-				ifs.seekg(-1, ios::end);
-				int nLogs = 0;
 
-				while(ifs.tellg() > 0)
-				{
-					if(ifs.peek() == '\n') ++nLogs;
-					if(nLogs > nLogsReload) break;
-					ifs.seekg(-1, ios::cur);
-				}
+			// Start reading from the last "nLogsReload" logs
+			// Reposition the cursor at the end of the file, and go back counting the new lines
+			ifs.seekg(-1, ios::end);
+			int nLogs = 0;
+
+			while(ifs.tellg() > 0)
+			{
+				if(ifs.peek() == '\n') ++nLogs;
+				if(nLogs > nLogsReload) break;
+				ifs.seekg(-1, ios::cur);
 			}
 
 			pos = ifs.tellg();
@@ -649,7 +648,7 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	cout << "\t [P]       Pause/resume logs display.\n";
 	cout << "\t [1]-[7]   Change minimum log level of displayed logs (no effect on their generation).\n";
 	cout << "\t [R]       Reload all the logs and display them with the current criteria.\n";
-	cout << "\t [r]       Reload the last " << nLogsReload << " logs and display them with the current criteria. [TODO]\n";
+	cout << "\t [r]       Reload the last " << nLogsReload << " logs and display them with the current criteria.\n";
 	cout << "\t [n]       Set the number of logs to reload (default is " << nLogsReload << ").\n";
 	cout << "\t [Q]       Exit logviewer.\n";
 
