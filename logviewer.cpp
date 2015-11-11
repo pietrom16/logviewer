@@ -273,20 +273,20 @@ int main(int argc, char* argv[])
 		logDate = ctime(&date);		//+ ctime() deprecated
 	}
 	else
-	{
-		std::time_t t = std::time(NULL);
-		logDate = std::asctime(std::localtime(&t));
-	}
+		logDate = "?\n";
 #else // _WIN32
-	if(false)
-	{
-		//+TODO: get the file timestamp
-		logDate = "\n";
-	}
-	else
-	{
-		std::time_t t = std::time(NULL);
-		logDate = std::asctime(std::localtime(&t));
+	TCHAR szBuf[MAX_PATH];
+	HANDLE hFile = CreateFile(logFile.c_str(), GENERIC_READ, FILE_SHARE_READ,
+							  NULL, OPEN_EXISTING, 0, NULL);
+
+	if(hFile == INVALID_HANDLE_VALUE)
+		logDate = "?\n";
+	else {
+		if(GetLastWriteTime(hFile, szBuf, MAX_PATH))
+			logDate = szBuf;
+		else
+			logDate = "?\n";
+		CloseHandle(hFile);
 	}
 #endif
 	
