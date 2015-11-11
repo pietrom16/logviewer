@@ -20,9 +20,9 @@
 
 /* TODO
 	-- Multiple input log files.
-	- Add colors to the Windows console (if possible).
 	- Better randomize the colors in LogLevelMapping().
-	- In the header, add the date of the log file in Windows (done for POSIX).
+	. Add colors to the Windows console (if possible).
+	. In the header, add the date of the log file in Windows (done for POSIX).
  */
 
 #include "progArgs.h"
@@ -275,6 +275,7 @@ int main(int argc, char* argv[])
 	else
 		logDate = "?\n";
 #else // _WIN32
+	//+TEST
 	TCHAR szBuf[MAX_PATH];
 	HANDLE hFile = CreateFile(logFile.c_str(), GENERIC_READ, FILE_SHARE_READ,
 							  NULL, OPEN_EXISTING, 0, NULL);
