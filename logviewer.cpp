@@ -19,7 +19,6 @@
  */
 
 /* TODO
-	-- Add 'R' and 'r' reload options. 'R' reloads all the logs; 'r' reloads the last 20 logs.
 	-- Multiple input log files.
 	- Add colors to the Windows console (if possible).
 	- Better randomize the colors in LogLevelMapping().
@@ -513,7 +512,9 @@ int main(int argc, char* argv[])
 			int n;
 			cout << "\nCurrent number of logs to reload: " << nLogsReload << endl;
 			cout <<   "New number of logs to reload:     ";
-			cin >> n;		//+B The number is stored but not displayed
+			rdKb.Blocking();
+			cin >> n;
+			rdKb.NonBlocking();
 			if(n > 0)
 				nLogsReload = n;
 		}
