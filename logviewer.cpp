@@ -21,6 +21,7 @@
 /* TODO
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	-- Bookmarks.
+	-- Add a test logs generator.
 	-- Multiple input log files.
 	- Better randomize the colors in LogLevelMapping().
 	- Consider modifying CMakeLists.txt, manually specifying the source files.
