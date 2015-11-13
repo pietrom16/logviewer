@@ -20,6 +20,7 @@
 
 /* TODO
 	-- Change pause functionality: stop loading new logs, but keep interacting.
+	-- Bookmarks.
 	-- Multiple input log files.
 	- Better randomize the colors in LogLevelMapping().
 	- Consider modifying CMakeLists.txt, manually specifying the source files.
@@ -96,9 +97,9 @@ int main(int argc, char* argv[])
 	
 	vector<Compare> compare;		// set of comparisons to be done
 
-	struct timespec pause;
-    pause.tv_sec  = 1;
-    pause.tv_nsec = 0;
+	struct timespec loadPause;
+	loadPause.tv_sec  = 1;
+	loadPause.tv_nsec = 0;
 	
 	int verbose = 0;
 
@@ -259,8 +260,8 @@ int main(int argc, char* argv[])
 	string sPause;
 	arguments.GetValue("--pause", sPause);
 	float fPause = atof(sPause.c_str());
-    pause.tv_sec  = trunc(fPause);
-    pause.tv_nsec = 1e9 * (fPause - pause.tv_sec);
+	loadPause.tv_sec  = trunc(fPause);
+	loadPause.tv_nsec = 1e9 * (fPause - loadPause.tv_sec);
 
 
 	/// Print header
@@ -335,7 +336,8 @@ int main(int argc, char* argv[])
 			}
 		}
 		
-		cout << "Interval between checks of the log file: " << pause.tv_sec + 1.0e-9*pause.tv_nsec << " seconds" << endl;
+		cout << "Interval between checks of the log file: "
+			 << loadPause.tv_sec + 1.0e-9*loadPause.tv_nsec << " seconds" << endl;
 		
 		if(nLatestChars >= 0)
 			cout << "Showing the last " << nLatestChars << " characters of the existing log file." << endl;
@@ -351,7 +353,7 @@ int main(int argc, char* argv[])
 	
 	ifstream   ifs;
 	string     log, token;
-	streamoff  pos;
+	streamoff  pos = 0;
 
 	bool warning = true;
 	
@@ -368,7 +370,7 @@ int main(int argc, char* argv[])
 			warning = false;
 		}
 		
-		nanosleep(&pause, NULL);
+		nanosleep(&loadPause, NULL);
 	}
 	
 	/// Print log file
@@ -401,6 +403,9 @@ int main(int argc, char* argv[])
 			ifs.seekg(-1, ios::cur);
 		}
 	}
+
+	bool pause   = false,
+		 refresh = false;
 
 	while(true)
 	{
@@ -466,6 +471,8 @@ int main(int argc, char* argv[])
 				nextLine:
 				pos = ifs.tellg();
 			}
+
+			refresh = false;
 		}
 
 		if(!ifs.eof()) {
@@ -479,17 +486,20 @@ int main(int argc, char* argv[])
 
 		key = rdKb.Get();
 
-		// Pause logs display
+		// Pause loading new logs
 		if(key == 'p' || key == 'P') {
-			cout << "Paused... " << flush;
-			getchar();
-			cout << "Resumed" << endl;
+			pause = !pause;
+			if(pause)
+				cout << "Paused loading new logs... " << flush;
+			else
+				cout << "Resumed loading new logs." << endl;
 		}
 
 		// Change minimum log level
 		if(key >= '1' && key <= '7') {
 			minLevel = key - char('0');
 			cout << "Minimum log level set to: " << minLevel << " - " << GetLevel(minLevel) << endl;
+			refresh = true;
 		}
 
 		// Reload all logs
@@ -497,6 +507,7 @@ int main(int argc, char* argv[])
 			cout << "--- RELOAD LOG FILE ---" << endl;
 			ifs.seekg(0);
 			pos = ifs.tellg();
+			refresh = true;
 		}
 
 		// Reload last n logs
@@ -516,6 +527,7 @@ int main(int argc, char* argv[])
 			}
 
 			pos = ifs.tellg();
+			refresh = true;
 		}
 
 		// Set the number of logs to reload
@@ -538,7 +550,7 @@ int main(int argc, char* argv[])
 		}
 
 		// Take a break
-		nanosleep(&pause, NULL);
+		nanosleep(&loadPause, NULL);
 	}
 
 	rdKb.~ReadKeyboard();
@@ -657,7 +669,7 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	     << " -gt 1_0.123 -lt 1_0.125 -gt 3_2012-10-08T14:11:09 -vb" << endl;
 	
 	cout << "\nKeystroke runtime commands:\n\n";
-	cout << "\t [P]       Pause/resume logs display.\n";
+	cout << "\t [P]       Pause/resume loading new logs.\n";
 	cout << "\t [1]-[7]   Change minimum log level of displayed logs (no effect on their generation).\n";
 	cout << "\t [R]       Reload all the logs and display them with the current criteria.\n";
 	cout << "\t [r]       Reload the last " << nLogsReload << " logs and display them with the current criteria.\n";
