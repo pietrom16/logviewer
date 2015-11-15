@@ -10,6 +10,7 @@
  *
  *****************************************************************************/
 
+#include <cstdlib>
 #include <ctime>
 #include <fstream>
 #include <iostream>
@@ -37,13 +38,13 @@ int main()
 
 	while(true)
 	{
-		log.clear();
-		log += LogTime();
-		log += LogDate();
-		log += std::string("Test log message");
+		log = std::string("Test log message - ");
+		log += std::to_string(rand() % 1000);
+
+		level = rand() % nLogLevels;
 
 		//+ ofs
-		std::cout << LogTime() << LogDate() << logLevelTags[level] << log << std::endl;
+		std::cout << LogTime() << LogDate() << logLevelTags[level] << " " << log << std::endl;
 
 		std::cout << "." << std::flush;
 		nanosleep(&pause, NULL);
