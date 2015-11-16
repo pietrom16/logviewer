@@ -2,6 +2,8 @@
  * test_logsGenerator.cpp
  *
  * Test application to generate random logs.
+ * The number of logs can be specified.
+ * If no parameter is passed, it generates an 'infinite' number of logs.
  *
  * Copyright (C) 2012-2015 Pietro Mele
  * Released under a GPL 3 license.
@@ -20,8 +22,16 @@ std::string LogTime();
 std::string LogDate();
 
 
-int main()
+int main(int argc, char* argv[])
 {
+	bool endless = true;
+	int  nLogs = 0;
+
+	if(argc > 1) {
+		nLogs = atoi(argv[1]);
+		endless = false;
+	}
+
 	std::string log;
 	std::string logFile = "test.log";
 	//+OK std::ofstream ofs(logFile);
@@ -35,8 +45,9 @@ int main()
 	pause.tv_sec  = 0;
 	pause.tv_nsec = 0.25e9;
 
+	int i = 0;
 
-	while(true)
+	while(endless || i < nLogs)
 	{
 		log = std::string("Test log message - ");
 		log += std::to_string(rand() % 1000);
@@ -48,6 +59,8 @@ int main()
 
 		std::cout << "." << std::flush;
 		nanosleep(&pause, NULL);
+
+		++i;
 	}
 
 	return 0;
