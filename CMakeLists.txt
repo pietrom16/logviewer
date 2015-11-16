@@ -26,6 +26,15 @@ message("==============================================")
 message("Building project: ${PRJ}")
 message("==============================================")
 
-aux_source_directory(. SRC_LIST)
-add_executable(${PRJ} ${SRC_LIST})
+set(SRC
+	logviewer.cpp
+	progArgs.cpp
+	progArgs.h
+	ReadKeyboard.cpp
+	ReadKeyboard.h
+	ReadKeyboard_test.cpp
+)
+
+add_executable(${PRJ} ${SRC})
+add_executable(${PRJ}_test test_logsGenerator.cpp)
 
