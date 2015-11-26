@@ -28,9 +28,17 @@
 #include <string>
 #endif // TEXT_MODE_FORMATTING_OFF
 
+#ifdef _WIN32
+#include <tchar.h>
+#include <strsafe.h>
+#include <windows.h>
+#endif
 
 namespace textModeFormatting
 {
+
+#ifndef _WIN32
+
 	// Predefined text formats
 	const char
 		d[] = "0;37m",		/* detail, grey */
@@ -73,7 +81,8 @@ namespace textModeFormatting
 		"5;31m"		/* blinking red */
 	};
 
-#else
+#else // TEXTMODEFORMATTING_DEFAULT_COLORS
+
 	static const int nLevels = 8;
 	
 	// Predefined text formats as levels
@@ -89,10 +98,31 @@ namespace textModeFormatting
 		"7;37m"		/* NO_LEVEL_, normal, grey background */
 	};
 
-#endif
+#endif // TEXTMODEFORMATTING_DEFAULT_COLORS
+
+#else // _WIN32
+
+	static const int nLevels = 8;
+
+	// Predefined text formats as levels
+
+	const int level[][nLevels] = {
+		{ 11 },	/* VERBOSE_, cyan */
+		{ 07 },	/* DETAIL_, white */
+		{ 10 },	/* INFO_, green */
+		{ 14 },	/* WARNING_, yellow */
+		{ 12 },	/* ERROR_, red */
+		{ 00 },	/* SEVERE_, yellow background */
+		{ 15 },	/* FATAL_, red background */
+		{ 15 }	/* NO_LEVEL_, grey background */
+	};
+
+#endif // _WIN32
 
 #ifndef TEXT_MODE_FORMATTING_OFF
-    
+
+#ifndef _WIN32
+
 	const char* Format(const char* _format) {
 		static std::string format;
 		format = "\033[";
@@ -111,7 +141,24 @@ namespace textModeFormatting
 		static char format[] = "\033[0m\0";
 		return format;
 	}
-	
+
+#else // _WIN32
+
+	//+TODO
+	const char* Format(int _formatId) {
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), level[_formatId%nLevels][0]);
+		static char format[] = "";
+		return format;
+	}
+
+	const char* Reset() {
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 07);
+		static char format[] = "";
+		return format;
+	}
+
+#endif // _WIN32
+
 #else // TEXT_MODE_FORMATTING_OFF
 
 	const char* Format(const char* _format) {
