@@ -12,7 +12,7 @@
 
 
 /* Usage example:
- * 
+ *
  *		logviewer --input example.log --minLevel 2 --levelCol 3
  *		logviewer -i example.log -m 2 -l 3
  *		logviewer --help
@@ -31,19 +31,20 @@
 #include "ReadKeyboard.h"
 #include "textModeFormatting.h"
 #include <cctype>
+#include <chrono>
 #include <cmath>
 #include <cstdlib>
-#include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <vector>
 
 #if defined(__unix__) || defined(__linux__) || \
-    defined(BSD) || (defined (__APPLE__) && defined (__MACH__)) || defined(__bsdi__) || \
-    defined(__minix) || defined(__CYGWIN__) || defined(__FreeBSD__)
+	defined(BSD) || (defined (__APPLE__) && defined (__MACH__)) || defined(__bsdi__) || \
+	defined(__minix) || defined(__CYGWIN__) || defined(__FreeBSD__)
 #define POSIX 1
 #include <sys/stat.h>
 #endif
@@ -85,31 +86,29 @@ int main(int argc, char* argv[])
 	int levelColumn = 0;				// depends on the logs format
 	int minLevel = 0;					// minimum level a log must have to be shown
 	unsigned int beepLevel = -1;		// minimum level to get an audio signal
-	
+
 	const int printAll = -1;
 	int nLatest = printAll;				// number of latest logs to be printed (-1 = all)
 	int nLatestChars = printAll;		// number of latest characters to be printed (-1 = all)
-	
+
 	vector<string> includeStrings, excludeStrings;		// sub strings to be included/excluded by the logs
 	string tempStr;
 	bool   incStrFlag = false, excStrFlag = false;		// flags to decide whether to check for substrings
-	
+
 	vector<Compare> compare;		// set of comparisons to be done
 
-	struct timespec pause;
-    pause.tv_sec  = 1;
-    pause.tv_nsec = 0;
-	
+	std::chrono::milliseconds pause(1000);
+
 	int verbose = 0;
 
 	utilities::ReadKeyboard rdKb;
 	int key = 0;
 
 	/// Read parameters
-	
+
 	ProgArgs            arguments;
 	ProgArgs::Argument  arg;
-	
+
 	// Set main() parameters:
 	arg.Set("--input", "-i", "Input log file", false, true);
 	arguments.AddArg(arg);
@@ -139,30 +138,30 @@ int main(int argc, char* argv[])
 	arguments.AddArg(arg);
 	arg.Set("--version", "-v", "Version and license details");
 	arguments.AddArg(arg);
-	
+
 	arguments.Parse(argc, argv);
-	
+
 	if(arguments.GetValue("--help"))
 	{
 		PrintHelp(arguments, argv[0]);
 		rdKb.~ReadKeyboard();
 		exit(0);
 	}
-	
+
 	if(arguments.GetValue("--version"))
 	{
 		PrintVersion(argv[0]);
 		rdKb.~ReadKeyboard();
 		exit(0);
 	}
-	
+
 	string logFile;
 	arguments.GetValue("--input", logFile);
 
 	string levelCol;
 	arguments.GetValue("--levelCol", levelCol);
 	levelColumn = atoi(levelCol.c_str());
-	
+
 	string minLev;
 	arguments.GetValue("--minLevel", minLev);
 	minLevel = atoi(minLev.c_str());
@@ -174,7 +173,7 @@ int main(int argc, char* argv[])
 		if(nLatest < 0)
 			nLatest = printAll;
 	}
-	
+
 	if(arguments.GetValue("--nLatestChars")) {
 		string nChars;
 		arguments.GetValue("--nLatestChars", nChars);
@@ -182,7 +181,7 @@ int main(int argc, char* argv[])
 		if(nLatestChars < 0)
 			nLatestChars = printAll;
 	}
-	
+
 	if(arguments.GetValue("--subString"))
 	{
 		int n = 0;
@@ -194,7 +193,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	
+
 	if(arguments.GetValue("--notSubString"))
 	{
 		int n = 0;
@@ -206,7 +205,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	
+
 	if(arguments.GetValue("--lessThan"))
 	{
 		int n = 0;
@@ -226,7 +225,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	
+
 	if(arguments.GetValue("--greaterThan"))
 	{
 		int n = 0;
@@ -246,27 +245,26 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	
+
 	if(arguments.GetValue("--beepLevel")) {
 		string level;
 		arguments.GetValue("--beepLevel", level);
 		beepLevel = atoi(level.c_str());
 	}
-	
+
 	if(arguments.GetValue("--verbose"))
 		verbose = 1;
-	
+
 	string sPause;
 	arguments.GetValue("--pause", sPause);
 	float fPause = atof(sPause.c_str());
-    pause.tv_sec  = trunc(fPause);
-    pause.tv_nsec = 1e9 * (fPause - pause.tv_sec);
+	pause = std::chrono::milliseconds(int(1000 * fPause));
 
 
 	/// Print header
-	
+
 	string logDate;		// time the log was generated
-	
+
 #ifdef POSIX
 	struct stat st;
 	if(stat(logFile.c_str(), &st) == 0)
@@ -292,37 +290,37 @@ int main(int argc, char* argv[])
 		CloseHandle(hFile);
 	}
 #endif
-	
+
 	stringstream header;
 	header << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
-	       << "Log file: " << logFile << " - " << logDate;
-	
+		   << "Log file: " << logFile << " - " << logDate;
+
 	int barLen = header.str().length();
-	
+
 	cout << string(barLen, '-') << "\n";
 	cout << header.str();
 	cout << string(barLen, '-') << endl;
-	
+
 	/// Print extra info
 	if(verbose)
 	{
 		cout << "Column ID containing the log level: " << levelColumn << endl;
 		cout << "Minimum log level for a log to be shown: " << minLevel << endl;
-		
+
 		if(incStrFlag) {
 			cout << "Show logs which include the string(s): ";
 			for(size_t i = 0; i < includeStrings.size(); ++i)
 				cout << "\"" << includeStrings[i] << "\" ";
 			cout << endl;
 		}
-		
+
 		if(excStrFlag) {
 			cout << "Hide logs which include the string(s): ";
 			for(size_t i = 0; i < excludeStrings.size(); ++i)
 				cout << "\"" << excludeStrings[i] << "\" ";
 			cout << endl;
 		}
-		
+
 		if(compare.empty() == false)
 		{
 			for(size_t i = 0; i < compare.size(); ++i) {
@@ -334,9 +332,9 @@ int main(int argc, char* argv[])
 				cout << " than " << compare[i].value << endl;
 			}
 		}
-		
-		cout << "Interval between checks of the log file: " << pause.tv_sec + 1.0e-9*pause.tv_nsec << " seconds" << endl;
-		
+
+		cout << "Interval between checks of the log file: " << pause.count()/1000 << " seconds" << endl;
+
 		if(nLatestChars >= 0)
 			cout << "Showing the last " << nLatestChars << " characters of the existing log file." << endl;
 		else if(nLatest >= 0)
@@ -346,39 +344,39 @@ int main(int argc, char* argv[])
 
 		cout << string(80, '-') << endl;
 	}
-	
+
 	/// Open log file
-	
+
 	ifstream   ifs;
 	string     log, token;
-	streamoff  pos;
+	streamoff  pos = 0;
 
 	bool warning = true;
-	
+
 	while(true)
 	{
 		ifs.open(logFile.c_str());
-		
+
 		if(ifs.is_open())
 			break;
-		
+
 		if(warning) {
 			cerr << "logviewer: warning: cannot open the log file: " << logFile
-			     << "\nWaiting..." << endl;
+				 << "\nWaiting..." << endl;
 			warning = false;
 		}
-		
-		nanosleep(&pause, NULL);
+
+		this_thread::sleep_for(pause);
 	}
-	
+
 	/// Print log file
-	
+
 	int level = 0;
-	
+
 	if(nLatestChars >= 0)
 	{
 		// Start reading from the last "nChars" characters
-		
+
 		// Reposition the cursor at the end of the file, and go back n bytes
 		ifs.seekg(-nLatestChars, ios::end);
 	}
@@ -387,17 +385,17 @@ int main(int argc, char* argv[])
 		// Start reading from the last "nLatest" logs
 
 		// Reposition the cursor at the end of the file, and go back counting the new lines
-		
+
 		ifs.seekg(-1, ios::end);
-		
+
 		int nLogs = 0;
-		
+
 		while(ifs.tellg() > 0)
 		{
 			if(ifs.peek() == '\n') ++nLogs;
-			
+
 			if(nLogs > nLatest) break;
-			
+
 			ifs.seekg(-1, ios::cur);
 		}
 	}
@@ -472,7 +470,7 @@ int main(int argc, char* argv[])
 			cerr << argv[0] << " error: could not read this log file till the end: " << logFile << endl;
 			break;
 		}
-		
+
 		ifs.clear();		// clear the eof state to keep reading the growing log file
 
 		/// Read the keyboard for real time user interaction
@@ -538,7 +536,7 @@ int main(int argc, char* argv[])
 		}
 
 		// Take a break
-		nanosleep(&pause, NULL);
+		this_thread::sleep_for(pause);
 	}
 
 	rdKb.~ReadKeyboard();
@@ -551,38 +549,38 @@ int GetLevel(const string &_level)
 	if(isdigit(_level[0]))
 		// A number, use it directly
 		return atoi(_level.c_str()) % nLevels;
-	
+
 	if(_level[0] == 'L' || _level == "NO_LEVEL")
 		// The 'L' special character
 		return nLevels - 1;
-	
+
 	// Check for string level
 
 	// Omit level 0
-	
+
 	if(_level == "VERBOSE" || _level == "TRACE")
 		return 1;
-	
+
 	if(_level == "DETAIL" || _level == "DEBUG" || _level == "Debug")
 		return 2;
-	
+
 	if(_level == "INFO" || _level == "Info" || _level == "Notice")
 		return 3;
-	
+
 	if(_level == "WARNING" || _level == "Warning" || _level == "WARN")
 		return 4;
-	
+
 	if(_level == "ERROR" || _level == "Error")
 		return 5;
-	
+
 	if(_level == "SEVERE" || _level == "CRITICAL" || _level == "Critical" || _level == "Alert")
 		return 6;
-	
+
 	if(_level == "FATAL" || _level == "Emergency")
 		return 7;
-	
+
 	// Nothing found; use a random mapping
-	
+
 	return LogLevelMapping(_level);
 }
 
@@ -608,14 +606,14 @@ string GetLevel(int _level)
 int LogLevelMapping(const string &_level)
 {
 	int colorCode = 0;
-	
+
 	for(size_t i = 0; i < _level.size(); ++i)
 	{
 		colorCode += _level[i];		//+TODO: more randomness
 	}
-	
+
 	colorCode = colorCode % 7;		// use the first 7 colors only
-	
+
 	return colorCode;
 }
 
@@ -625,7 +623,7 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	string progName = _progName;
 
 	size_t pos = progName.rfind(slash) + 1;
-	
+
 	cout << string(110, '-') << "\n";
 	cout << "\n" << progName.substr(pos) << ": a text mode log file viewer.\n";
 	cout << "\n" << "Features:\n";
@@ -647,15 +645,15 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 
 	cout << "\nExample:\n";
 	cout << "Print the logs in the specified file, with minimum level 1, "
-	        "with level placed in the second column, which include the "
-	        "substrings \"abc def\" and \"123\", which do not include the "
-	        "substring \"ghi\", with timestamp between 0.123 and 0.125 seconds, "
+			"with level placed in the second column, which include the "
+			"substrings \"abc def\" and \"123\", which do not include the "
+			"substring \"ghi\", with timestamp between 0.123 and 0.125 seconds, "
 			"done after 2012-10-08T14:11:09, "
-	        "in verbose mode:\n\n";
-	cout << progName.substr(pos) 
-	     << " -i /path/to/test.log -m 1 -l 2 -s \"abc def\" -s \"123\" -ns \"ghi\""
-	     << " -gt 1_0.123 -lt 1_0.125 -gt 3_2012-10-08T14:11:09 -vb" << endl;
-	
+			"in verbose mode:\n\n";
+	cout << progName.substr(pos)
+		 << " -i /path/to/test.log -m 1 -l 2 -s \"abc def\" -s \"123\" -ns \"ghi\""
+		 << " -gt 1_0.123 -lt 1_0.125 -gt 3_2012-10-08T14:11:09 -vb" << endl;
+
 	cout << "\nKeystroke runtime commands:\n\n";
 	cout << "\t [P]       Pause/resume logs display.\n";
 	cout << "\t [1]-[7]   Change minimum log level of displayed logs (no effect on their generation).\n";
@@ -678,7 +676,7 @@ void PrintVersion(const char* _progName)
 	cout << "\n\t" << "Copyright 2012-2015 Pietro Mele" << endl;
 	cout << "\n\t" << "Released under a GPL 3 license." << endl;
 	cout << "\n\t" << "pietrom16@gmail.com"
-	     << "\n\t" << "https://sites.google.com/site/pietrom16" << endl;
+		 << "\n\t" << "https://sites.google.com/site/pietrom16" << endl;
 	cout << string(80, '-') << "\n";
 	cout << endl;
 }

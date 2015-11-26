@@ -12,11 +12,13 @@
  *
  *****************************************************************************/
 
+#include <chrono>
+#include <cstdio>
 #include <cstdlib>
-#include <ctime>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <thread>
 
 std::string LogTime();
 std::string LogDate();
@@ -34,16 +36,14 @@ int main(int argc, char* argv[])
 
 	std::string log;
 	std::string logFile = "test.log";
-	//+OK std::ofstream ofs(logFile);
+	std::ofstream ofs(logFile);
 
 	// Log levels (a custom levels enum can be used)
 	static const int nLogLevels = 8;
 	const char       logLevelTags[nLogLevels][9] { "  ----  ", "VERBOSE ", "DETAIL  ", "INFO    ", "WARNING ", "ERROR   ", "CRITICAL", "FATAL   " };
 	int              level = 0;
 
-	struct timespec pause;
-	pause.tv_sec  = 0;
-	pause.tv_nsec = 0.25e9;
+	std::chrono::milliseconds pause(1000);
 
 	int i = 0;
 
@@ -54,11 +54,11 @@ int main(int argc, char* argv[])
 
 		level = rand() % nLogLevels;
 
-		//+ ofs
-		std::cout << LogTime() << LogDate() << logLevelTags[level] << " " << log << std::endl;
+		ofs << LogTime() << LogDate() << logLevelTags[level] << " " << log << std::endl;
 
 		std::cout << "." << std::flush;
-		nanosleep(&pause, NULL);
+
+		std::this_thread::sleep_for(pause);
 
 		++i;
 	}
