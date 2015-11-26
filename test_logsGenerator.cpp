@@ -67,11 +67,18 @@ int main(int argc, char* argv[])
 }
 
 
-std::string LogTime() {
+std::string LogTime()
+{
 	float t = float(std::clock())/CLOCKS_PER_SEC;
 	const size_t sz = 16;
 	char ct[sz];
+
+#ifndef _WIN32
 	std::snprintf(ct, sz, "% 7.3f  ", t);
+#else
+	_snprintf(ct, sz, "% 7.3f  ", t);
+#endif
+
 	return std::string(ct);
 }
 
@@ -79,7 +86,13 @@ std::string LogTime() {
 std::string LogDate() {
 	std::time_t t = std::time(nullptr);
 	char mbstr[32];
+
+#ifndef _WIN32  //+B
 	std::strftime(mbstr, sizeof(mbstr), "%F %T  ", std::localtime(&t));
+#else
+	mbstr[0] = '\0';
+#endif
+
 	return std::string(mbstr);
 }
 
