@@ -1,13 +1,13 @@
 /// textModeFormatting.h
 
-// Version 1.1
+// Version 2.0
 
 /** Utility to produce colored output in a text mode window.
  *  It provides an intuitive way to use ANSI color codes (ISO/IEC 6429).
  *  It can be disabled at compile time with: #define TEXT_MODE_FORMATTING_OFF
  */
 
-/* Copyright Pietro Mele 2012
+/* Copyright (C) 2012-2015 Pietro Mele
  * Released under a BSD license.
  * pietrom16@gmail.com
  */
@@ -107,14 +107,15 @@ namespace textModeFormatting
 	// Predefined text formats as levels
 
 	const int level[][nLevels] = {
+		{ 0  },
 		{ 11 },	/* VERBOSE_, cyan */
 		{ 07 },	/* DETAIL_, white */
 		{ 10 },	/* INFO_, green */
 		{ 14 },	/* WARNING_, yellow */
 		{ 12 },	/* ERROR_, red */
-		{ 00 },	/* SEVERE_, yellow background */
-		{ 15 },	/* FATAL_, red background */
-		{ 15 }	/* NO_LEVEL_, grey background */
+		{ 13 },	/* SEVERE_, purple */
+		{ 13 },	/* FATAL_, purple */
+		{ 07 }	/* NO_LEVEL_, white */
 	};
 
 #endif // _WIN32
