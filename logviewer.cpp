@@ -99,7 +99,7 @@ ResetDefaults rd;
 
 int main(int argc, char* argv[])
 {
-	int levelColumn = 0;				// depends on the logs format
+	int levelColumn = -1;				// depends on the logs format (dynamic if < 0)
 	int minLevel = 0;					// minimum level a log must have to be shown
 	unsigned int beepLevel = -1;		// minimum level to get an audio signal
 
@@ -299,7 +299,11 @@ int main(int argc, char* argv[])
 	/// Print extra info
 	if(verbose)
 	{
-		cout << "Column ID containing the log level: " << levelColumn << endl;
+		if(levelColumn >= 0)
+			cout << "Column ID containing the log level: " << levelColumn << endl;
+		else
+			cout << "Column ID containing the log level: unspecified; search on the basis of prederfined tokens." << endl;
+
 		cout << "Minimum log level for a log to be shown: " << minLevel << endl;
 
 		if(incStrFlag) {
