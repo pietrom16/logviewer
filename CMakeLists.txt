@@ -33,6 +33,7 @@ set(SRC
 	ReadKeyboard.cpp
 	ReadKeyboard.h
 	ReadKeyboard_test.cpp
+	textModeFormatting.h
 )
 
 add_executable(${PRJ} ${SRC})
