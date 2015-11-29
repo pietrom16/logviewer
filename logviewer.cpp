@@ -79,6 +79,7 @@ int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
 int    GetLevel (const string &_level);
 string GetLevel (int _level);
 int    LogLevelMapping (const string &_level);
+string GetLogDate(const string &_logFile);
 void   PrintHelp (const ProgArgs &_args, const char* _progName);
 void   PrintVersion (const char* _progName);
 
@@ -284,33 +285,7 @@ int main(int argc, char* argv[])
 
 	/// Print header
 
-	string logDate;		// time the log was generated
-
-#ifdef POSIX
-	struct stat st;
-	if(stat(logFile.c_str(), &st) == 0)
-	{
-		time_t date = st.st_mtime;
-		logDate = ctime(&date);		//+ ctime() deprecated
-	}
-	else
-		logDate = "?\n";
-#else // _WIN32
-	//+TEST
-	TCHAR szBuf[MAX_PATH];
-	HANDLE hFile = CreateFile(logFile.c_str(), GENERIC_READ, FILE_SHARE_READ,
-							  NULL, OPEN_EXISTING, 0, NULL);
-
-	if(hFile == INVALID_HANDLE_VALUE)
-		logDate = "?\n";
-	else {
-		if(GetLastWriteTime(hFile, szBuf, MAX_PATH))
-			logDate = szBuf;
-		else
-			logDate = "?\n";
-		CloseHandle(hFile);
-	}
-#endif
+	string logDate = GetLogDate(logFile);		// time the log was generated
 
 	stringstream header;
 	header << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
@@ -628,6 +603,70 @@ int LogLevelMapping(const string &_level)
 	colorCode = colorCode % 7;		// use the first 7 colors only
 
 	return colorCode;
+}
+
+
+#ifdef WIN32
+BOOL GetLastWriteTime(HANDLE hFile, LPTSTR lpszString, DWORD dwSize)
+{
+	FILETIME ftCreate, ftAccess, ftWrite;
+	SYSTEMTIME stUTC, stLocal;
+	DWORD dwRet;
+
+	// Retrieve the file times for the file.
+	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
+		return FALSE;
+
+	// Convert the last-write time to local time.
+	FileTimeToSystemTime(&ftWrite, &stUTC);
+	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+
+	// Build a string showing the date and time.
+	dwRet = StringCchPrintf(lpszString, dwSize,
+		TEXT("%02d/%02d/%d  %02d:%02d"),
+		stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+		stLocal.wHour, stLocal.wMinute);
+
+	if (S_OK == dwRet)
+		return TRUE;
+	else return FALSE;
+}
+#endif //WIN32
+
+
+string GetLogDate(const string &_logFile)
+{
+	// Return the time the log was generated
+
+	string logDate;
+
+#ifdef POSIX
+	struct stat st;
+	if (stat(_logFile.c_str(), &st) == 0)
+	{
+		time_t date = st.st_mtime;
+		logDate = ctime(&date);		//+ ctime() deprecated
+	}
+	else
+		logDate = "?\n";
+#else // _WIN32
+	//+TEST
+	TCHAR szBuf[MAX_PATH];
+	HANDLE hFile = CreateFile(_logFile.c_str(), GENERIC_READ, FILE_SHARE_READ,
+		NULL, OPEN_EXISTING, 0, NULL);
+
+	if (hFile == INVALID_HANDLE_VALUE)
+		logDate = "?\n";
+	else {
+		if (GetLastWriteTime(hFile, szBuf, MAX_PATH))
+			logDate = szBuf;
+		else
+			logDate = "?\n";
+		CloseHandle(hFile);
+	}
+#endif
+
+	return logDate;
 }
 
 
