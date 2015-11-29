@@ -26,6 +26,7 @@
 	- Better randomize the colors in LogLevelMapping().
  */
 
+#include "logLevels.h"
 #include "progArgs.h"
 #include "ReadKeyboard.h"
 #include "textModeFormatting.h"
@@ -405,11 +406,18 @@ int main(int argc, char* argv[])
 		{
 			while(getline(ifs, log))
 			{
-				stringstream str(log);
-				for(int i = 0; i < levelColumn; ++i)
-					str >> token;
+				if(levelColumn >= 0)		// index based log level search
+				{
+					stringstream str(log);
+					for(int i = 0; i < levelColumn; ++i)
+						str >> token;
 
-				level = GetLevel(token);
+					level = GetLevel(token);
+				}
+				else {						// tag based log level search
+					//+TODO
+					// The first tag found in the log is the valid one.
+				}
 
 				if(level >= minLevel)
 				{

@@ -28,6 +28,7 @@ message("==============================================")
 
 set(SRC
 	logviewer.cpp
+	logLevels.h
 	progArgs.cpp
 	progArgs.h
 	ReadKeyboard.cpp
