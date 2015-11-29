@@ -22,9 +22,8 @@
 	-- Automatic detection of the log level tag, without specifing its position.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	-- Multiple input log files.
-	-- Bug [Windows]: when the log grows, the new logs are not printed.
+	-- Bug [Windows]: when the log grows, the new logs are not printed automatically.
 	- Better randomize the colors in LogLevelMapping().
-	- Consider modifying CMakeLists.txt, manually specifying the source files.
  */
 
 #include "progArgs.h"
@@ -66,7 +65,7 @@ using namespace Utilities;
 #endif
 
 
-const int version = 3, subversion = 1, subsubversion = 1;
+const int version = 3, subversion = 2, subsubversion = 0;
 
 struct Compare {
 	string value;
