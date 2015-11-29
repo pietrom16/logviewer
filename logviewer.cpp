@@ -50,7 +50,9 @@
 #endif
 
 #ifdef _WIN32
-#include "windows.h"
+#include <tchar.h>
+#include <strsafe.h>
+#include <windows.h>
 #endif
 
 using namespace std;
@@ -81,6 +83,20 @@ void   PrintHelp (const ProgArgs &_args, const char* _progName);
 void   PrintVersion (const char* _progName);
 
 
+struct ResetDefaults
+{
+	ResetDefaults() {}
+	~ResetDefaults() {
+		// Reset console colors
+#ifdef _WIN32
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+#endif
+	}
+};
+
+ResetDefaults rd;
+
+
 int main(int argc, char* argv[])
 {
 	int levelColumn = 0;				// depends on the logs format
@@ -103,6 +119,11 @@ int main(int argc, char* argv[])
 
 	utilities::ReadKeyboard rdKb;
 	int key = 0;
+
+	// Reset console colors
+#ifdef _WIN32
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+#endif
 
 	/// Read parameters
 
@@ -298,7 +319,7 @@ int main(int argc, char* argv[])
 	int barLen = header.str().length();
 
 	cout << string(barLen, '-') << "\n";
-	cout << header.str();
+	cout << header.str() << "\n";
 	cout << string(barLen, '-') << endl;
 
 	/// Print extra info
@@ -447,15 +468,7 @@ int main(int argc, char* argv[])
 						}
 					}
 
-	#ifdef POSIX
 					cout << Format(level) << log << Reset() << endl;
-	#elif defined(_WIN32)
-					//+TEST
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), level);
-					cout << log << endl;
-	#else
-					cout << log << endl;
-	#endif
 
 					if(level >= beepLevel)
 						cout << char(7) << flush;	// beep
