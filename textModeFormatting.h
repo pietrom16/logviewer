@@ -88,6 +88,7 @@ namespace textModeFormatting
 	// Predefined text formats as levels
 
 	const char level[][nLevels] = {
+		"0m",		/* not used */
 		"0;36m",	/* VERBOSE_, detail, cyan */
 		"0m",		/* DETAIL_, normal, white */
 		"0;32m",	/* INFO_, normal, green */
@@ -107,7 +108,7 @@ namespace textModeFormatting
 	// Predefined text formats as levels
 
 	const int level[][nLevels] = {
-		{ 0  },
+		{ 0  },	/* not used */
 		{ 11 },	/* VERBOSE_, cyan */
 		{ 07 },	/* DETAIL_, white */
 		{ 10 },	/* INFO_, green */
