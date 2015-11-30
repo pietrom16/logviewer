@@ -14,40 +14,56 @@
 #define LOGLEVELS_H
 
 #include <string>
-#include <vector>
+#include <map>
 
 namespace LogViewer {
 
-struct LogLevel
+class LogLevels
 {
-	LogLevel(const std::string &_tag, int _val) : tag(_tag), value(_val) {}
+	/// List of all the possible log tags with their corresponding log levels:
 
-	std::string tag;		// case insensitive
-	int         value;
+	static const std::map<std::string, const int> levels;
+
+public:
+	LogLevels() {}
+
+	static int LogLevelVal(const std::string &_tag);		//+TODO
+	static std::string LogLevelTag(int _val);				//+TODO
+
+	// Return the log level tag in a log message; empty string if not found
+	static std::string FindLogLevelTag(const std::string &_log);		//+TODO
+
+	// Return the log level value in a log message; -1 if not found
+	static int FindLogLevelVal(const std::string &_log);				//+TODO
+
+	static bool LessThan(const std::string &_tag1, const std::string &_tag2) {
+//+		return levels(_tag1) < levels(_tag2);
+	}
+
 };
 
 
-/// List of all the possible log tags with their corresponding log levels:
+const std::map<std::string, const int> LogLevels::levels =
+		{
+			/* Level tag, Level value */
+			{"VERBOSE",   1},
+			{"TRACE",     1},
+			{"DETAIL",    2},
+			{"DEBUG",     2},
+			{"INFO",      3},
+			{"NOTICE",    3},
+			{"WARNING",   4},
+			{"WARN",      4},
+			{"ERROR",     5},
+			{"SEVERE",    6},
+			{"CRITICAL",  6},
+			{"ALERT",     6},
+			{"FATAL",     7},
+			{"EMERGENCY", 7}
+		};
 
-const std::vector<LogLevel> logLevels =
-	{
-		LogLevel("VERBOSE",   1),
-		LogLevel("TRACE",     1),
-		LogLevel("DETAIL",    2),
-		LogLevel("DEBUG",     2),
-		LogLevel("INFO",      3),
-		LogLevel("NOTICE",    3),
-		LogLevel("WARNING",   4),
-		LogLevel("WARN",      4),
-		LogLevel("ERROR",     5),
-		LogLevel("SEVERE",    6),
-		LogLevel("CRITICAL",  6),
-		LogLevel("ALERT",     6),
-		LogLevel("FATAL",     7),
-		LogLevel("EMERGENCY", 7)
-	};
 
-}
+} // LogViewer
 
 #endif // LOGLEVELS_H
 

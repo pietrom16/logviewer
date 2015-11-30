@@ -415,8 +415,7 @@ int main(int argc, char* argv[])
 					level = GetLevel(token);
 				}
 				else {						// tag based log level search
-					//+TODO
-					// The first tag found in the log is the valid one.
+					level = LogViewer::LogLevels::FindLogLevelVal(log);
 				}
 
 				if(level >= minLevel)
