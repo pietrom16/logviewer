@@ -4,14 +4,22 @@
 
 Features:
 
-- Text mode log viewer.
-- Log level based text color (available on Linux and OS-X, not on Windows).
+- Text mode log viewer, runs everywhere after recompilation.
+
+- Log level based highlighting (on Linux, OS-X, Windows).
+	- Levels can be numeric (1-7) or strings.
+
+- Log file format agnostic.
+	- Log level tag position automatically found in the logs.
+
+- Filtering capability.
+
+- Free software, GPL 3 license.
+
 
 For better performance, consider logging to a ramdisk.
 
 
-Requirements:  
-
-- C++03
+Requirements:
+- C++11
 - Default build system: CMake
-
