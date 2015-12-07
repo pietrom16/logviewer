@@ -20,15 +20,13 @@
  */
 
 /* TODO
-	. Automatic detection of the log level tag, without specifing its position.
-	-- Allow to pass multiple values for each command line parameter.
-	-- Change pause functionality: stop loading new logs, but keep interacting.
-	-- Allow to pass custom log level tags/values; this allows to use the program to, e.g., process any text document, highlighting blocks on the basis of their contents.
-	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
-	. Bug [Windows]: -n, -nc parameters has no effect.
-	- Better randomize the colors in LogLevelMapping().
-	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	-- In the help, show how to manage multiple log files (&). Add the option to print the log file name for each log message.
+	-- Allow to pass custom log level tags/values; this allows to use the program to, e.g., process any text document, highlighting blocks on the basis of their contents.
+	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
+	- Allow to pass multiple values for each command line parameter.
+	-- Change pause functionality: stop loading new logs, but keep interacting.
+	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
+	- Better randomize the colors in LogLevelMapping().
  */
 
 #include "logLevels.h"
