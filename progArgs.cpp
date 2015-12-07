@@ -140,10 +140,12 @@ int ProgArgs::Parse(int _argc, char *_argv[])
 {
 	programName = _argv[0];
 
-	int i = 1;
-	while(i < _argc)
+	size_t argc = size_t(_argc);
+
+	size_t i = 1;
+	while(i < argc)
 	{
-		for(int j = 0; j < args.size(); ++j)
+		for(size_t j = 0; j < args.size(); ++j)
 		{
 			if(args[j].tag == _argv[i] || args[j].shortTag == _argv[i])
 			{
@@ -155,7 +157,7 @@ int ProgArgs::Parse(int _argc, char *_argv[])
 
 					if(args[j].valueNeeded) {
 						++i;
-						if(i >= _argc) {
+						if(i >= argc) {
 							cerr << programName << " error:  the argument " << args[j].tag <<
 									" (" << args[j].shortTag << ") needs a value." << endl;
 							exit(1);
@@ -172,7 +174,7 @@ int ProgArgs::Parse(int _argc, char *_argv[])
 
 					if(args[j].valueNeeded) {
 						++i;
-						if(i >= _argc) {
+						if(i >= argc) {
 							cerr << programName << " error:  the argument " << args[j].tag <<
 									" (" << args[j].shortTag << ") needs a value." << endl;
 							exit(1);
@@ -194,10 +196,12 @@ int ProgArgs::Parse(int _argc, char *_argv[])
 
 int ProgArgs::GetArg(int _i, Argument &_arg) const
 {
-	if(_i < 0 || _i >= args.size())
+	const size_t i = size_t(_i);
+
+	if(_i < 0 || i >= args.size())
 		return -1;
 
-	_arg = args[_i];
+	_arg = args[i];
 
 	return 0;
 }
@@ -205,11 +209,11 @@ int ProgArgs::GetArg(int _i, Argument &_arg) const
 
 int ProgArgs::GetValue(const string &_tag, string &_val) const
 {
-	for(int i = 0; i < args.size(); ++i)
+	for(size_t i = 0; i < args.size(); ++i)
 	{
 		if(_tag == args[i].tag) {
 			_val = args[i].val;
-			return i;
+			return int(i);
 		}
 	}
 
@@ -224,7 +228,7 @@ int ProgArgs::GetValue(const std::string& _tag, std::string& _val, int _n) const
 {
 	int id = 0;
 
-	for(int i = 0; i < args.size(); ++i)
+	for(size_t i = 0; i < args.size(); ++i)
 	{
 		if(_tag == args[i].tag)
 		{
@@ -244,7 +248,7 @@ int ProgArgs::GetValue(const std::string& _tag, std::string& _val, int _n) const
 
 bool ProgArgs::GetValue(const string &_tag) const
 {
-	for (int i = 0; i < args.size(); ++i)
+	for(size_t i = 0; i < args.size(); ++i)
 	{
 		if(_tag == args[i].tag)  {
 			if(args[i].present)
@@ -262,7 +266,7 @@ void ProgArgs::Print() const
 {
 	cout << endl;
 
-	for(int j = 0; j < args.size(); ++j)
+	for(size_t j = 0; j < args.size(); ++j)
 	{
 		args[j].Print();
 	}
@@ -273,7 +277,7 @@ void ProgArgs::Help() const
 {
 	cout << endl;
 
-	for(int j = 0; j < args.size(); ++j)
+	for(size_t j = 0; j < args.size(); ++j)
 	{
 		args[j].Help();
 	}
