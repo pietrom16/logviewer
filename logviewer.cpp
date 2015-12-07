@@ -105,9 +105,10 @@ int main(int argc, char* argv[])
 {
 	using namespace LogViewer;
 
-	int levelColumn = -1;				// depends on the logs format (dynamic if < 0)
-	int minLevel = 0;					// minimum level a log must have to be shown
-	int beepLevel = -1;					// minimum level to get an audio signal (disabled if < 0)
+	int  levelColumn = -1;				// depends on the logs format (dynamic if < 0)
+	int  minLevel = 0;					// minimum level a log must have to be shown
+	int  beepLevel = -1;				// minimum level to get an audio signal (disabled if < 0)
+	bool printLogFile = false;			// print the log file name for each log message
 
 	const int printAll = -1;
 	int nLatest = printAll;				// number of latest logs to be printed (-1 = all)
@@ -146,6 +147,8 @@ int main(int argc, char* argv[])
 	arg.Set("--nLatest", "-n", "Print the latest n logs only", true, true, "-1");
 	arguments.AddArg(arg);
 	arg.Set("--nLatestChars", "-nc", "Print the latest n characters only", true, true, "-1");
+	arguments.AddArg(arg);
+	arg.Set("--printLogFile", "-f", "Print the log file name for each message (useful if multiple log files are shown simultaneously).", true, false);
 	arguments.AddArg(arg);
 	arg.Set("--subString", "-s", "Print the logs which contain the specified substring", true, true);
 	arguments.AddArg(arg);
