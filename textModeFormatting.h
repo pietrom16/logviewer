@@ -40,7 +40,7 @@ namespace textModeFormatting
 #ifndef _WIN32
 
 	// Predefined text formats
-	const char
+	static const char
 		d[] = "0;37m",		/* detail, grey */
 		n[] = "0m",			/* normal, white */
 		b[] = "1m",			/* bold, white */
@@ -62,7 +62,7 @@ namespace textModeFormatting
 	static const int nLevels = 16;
 	
 	// Predefined text formats as levels
-	const char level[][nLevels] = {
+	static const char level[][nLevels] = {
 		"0;37m",	/* detail, grey */
 		"0m",		/* normal, white */
 		"1m",		/* bold, white */
@@ -87,7 +87,7 @@ namespace textModeFormatting
 	
 	// Predefined text formats as levels
 
-	const char level[][nLevels] = {
+	static const char level[][nLevels] = {
 		"0m",		/* not used */
 		"0;36m",	/* VERBOSE_, detail, cyan */
 		"0m",		/* DETAIL_, normal, white */
@@ -107,7 +107,7 @@ namespace textModeFormatting
 
 	// Predefined text formats as levels
 
-	const int level[][nLevels] = {
+	static const int level[][nLevels] = {
 		{ 0  },	/* not used */
 		{ 11 },	/* VERBOSE_, cyan */
 		{ 07 },	/* DETAIL_, white */
@@ -125,21 +125,21 @@ namespace textModeFormatting
 
 #ifndef _WIN32
 
-	const char* Format(const char* _format) {
+	static const char* Format(const char* _format) {
 		static std::string format;
 		format = "\033[";
 		format.append(_format);
 		return format.c_str();
 	}
 	
-	const char* Format(int _formatId) {
+	static const char* Format(int _formatId) {
 		static std::string format;
 		format = "\033[";
 		format.append(level[_formatId%nLevels]);
 		return format.c_str();
 	}
 	
-	const char* Reset() {
+	static const char* Reset() {
 		static char format[] = "\033[0m\0";
 		return format;
 	}
@@ -147,13 +147,13 @@ namespace textModeFormatting
 #else // _WIN32
 
 	//+TODO
-	const char* Format(int _formatId) {
+	static const char* Format(int _formatId) {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), level[_formatId%nLevels][0]);
 		static char format[] = "";
 		return format;
 	}
 
-	const char* Reset() {
+	static const char* Reset() {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 07);
 		static char format[] = "";
 		return format;
@@ -163,17 +163,17 @@ namespace textModeFormatting
 
 #else // TEXT_MODE_FORMATTING_OFF
 
-	const char* Format(const char* _format) {
+	static const char* Format(const char* _format) {
 		static char format[] = "";
 		return format;
 	}
 	
-	const char* Format(int _formatId) {
+	static const char* Format(int _formatId) {
 		static char format[] = "";
 		return format;
 	}
 	
-	const char* Reset() {
+	static const char* Reset() {
 		static char format[] = "";
 		return format;
 	}
