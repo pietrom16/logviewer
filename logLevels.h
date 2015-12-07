@@ -14,53 +14,61 @@
 #define LOGLEVELS_H
 
 #include <string>
-#include <map>
+#include <array>
 
 namespace LogViewer {
 
-class LogLevels
-{
-	/// List of all the possible log tags with their corresponding log levels:
+/// List of all the possible log tags with their corresponding log levels:
 
-	static const std::map<std::string, const int> levels;
+struct TagLevel {
+	std::string  tag;
+	int          level;
 
-public:
-	LogLevels() {}
-
-	static int LogLevelVal(const std::string &_tag);		//+TODO
-	static std::string LogLevelTag(int _val);				//+TODO
-
-	// Return the log level tag in a log message; empty string if not found
-	static std::string FindLogLevelTag(const std::string &_log);		//+TODO
-
-	// Return the log level value in a log message; -1 if not found
-	static int FindLogLevelVal(const std::string &_log);				//+TODO
-
-	static bool LessThan(const std::string &_tag1, const std::string &_tag2) {
-//+		return levels(_tag1) < levels(_tag2);
-	}
-
+	TagLevel() : tag(""), level(0) {}
+	TagLevel(const std::string &_tag, const int _level) : tag(_tag), level(_level) {}
 };
 
 
-const std::map<std::string, const int> LogLevels::levels =
-		{
-			/* Level tag, Level value */
-			{"VERBOSE",   1},
-			{"TRACE",     1},
-			{"DETAIL",    2},
-			{"DEBUG",     2},
-			{"INFO",      3},
-			{"NOTICE",    3},
-			{"WARNING",   4},
-			{"WARN",      4},
-			{"ERROR",     5},
-			{"SEVERE",    6},
-			{"CRITICAL",  6},
-			{"ALERT",     6},
-			{"FATAL",     7},
-			{"EMERGENCY", 7}
-		};
+static const std::array<TagLevel, 15> levels =
+{
+	/* Level tag (case insensitive), Level value */
+	TagLevel("VERBOSE",   1),
+	TagLevel("TRACE",     1),
+	TagLevel("DETAIL",    2),
+	TagLevel("DEBUG",     2),
+	TagLevel("INFO",      3),
+	TagLevel("NOTICE",    3),
+	TagLevel("WARNING",   4),
+	TagLevel("WARN",      4),
+	TagLevel("ERROR",     5),
+	TagLevel("ERR",       5),
+	TagLevel("CRITICAL",  6),
+	TagLevel("SEVERE",    6),
+	TagLevel("ALERT",     6),
+	TagLevel("FATAL",     7),
+	TagLevel("EMERGENCY", 7)
+};
+
+
+class LogLevels
+{
+public:
+	LogLevels() {}
+
+	static int         GetVal(const std::string &_tag);
+	static std::string GetTag(int _val);
+
+	static int LogLevelMapping(const std::string &_tag);
+
+	// Return the log level tag in a log message; empty string if not found
+	static std::string FindLogLevelTag(const std::string &_log);
+
+	// Return the log level value in a log message; -1 if not found
+	static int FindLogLevelVal(const std::string &_log);
+
+private:
+	static std::string ToUppercase(const std::string &_str);
+};
 
 
 } // LogViewer
