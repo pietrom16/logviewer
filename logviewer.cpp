@@ -23,7 +23,7 @@
 	. Automatic detection of the log level tag, without specifing its position.
 	-- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
-	- Allow to pass custom log level tags/values.
+	-- Allow to pass custom log level tags/values; this allows to use the program to, e.g., process any text document, highlighting blocks on the basis of their contents.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 	. Bug [Windows]: -n, -nc parameters has no effect.
 	- Better randomize the colors in LogLevelMapping().
