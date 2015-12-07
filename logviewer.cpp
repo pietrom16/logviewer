@@ -13,15 +13,19 @@
 
 /* Usage example:
  *
+ *		logviewer --input example.log --minLevel 2
  *		logviewer --input example.log --minLevel 2 --levelCol 3
  *		logviewer -i example.log -m 2 -l 3
  *		logviewer --help
  */
 
 /* TODO
-	-- Automatic detection of the log level tag, without specifing its position.
+	. Automatic detection of the log level tag, without specifing its position.
+	-- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
-	-- Bug [Windows]: when the log grows, the new logs are not printed automatically.
+	- Allow to pass custom log level tags/values.
+	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
+	. Bug [Windows]: -n, -nc parameters has no effect.
 	- Better randomize the colors in LogLevelMapping().
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	-- In the help, show how to manage multiple log files (&). Add the option to print the log file name for each log message.
@@ -66,8 +70,9 @@ using namespace Utilities;
 	static const char slash = '\\';
 #endif
 
+namespace LogViewer {
 
-const int version = 3, subversion = 2, subsubversion = 0;
+const int version = 3, subversion = 4, subsubversion = 1;
 
 struct Compare {
 	string value;
@@ -77,9 +82,6 @@ struct Compare {
 
 int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
 
-int    GetLevel (const string &_level);
-string GetLevel (int _level);
-int    LogLevelMapping (const string &_level);
 string GetLogDate(const string &_logFile);
 void   PrintHelp (const ProgArgs &_args, const char* _progName);
 void   PrintVersion (const char* _progName);
@@ -98,12 +100,16 @@ struct ResetDefaults
 
 ResetDefaults rd;
 
+} // LogViewer
+
 
 int main(int argc, char* argv[])
 {
+	using namespace LogViewer;
+
 	int levelColumn = -1;				// depends on the logs format (dynamic if < 0)
 	int minLevel = 0;					// minimum level a log must have to be shown
-	unsigned int beepLevel = -1;		// minimum level to get an audio signal
+	int beepLevel = -1;					// minimum level to get an audio signal (disabled if < 0)
 
 	const int printAll = -1;
 	int nLatest = printAll;				// number of latest logs to be printed (-1 = all)
@@ -135,7 +141,7 @@ int main(int argc, char* argv[])
 	// Set main() parameters:
 	arg.Set("--input", "-i", "Input log file", false, true);
 	arguments.AddArg(arg);
-	arg.Set("--levelCol", "-l", "ID of the column which contains the log level", true, true, "1");
+	arg.Set("--levelCol", "-l", "ID of the column which contains the log level", true, true, "-1");
 	arguments.AddArg(arg);
 	arg.Set("--minLevel", "-m", "Minimum level a log must have to be shown", true, true, "3");
 	arguments.AddArg(arg);
@@ -182,8 +188,8 @@ int main(int argc, char* argv[])
 	arguments.GetValue("--input", logFile);
 
 	string levelCol;
-	arguments.GetValue("--levelCol", levelCol);
-	levelColumn = atoi(levelCol.c_str());
+	if(arguments.GetValue("--levelCol", levelCol) >= 0)
+		levelColumn = atoi(levelCol.c_str());
 
 	string minLev;
 	arguments.GetValue("--minLevel", minLev);
@@ -280,7 +286,7 @@ int main(int argc, char* argv[])
 
 	string sPause;
 	arguments.GetValue("--pause", sPause);
-	float fPause = atof(sPause.c_str());
+	float fPause = float(atof(sPause.c_str()));
 	pause = std::chrono::milliseconds(int(1000 * fPause));
 
 
@@ -380,6 +386,7 @@ int main(int argc, char* argv[])
 
 		// Reposition the cursor at the end of the file, and go back n bytes
 		ifs.seekg(-nLatestChars, ios::end);
+		pos = ifs.tellg();
 	}
 	else if(nLatest >= 0)
 	{
@@ -393,12 +400,16 @@ int main(int argc, char* argv[])
 
 		while(ifs.tellg() > 0)
 		{
-			if(ifs.peek() == '\n') ++nLogs;
+			if(ifs.peek() == '\n')
+				++nLogs;
 
-			if(nLogs > nLatest) break;
+			if(nLogs > nLatest)
+				break;
 
 			ifs.seekg(-1, ios::cur);
 		}
+
+		pos = ifs.tellg();
 	}
 
 	while(true)
@@ -413,10 +424,18 @@ int main(int argc, char* argv[])
 					for(int i = 0; i < levelColumn; ++i)
 						str >> token;
 
-					level = GetLevel(token);
+					level = LogLevels::GetVal(token);
 				}
 				else {						// tag based log level search
 					level = LogViewer::LogLevels::FindLogLevelVal(log);
+
+					if (level < 0) {
+						level = 4;
+#ifdef _WIN32
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+#endif
+						cerr << "Found log with no recognized log level. Level set to WARNING/4." << endl;
+					}
 				}
 
 				if(level >= minLevel)
@@ -456,7 +475,7 @@ int main(int argc, char* argv[])
 
 					cout << Format(level) << log << Reset() << endl;
 
-					if(level >= beepLevel)
+					if(beepLevel >= 0 && level >= beepLevel)
 						cout << char(7) << flush;	// beep
 				}
 
@@ -486,7 +505,7 @@ int main(int argc, char* argv[])
 		// Change minimum log level
 		if(key >= '1' && key <= '7') {
 			minLevel = key - char('0');
-			cout << "Minimum log level set to: " << minLevel << " - " << GetLevel(minLevel) << endl;
+			cout << "Minimum log level set to: " << minLevel << " - " << LogLevels::GetTag(minLevel) << endl;
 		}
 
 		// Reload all logs
@@ -543,78 +562,7 @@ int main(int argc, char* argv[])
 }
 
 
-int GetLevel(const string &_level)
-{
-	if(isdigit(_level[0]))
-		// A number, use it directly
-		return atoi(_level.c_str()) % nLevels;
-
-	if(_level[0] == 'L' || _level == "NO_LEVEL")
-		// The 'L' special character
-		return nLevels - 1;
-
-	// Check for string level
-
-	// Omit level 0
-
-	if(_level == "VERBOSE" || _level == "TRACE")
-		return 1;
-
-	if(_level == "DETAIL" || _level == "DEBUG" || _level == "Debug")
-		return 2;
-
-	if(_level == "INFO" || _level == "Info" || _level == "Notice")
-		return 3;
-
-	if(_level == "WARNING" || _level == "Warning" || _level == "WARN")
-		return 4;
-
-	if(_level == "ERROR" || _level == "Error")
-		return 5;
-
-	if(_level == "SEVERE" || _level == "CRITICAL" || _level == "Critical" || _level == "Alert")
-		return 6;
-
-	if(_level == "FATAL" || _level == "Emergency")
-		return 7;
-
-	// Nothing found; use a random mapping
-
-	return LogLevelMapping(_level);
-}
-
-
-string GetLevel(int _level)
-{
-	switch(_level)
-	{
-	case 0: return "";
-	case 1: return "VERBOSE";
-	case 2: return "DETAIL";
-	case 3: return "INFO";
-	case 4: return "WARNING";
-	case 5: return "ERROR";
-	case 6: return "SEVERE";
-	case 7: return "FATAL";
-	}
-
-	return "FATAL";
-}
-
-
-int LogLevelMapping(const string &_level)
-{
-	int colorCode = 0;
-
-	for(size_t i = 0; i < _level.size(); ++i)
-	{
-		colorCode += _level[i];		//+TODO: more randomness
-	}
-
-	colorCode = colorCode % 7;		// use the first 7 colors only
-
-	return colorCode;
-}
+namespace LogViewer {
 
 
 #ifdef WIN32
@@ -743,3 +691,5 @@ void PrintVersion(const char* _progName)
 	cout << string(80, '-') << "\n";
 	cout << endl;
 }
+
+} // LogViewer
