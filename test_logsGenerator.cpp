@@ -15,6 +15,7 @@
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -40,21 +41,32 @@ int main(int argc, char* argv[])
 
 	// Log levels (a custom levels enum can be used)
 	static const int nLogLevels = 8;
-	const char       logLevelTags[nLogLevels][9] { "  ----  ", "VERBOSE ", "DETAIL  ", "INFO    ", "WARNING ", "ERROR   ", "CRITICAL", "FATAL   " };
+	const char       logLevelTags[nLogLevels][9] { "  ----  ", "VeRbOsE ", "DETAIL  ", "Info    ", "warninG ", "error   ", "CriticaL", "fATAl   " };
 	int              level = 0;
 
-	std::chrono::milliseconds pause(1000);
+	std::chrono::milliseconds pause(50);
 
 	int i = 0;
 
-	while(endless || i < nLogs)
+	while (endless || i < nLogs)
 	{
 		log = std::string("Test log message - ");
 		log += std::to_string(rand() % 1000);
 
 		level = rand() % nLogLevels;
 
-		ofs << LogTime() << LogDate() << logLevelTags[level] << " " << log << std::endl;
+		int format = rand() % 3;
+		switch (format) {
+			case 0:
+				ofs << LogTime() << LogDate() << logLevelTags[level] << " " << log << std::endl;
+				break;
+			case 1:
+				ofs << LogDate() << logLevelTags[level] << LogTime() << " " << log << std::endl;
+				break;
+			case 2:
+				ofs << logLevelTags[level] << LogTime() << LogDate() << " " << log << std::endl;
+				break;
+		}
 
 		std::cout << "." << std::flush;
 
@@ -76,7 +88,7 @@ std::string LogTime()
 #ifndef _WIN32
 	std::snprintf(ct, sz, "% 7.3f  ", t);
 #else
-	_snprintf(ct, sz, "% 7.3f  ", t);
+	_snprintf_s(ct, sz, "% 7.3f  ", t);
 #endif
 
 	return std::string(ct);
