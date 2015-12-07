@@ -12,6 +12,7 @@
 
 #include "logLevels.h"
 #include "textModeFormatting.h"
+#include <cstdlib>
 #include <string>
 
 
@@ -24,7 +25,7 @@ namespace LogViewer {
 	{
 		if (isdigit(_tag[0]))
 			// A number, use it directly
-			return atoi(_tag.c_str()) % nLevels;
+			return std::atoi(_tag.c_str()) % nLevels;
 
 		const std::string tag = LogLevels::ToUppercase(_tag);
 
