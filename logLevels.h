@@ -14,7 +14,7 @@
 #define LOGLEVELS_H
 
 #include <string>
-#include <array>
+#include <vector>
 
 namespace LogViewer {
 
@@ -29,44 +29,31 @@ struct TagLevel {
 };
 
 
-static const std::array<TagLevel, 15> levels =
-{
-	/* Level tag (case insensitive), Level value */
-	TagLevel("VERBOSE",   1),
-	TagLevel("TRACE",     1),
-	TagLevel("DETAIL",    2),
-	TagLevel("DEBUG",     2),
-	TagLevel("INFO",      3),
-	TagLevel("NOTICE",    3),
-	TagLevel("WARNING",   4),
-	TagLevel("WARN",      4),
-	TagLevel("ERROR",     5),
-	TagLevel("ERR",       5),
-	TagLevel("CRITICAL",  6),
-	TagLevel("SEVERE",    6),
-	TagLevel("ALERT",     6),
-	TagLevel("FATAL",     7),
-	TagLevel("EMERGENCY", 7)
-};
-
-
 class LogLevels
 {
 public:
-	LogLevels() {}
+	LogLevels() { InitLogLevels(); }
 
-	static int         GetVal(const std::string &_tag);
-	static std::string GetTag(int _val);
+	int InitLogLevels();
+	int InitLogLevels(const std::vector<TagLevel> &_levels);
+	int AddLogLevels(const std::vector<TagLevel> &_levels);
+	int AddLogLevel(const TagLevel &_level);
+	int ClearLogLevels();
 
-	static int LogLevelMapping(const std::string &_tag);
+	int         GetVal(const std::string &_tag);
+	std::string GetTag(int _val);
+
+	int LogLevelMapping(const std::string &_tag);
 
 	// Return the log level tag in a log message; empty string if not found
-	static std::string FindLogLevelTag(const std::string &_log);
+	std::string FindLogLevelTag(const std::string &_log);
 
 	// Return the log level value in a log message; -1 if not found
-	static int FindLogLevelVal(const std::string &_log);
+	int FindLogLevelVal(const std::string &_log);
 
 private:
+	std::vector<TagLevel> levels;
+
 	static std::string ToUppercase(const std::string &_str);
 };
 

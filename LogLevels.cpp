@@ -21,6 +21,45 @@ namespace LogViewer {
 	using namespace textModeFormatting;
 
 
+	int LogLevels::InitLogLevels()
+	{
+		/* Level tag (case insensitive), Level value */
+		levels.push_back(TagLevel("VERBOSE",   1));
+		levels.push_back(TagLevel("TRACE",     1));
+		levels.push_back(TagLevel("DETAIL",    2));
+		levels.push_back(TagLevel("DEBUG",     2));
+		levels.push_back(TagLevel("INFO",      3));
+		levels.push_back(TagLevel("NOTICE",    3));
+		levels.push_back(TagLevel("WARNING",   4));
+		levels.push_back(TagLevel("WARN",      4));
+		levels.push_back(TagLevel("ERROR",     5));
+		levels.push_back(TagLevel("ERR",       5));
+		levels.push_back(TagLevel("CRITICAL",  6));
+		levels.push_back(TagLevel("SEVERE",    6));
+		levels.push_back(TagLevel("ALERT",     6));
+		levels.push_back(TagLevel("FATAL",     7));
+		levels.push_back(TagLevel("EMERGENCY", 7));
+
+		return levels.size();
+	}
+
+
+	int LogLevels::InitLogLevels(const std::vector<TagLevel> &_levels){}
+
+
+	int LogLevels::AddLogLevels(const std::vector<TagLevel> &_levels){}
+
+
+	int LogLevels::AddLogLevel(const TagLevel &_level){}
+
+
+	int LogLevels::ClearLogLevels()
+	{
+		levels.clear();
+		return levels.size();
+	}
+
+
 	int LogLevels::GetVal(const std::string &_tag)
 	{
 		if (isdigit(_tag[0]))

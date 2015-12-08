@@ -109,6 +109,8 @@ int main(int argc, char* argv[])
 	int  beepLevel = -1;				// minimum level to get an audio signal (disabled if < 0)
 	bool printLogFile = false;			// print the log file name for each log message
 
+	LogLevels logLevels;
+
 	const int printAll = -1;
 	int nLatest = printAll;				// number of latest logs to be printed (-1 = all)
 	int nLatestChars = printAll;		// number of latest characters to be printed (-1 = all)
@@ -428,10 +430,10 @@ int main(int argc, char* argv[])
 					for(int i = 0; i < levelColumn; ++i)
 						str >> token;
 
-					level = LogLevels::GetVal(token);
+					level = logLevels.GetVal(token);
 				}
 				else {						// tag based log level search
-					level = LogViewer::LogLevels::FindLogLevelVal(log);
+					level = logLevels.FindLogLevelVal(log);
 
 					if (level < 0) {
 						level = 4;
@@ -512,7 +514,7 @@ int main(int argc, char* argv[])
 		// Change minimum log level
 		if(key >= '1' && key <= '7') {
 			minLevel = key - char('0');
-			cout << "Minimum log level set to: " << minLevel << " - " << LogLevels::GetTag(minLevel) << endl;
+			cout << "Minimum log level set to: " << minLevel << " - " << logLevels.GetTag(minLevel) << endl;
 		}
 
 		// Reload all logs
