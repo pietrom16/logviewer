@@ -44,13 +44,29 @@ int LogLevels::InitLogLevels()
 }
 
 
-int LogLevels::InitLogLevels(const std::vector<TagLevel> &_levels){}
+int LogLevels::InitLogLevels(const std::vector<TagLevel> &_levels)
+{
+	levels = _levels;
+	return levels.size();
+}
 
 
-int LogLevels::AddLogLevels(const std::vector<TagLevel> &_levels){}
+int LogLevels::AddLogLevels(const std::vector<TagLevel> &_levels)
+{
+	for(size_t i = 0; i < _levels.size(); ++i)
+	{
+		levels.push_back(_levels[i]);
+	}
+
+	return levels.size();
+}
 
 
-int LogLevels::AddLogLevel(const TagLevel &_level){}
+int LogLevels::AddLogLevel(const TagLevel &_level)
+{
+	levels.push_back(_level);
+	return levels.size();
+}
 
 
 int LogLevels::ClearLogLevels()
