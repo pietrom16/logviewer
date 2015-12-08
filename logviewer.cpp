@@ -20,7 +20,6 @@
  */
 
 /* TODO
-	-- In the help, show how to manage multiple log files (&).
 	-- Allow to pass custom log level tags/values; this allows to use the program to, e.g., process any text document, highlighting blocks on the basis of their contents.
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	- Allow to pass multiple values for each command line parameter.
@@ -70,7 +69,7 @@ using namespace Utilities;
 
 namespace LogViewer {
 
-const int version = 3, subversion = 4, subsubversion = 1;
+const int version = 3, subversion = 4, subsubversion = 2;
 
 struct Compare {
 	string value;
