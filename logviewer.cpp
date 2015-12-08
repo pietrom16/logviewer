@@ -20,7 +20,7 @@
  */
 
 /* TODO
-	-- In the help, show how to manage multiple log files (&). Add the option to print the log file name for each log message.
+	-- In the help, show how to manage multiple log files (&).
 	-- Allow to pass custom log level tags/values; this allows to use the program to, e.g., process any text document, highlighting blocks on the basis of their contents.
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	- Allow to pass multiple values for each command line parameter.
@@ -210,6 +210,10 @@ int main(int argc, char* argv[])
 		nLatestChars = atoi(nChars.c_str());
 		if(nLatestChars < 0)
 			nLatestChars = printAll;
+	}
+
+	if(arguments.GetValue("--printLogFile")) {
+		printLogFile = true;
 	}
 
 	if(arguments.GetValue("--subString"))
@@ -473,6 +477,9 @@ int main(int argc, char* argv[])
 							}
 						}
 					}
+
+					if(printLogFile)
+						cout << logFile << ": ";
 
 					cout << Format(level) << log << Reset() << endl;
 
