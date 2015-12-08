@@ -681,6 +681,13 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	cout << "\t [n]       Set the number of logs to reload (default is " << nLogsReload << ").\n";
 	cout << "\t [Q]       Exit logviewer.\n";
 
+	//+TEST //+TODO: Windows version
+	cout << "\n- To print multiple log files simultaneously, a script like this can be used \n"
+			"   (the temporal sequence of logs from different sources is not guaranteed):\n";
+	cout << "\t " << progName.substr(pos) << " -i file1.log -f &\n";
+	cout << "\t " << progName.substr(pos) << " -i file2.log -f &\n";
+	cout << "\t " << progName.substr(pos) << " -i file3.log -f &\n";
+
 	cout << "\n" << string(110, '-') << "\n";
 	cout << endl;
 }
