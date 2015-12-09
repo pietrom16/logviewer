@@ -13,8 +13,7 @@
 #include "logLevels.h"
 #include "textModeFormatting.h"
 #include <cstdlib>
-#include <string>
-
+#include <fstream>
 
 namespace LogViewer {
 
@@ -65,6 +64,30 @@ int LogLevels::AddLogLevels(const std::vector<TagLevel> &_levels)
 int LogLevels::AddLogLevel(const TagLevel &_level)
 {
 	levels.push_back(_level);
+	return levels.size();
+}
+
+
+int LogLevels::InitLogLevels(const std::string &_levelsFName)
+{
+	ClearLogLevels();
+	return AddLogLevels(_levelsFName);
+}
+
+
+int LogLevels::AddLogLevels(const std::string &_levelsFName)
+{
+	//+TODO
+	std::ifstream ifs(_levelsFName);
+	std::string tag;
+	int         level;
+
+	while(ifs.good())
+	{
+		ifs >> tag;
+		ifs >> level;
+	}
+
 	return levels.size();
 }
 

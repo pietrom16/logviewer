@@ -38,6 +38,8 @@ public:
 	int InitLogLevels(const std::vector<TagLevel> &_levels);
 	int AddLogLevels(const std::vector<TagLevel> &_levels);
 	int AddLogLevel(const TagLevel &_level);
+	int InitLogLevels(const std::string &_levelsFName);
+	int AddLogLevels(const std::string &_levelsFName);
 	int ClearLogLevels();
 
 	int         GetVal(const std::string &_tag);

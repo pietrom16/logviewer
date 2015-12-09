@@ -1,7 +1,7 @@
 #	P.Mele			Apache			Syslog
 -----------------------------------------------------
-0	NO_LEVEL		
-1	VERBOSE			TRACE			
+0	NO_LEVEL
+1	VERBOSE			TRACE
 2	DETAIL			DEBUG			Debug
 3	INFO			INFO			Info, Notice
 4	WARNING			WARN			Warning

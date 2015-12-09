@@ -1,0 +1,15 @@
+VERBOSE   1
+TRACE     1
+DETAIL    2
+DEBUG     2
+INFO      3
+NOTICE    3
+WARNING   4
+WARN      4
+ERROR     5
+ERR       5
+CRITICAL  6
+SEVERE    6
+ALERT     6
+FATAL     7
+EMERGENCY 7
