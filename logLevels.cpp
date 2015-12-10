@@ -70,6 +70,12 @@ int LogLevels::AddLogLevel(const TagLevel &_level)
 
 int LogLevels::InitLogLevels(const std::string &_levelsFName)
 {
+	{
+		std::ifstream ifs(_levelsFName);
+		if(ifs.fail())
+			return err_fileNotFound;
+	}
+
 	ClearLogLevels();
 	return AddLogLevels(_levelsFName);
 }
@@ -77,15 +83,18 @@ int LogLevels::InitLogLevels(const std::string &_levelsFName)
 
 int LogLevels::AddLogLevels(const std::string &_levelsFName)
 {
-	//+TODO
 	std::ifstream ifs(_levelsFName);
-	std::string tag;
-	int         level;
+	std::string   tag;
+	int           level;
+
+	if(ifs.fail())
+		return err_fileNotFound;
 
 	while(ifs.good())
 	{
 		ifs >> tag;
 		ifs >> level;
+		levels.push_back(TagLevel(tag, level));
 	}
 
 	return levels.size();
@@ -176,7 +185,7 @@ std::string LogLevels::FindLogLevelTag(const std::string &_log)
 }
 
 
-// Return the log level value in a log message; -1 if not found
+// Return the log level value in a log message; err_levelNotFound if not found
 
 int LogLevels::FindLogLevelVal(const std::string &_log)
 {
@@ -190,7 +199,7 @@ int LogLevels::FindLogLevelVal(const std::string &_log)
 		}
 	}
 
-	return -1;
+	return err_levelNotFound;
 }
 
 

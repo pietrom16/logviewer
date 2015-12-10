@@ -159,6 +159,8 @@ int main(int argc, char* argv[])
 	arguments.AddArg(arg);
 	arg.Set("--greaterThan", "-gt", "Print the logs whose i-th token is greater than the specified i_value", true, true);
 	arguments.AddArg(arg);
+	arg.Set("--logLevels", "-ll", "Load custom log levels from file (format: tag value\\n)", true, true);
+	arguments.AddArg(arg);
 	arg.Set("--verbose", "-vb", "Print extra information");
 	arguments.AddArg(arg);
 	arg.Set("--beepLevel", "-bl", "Level above which an audio signal is produced", true, true, "-1");
@@ -278,6 +280,24 @@ int main(int argc, char* argv[])
 				cmp.comparison = true;
 				compare.push_back(cmp);
 			}
+		}
+	}
+
+	if(arguments.GetValue("--logLevels"))
+	{
+		string logFileName;
+		if(arguments.GetValue("--logLevels", logFileName) < 0) {
+			cerr << argv[0] << " - Error: log levels file not specified." << endl;
+			rdKb.~ReadKeyboard();
+			exit(LogLevels::err_fileNotFound);
+		}
+
+		cout << "Loading log levels from: " << logFileName << endl;
+
+		if(logLevels.InitLogLevels(logFileName) == LogLevels::err_fileNotFound) {
+			cerr << argv[0] << " - Error: log levels file " << logFileName << " not found." << endl;
+			rdKb.~ReadKeyboard();
+			exit(LogLevels::err_fileNotFound);
 		}
 	}
 
@@ -656,12 +676,10 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	_args.Help();
 	cout << endl;
 
-#ifdef POSIX
 	cout << "Log levels highlighting: ";
 	for(int level = 0; level < nLevels; ++level)
 		cout << Format(level) << level << Reset() << " ";
 	cout << endl;
-#endif
 
 	cout << "\nExample:\n";
 	cout << "Print the logs in the specified file, with minimum level 1, "

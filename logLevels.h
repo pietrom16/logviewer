@@ -32,6 +32,10 @@ struct TagLevel {
 class LogLevels
 {
 public:
+	static const int err_levelNotFound = -1,
+					 err_fileNotFound  = -2;
+
+public:
 	LogLevels() { InitLogLevels(); }
 
 	int InitLogLevels();
@@ -50,7 +54,7 @@ public:
 	// Return the log level tag in a log message; empty string if not found
 	std::string FindLogLevelTag(const std::string &_log);
 
-	// Return the log level value in a log message; -1 if not found
+	// Return the log level value in a log message
 	int FindLogLevelVal(const std::string &_log);
 
 private:
