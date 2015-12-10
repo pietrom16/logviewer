@@ -20,12 +20,12 @@
  */
 
 /* TODO
-	-- Allow to pass custom log level tags/values; this allows to use the program to, e.g., process any text document, highlighting blocks on the basis of their contents.
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 	- Better randomize the colors in LogLevelMapping().
+	. Allow to pass custom log level tags/values; this allows to use the program to, e.g., process any text document, highlighting blocks on the basis of their contents.
  */
 
 #include "logLevels.h"
