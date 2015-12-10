@@ -168,7 +168,7 @@ int LogLevels::LogLevelMapping(const std::string &_tag)
 
 
 // Return the log level tag in a log message; empty string if not found
-	
+
 std::string LogLevels::FindLogLevelTag(const std::string &_log)
 {
 	const std::string log = LogLevels::ToUppercase(_log);
