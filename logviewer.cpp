@@ -21,6 +21,7 @@
 
 /* TODO
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
+	- Help message: print log levels highlighting toghether with level numerical values.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
@@ -80,7 +81,7 @@ struct Compare {
 int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
 
 string GetLogDate(const string &_logFile);
-void   PrintHelp (const ProgArgs &_args, const char* _progName);
+void   PrintHelp (const ProgArgs &_args, const char* _progName, LogLevels *_logLevels = 0);
 void   PrintVersion (const char* _progName);
 
 
@@ -176,7 +177,7 @@ int main(int argc, char* argv[])
 
 	if(arguments.GetValue("--help"))
 	{
-		PrintHelp(arguments, argv[0]);
+		PrintHelp(arguments, argv[0], &logLevels);
 		rdKb.~ReadKeyboard();
 		exit(0);
 	}
@@ -658,7 +659,7 @@ string GetLogDate(const string &_logFile)
 }
 
 
-void PrintHelp(const ProgArgs &_args, const char* _progName)
+void PrintHelp(const ProgArgs &_args, const char* _progName, LogLevels *_logLevels)
 {
 	string progName = _progName;
 
@@ -676,9 +677,13 @@ void PrintHelp(const ProgArgs &_args, const char* _progName)
 	_args.Help();
 	cout << endl;
 
-	cout << "Log levels highlighting: ";
-	for(int level = 0; level < nLevels; ++level)
-		cout << Format(level) << level << Reset() << " ";
+	cout << "Log levels highlighting: \n";
+	for(int level = 0; level < nLevels; ++level) {
+		if(_logLevels == 0)
+			cout << Format(level) << level << Reset() << " ";
+		else
+			cout << "\t" << Format(level) << level << "\t" << _logLevels->GetTag(level) << Reset() << "\n";
+	}
 	cout << endl;
 
 	cout << "\nExample:\n";
