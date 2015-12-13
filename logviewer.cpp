@@ -21,7 +21,6 @@
 
 /* TODO
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
-	. Help message: print log levels highlighting toghether with level numerical values.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
@@ -70,7 +69,7 @@ using namespace Utilities;
 
 namespace LogViewer {
 
-const int version = 3, subversion = 4, subsubversion = 2;
+const int version = 3, subversion = 4, subsubversion = 3;
 
 struct Compare {
 	string value;
