@@ -21,7 +21,7 @@
 
 /* TODO
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
-	- Help message: print log levels highlighting toghether with level numerical values.
+	. Help message: print log levels highlighting toghether with level numerical values.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
@@ -678,7 +678,7 @@ void PrintHelp(const ProgArgs &_args, const char* _progName, LogLevels *_logLeve
 	cout << endl;
 
 	cout << "Log levels highlighting: \n";
-	for(int level = 0; level < nLevels; ++level) {
+	for(int level = 1; level < nLevels; ++level) {
 		if(_logLevels == 0)
 			cout << Format(level) << level << Reset() << " ";
 		else
