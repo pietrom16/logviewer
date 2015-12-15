@@ -20,7 +20,7 @@
  */
 
 /* TODO
-	-- In the help, show the log level tags in the corresponding file, if specified.
+	. In the help, show the log level tags in the corresponding file, if specified.
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
