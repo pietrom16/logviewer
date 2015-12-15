@@ -20,7 +20,6 @@
  */
 
 /* TODO
-	. In the help, show the log level tags in the corresponding file, if specified.
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
@@ -71,7 +70,7 @@ using namespace Utilities;
 
 namespace LogViewer {
 
-const int version = 3, subversion = 4, subsubversion = 3;
+const int version = 3, subversion = 4, subsubversion = 4;
 
 struct Compare {
 	string value;
