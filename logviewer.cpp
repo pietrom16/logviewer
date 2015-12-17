@@ -78,6 +78,15 @@ struct Compare {
 	bool comparison;	// false = less than; true = greater than
 };
 
+// Context of the current log
+struct Context {
+	int  width;					// number of logs before and after the current one
+	int  minLevelForContext;	// the minimum level a log must have to get a context
+	int  minContextLevel;		// the minimum level a log must have to be part of the context
+	Context() :
+		width(0), minLevelForContext(5 /*ERROR*/), minContextLevel(2 /*DETAIL*/) {}
+};
+
 int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
 
 string GetLogDate(const string &_logFile);
@@ -122,6 +131,8 @@ int main(int argc, char* argv[])
 
 	vector<Compare> compare;		// set of comparisons to be done
 
+	LogViewer::Context context;
+
 	std::chrono::milliseconds pause(1000);
 
 	int verbose = 0;
@@ -159,6 +170,12 @@ int main(int argc, char* argv[])
 	arg.Set("--lessThan", "-lt", "Print the logs whose i-th token is less than the specified i_value", true, true);
 	arguments.AddArg(arg);
 	arg.Set("--greaterThan", "-gt", "Print the logs whose i-th token is greater than the specified i_value", true, true);
+	arguments.AddArg(arg);
+	arg.Set("--contextWidth", "-cw", "Number of context logs to show if the current log is above a threshold level.", true, true, "0");
+	arguments.AddArg(arg);
+	arg.Set("--minLevelForContext", "-mlc", "Minimum level a log must have to get a context");
+	arguments.AddArg(arg);
+	arg.Set("--minContextLevel", "-mcl", "Minimum level a log must have to be in the context");
 	arguments.AddArg(arg);
 	arg.Set("--logLevels", "-ll", "Load custom log levels from file (format: tag value\\n)", true, true);
 	arguments.AddArg(arg);
@@ -269,6 +286,8 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+
+	//+TODO - Context
 
 	if(arguments.GetValue("--logLevels"))
 	{
@@ -684,7 +703,7 @@ void PrintHelp(const ProgArgs &_args, const char* _progName, LogLevels *_logLeve
 		else
 			cout << "\t" << Format(level) << level << "\t" << _logLevels->GetTag(level) << Reset() << "\n";
 	}
-	cout << endl;
+	cout << Reset() << endl;
 
 	cout << "\nExample:\n";
 	cout << "Print the logs in the specified file, with minimum level 1, "
