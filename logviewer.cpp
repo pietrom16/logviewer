@@ -443,7 +443,10 @@ int main(int argc, char* argv[])
 
 	/// Print log file
 
-	int level = 0;
+	int  level = 0;
+	bool printLog = false;
+	int  distPrevLogContext = 0;
+	bool contextLog = false;
 
 	if(nLatestChars >= 0)
 	{
@@ -503,7 +506,31 @@ int main(int argc, char* argv[])
 					}
 				}
 
-				if(level >= minLevel)
+				printLog = false;
+
+				// Check context	//+TEST
+				{
+					++distPrevLogContext;
+
+					if(level >= context.minLevelForContext)
+						distPrevLogContext = 0;
+
+					if(level >= minLevel)
+					{
+						printLog = true;
+						contextLog = false;
+					}
+
+					if(level < minLevel &&
+					   level >= context.minContextLevel &&
+					   distPrevLogContext < context.width)
+					{
+						printLog = true;
+						contextLog = true;
+					}
+				}
+
+				if(printLog)
 				{
 					if(incStrFlag) {
 						for(size_t s = 0; s < includeStrings.size(); ++s) {
@@ -540,6 +567,9 @@ int main(int argc, char* argv[])
 
 					if(printLogFile)
 						cout << logFile << ": ";
+
+					if(contextLog)
+						cout << "# ";
 
 					cout << Format(level) << log << Reset() << endl;
 
