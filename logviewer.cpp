@@ -287,7 +287,26 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	//+TODO - Context
+	if(arguments.GetValue("--contextWidth"))
+	{
+		string contextWidth;
+		arguments.GetValue("--contextWidth", contextWidth);
+		context.width = atoi(contextWidth.c_str());
+	}
+
+	if(arguments.GetValue("--minLevelForContext"))
+	{
+		string minLevelForContext;
+		arguments.GetValue("--minLevelForContext", minLevelForContext);
+		context.minLevelForContext = atoi(minLevelForContext.c_str());
+	}
+
+	if(arguments.GetValue("--minContextLevel"))
+	{
+		string minContextLevel;
+		arguments.GetValue("--minContextLevel", minContextLevel);
+		context.minContextLevel = atoi(minContextLevel.c_str());
+	}
 
 	if(arguments.GetValue("--logLevels"))
 	{
