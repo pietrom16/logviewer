@@ -176,9 +176,9 @@ int main(int argc, char* argv[])
 	arguments.AddArg(arg);
 	arg.Set("--contextWidth", "-cw", "Number of context logs to show if the current log is above a threshold level.", true, true, "0");
 	arguments.AddArg(arg);
-	arg.Set("--minLevelForContext", "-mlc", "Minimum level a log must have to get a context");
+	arg.Set("--minLevelForContext", "-mlc", "Minimum level a log must have to get a context", true, true, "5");
 	arguments.AddArg(arg);
-	arg.Set("--minContextLevel", "-mcl", "Minimum level a log must have to be in the context");
+	arg.Set("--minContextLevel", "-mcl", "Minimum level a log must have to be in the context", true, true, "2");
 	arguments.AddArg(arg);
 	arg.Set("--logLevels", "-ll", "Load custom log levels from file (format: tag value\\n)", true, true);
 	arguments.AddArg(arg);

@@ -298,7 +298,8 @@ int ProgArgs::GetValue(const string &_tag, string &_val) const
 {
 	for(size_t i = 0; i < args.size(); ++i)
 	{
-		if(_tag == args[i].tag) {
+		if(_tag == args[i].tag)
+		{
 			_val = args[i].val;
 			return int(i);
 		}
