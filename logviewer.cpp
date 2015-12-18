@@ -20,6 +20,9 @@
  */
 
 /* TODO
+
+	-- BUG: minLevelForContext, minContextLevel are not correctly read from the command line.
+
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
@@ -378,6 +381,10 @@ int main(int argc, char* argv[])
 			cout << "Column ID containing the log level: unspecified; search on the basis of prederfined tokens." << endl;
 
 		cout << "Minimum log level for a log to be shown: " << minLevel << endl;
+
+		cout << "Log context:  width = " << context.width
+			 << "  minLevelForContext = " << context.minLevelForContext
+			 << "  minContextLevel = " << context.minContextLevel << endl;
 
 		if(incStrFlag) {
 			cout << "Show logs which include the string(s): ";
