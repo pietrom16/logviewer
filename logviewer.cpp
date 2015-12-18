@@ -193,7 +193,10 @@ int main(int argc, char* argv[])
 	arg.Set("--version", "-v", "Version and license details");
 	arguments.AddArg(arg);
 
-	arguments.Parse(argc, argv);
+	int nUnknown = arguments.Parse(argc, argv);
+	if(nUnknown > 0) {
+		cerr << "Warning: passed " << nUnknown << " unknown argument(s); they will be ignored." << endl;
+	}
 
 	string logFile;
 	arguments.GetValue("--input", logFile);
