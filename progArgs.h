@@ -18,6 +18,10 @@
 namespace Utilities {
 
 
+extern bool IsInteger(const std::string &str);
+extern bool IsNumber(const std::string &str);
+
+
 class  ProgArgs
 {
 public:
@@ -61,7 +65,7 @@ public:
 	int  GetValue(const std::string &_tag, std::string &_val, int _n) const;
 	
 	bool GetValue(const std::string &_tag) const;
-	
+
 	void Print() const;
 	void Help() const;
 
