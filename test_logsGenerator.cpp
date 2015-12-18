@@ -28,6 +28,7 @@ std::string LogDate();
 int main(int argc, char* argv[])
 {
 	bool endless = true;
+	int  gen = 2;
 	int  nLogs = 0;
 
 	if(argc > 1) {
@@ -53,7 +54,21 @@ int main(int argc, char* argv[])
 		log = std::string("Test log message - ");
 		log += std::to_string(rand() % 1000);
 
-		level = rand() % nLogLevels;
+		if(gen == 0) {						// Random
+			level = rand() % nLogLevels;
+		}
+		else if(gen == 1) {					// Increasing
+			if(level >= nLogLevels)
+				level = 0;
+			else
+				++level;
+		}
+		else if(gen == 2) {					// Spikes
+			if(i % 8 == 0)
+				level = 6;
+			else
+				level = 1;
+		}
 
 		int format = rand() % 3;
 		switch (format) {
