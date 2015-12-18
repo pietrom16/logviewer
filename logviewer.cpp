@@ -518,7 +518,7 @@ int main(int argc, char* argv[])
 
 				printLog = false;
 
-				// Check context	//+TEST
+				// Check context	//+TEST - Forward context OK
 				{
 					++distPrevLogContext;
 
@@ -533,7 +533,7 @@ int main(int argc, char* argv[])
 
 					if(level < minLevel &&
 					   level >= context.minContextLevel &&
-					   distPrevLogContext < context.width)
+					   distPrevLogContext <= context.width)
 					{
 						printLog = true;
 						contextLog = true;
