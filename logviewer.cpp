@@ -20,9 +20,6 @@
  */
 
 /* TODO
-
-	-- BUG: minLevelForContext, minContextLevel are not correctly read from the command line.
-
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
@@ -73,7 +70,7 @@ using namespace Utilities;
 
 namespace LogViewer {
 
-const int version = 3, subversion = 4, subsubversion = 4;
+const int version = 3, subversion = 5, subsubversion = 0;
 
 struct Compare {
 	string value;
