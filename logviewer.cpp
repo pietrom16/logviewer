@@ -21,9 +21,11 @@
 
 /* TODO
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
+	-- Gruop code blocks in separate functions.
+	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
-	- Derive a tool to make automatic summaries from text using user specified keywords.
+	-- Derive a tool to make automatic summaries from text using user specified keywords.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 	- Better randomize the colors in LogLevelMapping().
 	. Allow to pass custom log level tags/values; this allows to use the program to, e.g., process any text document, highlighting blocks on the basis of their contents.
@@ -434,7 +436,8 @@ int main(int argc, char* argv[])
 
 	ifstream   ifs;
 	string     log, token;
-	streamoff  pos = 0;
+	streamoff  pos = 0;					// position of the current log
+	streamoff  lastPrintedLogPos = 0;	// position of the last log with level above the threshold
 
 	bool warning = true;
 
@@ -589,6 +592,8 @@ int main(int argc, char* argv[])
 
 					if(beepLevel >= 0 && level >= beepLevel)
 						cout << char(7) << flush;	// beep
+
+					lastPrintedLogPos = pos;
 				}
 
 				nextLine:
