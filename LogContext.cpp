@@ -17,12 +17,14 @@
 namespace LogViewer {
 
 
-int LogContext::StorePastLog(const std::string &_log, int _level)
+int LogContext::StorePastLog(const std::string &_log,
+							 int _level,
+							 int _minLevel)
 {
-	if(width == 0)                return 0;
-	if(_level < minContextLevel)  return 0;
-	//+ if(_level >= minLevel)        return 0;		//+TODO - This should have been already printed
-	if(pastLogs.size() >= width)  pastLogs.pop();
+	if(width == 0)                return 0;			// no context
+	if(_level < minContextLevel)  return 0;			// below context threshold
+	if(_level >= _minLevel)       return 0;			// already printed
+	if(pastLogs.size() >= width)  pastLogs.pop();	// flush oldest log
 	pastLogs.push(_log);
 	return pastLogs.size();
 }

@@ -14,6 +14,9 @@
 #ifndef LOGCONTEXT_HPP
 #define LOGCONTEXT_HPP
 
+#include <queue>
+#include <string>
+
 
 namespace LogViewer {
 
@@ -24,15 +27,19 @@ public:
 	LogContext() :
 		width(0), minLevelForContext(5 /*ERROR*/), minContextLevel(2 /*DETAIL*/) {}
 
-	int StorePastLog(const std::string &_log, int _level)
-	{
-		if(width == 0)                return 0;
-		if(_level < minContextLevel)  return 0;
-		//+ if(_level >= minLevel)        return 0;		//+TODO - This should have been already printed
-		if(pastLogs.size() >= width)  pastLogs.pop();
-		pastLogs.push(_log);
-		return pastLogs.size();
-	}
+	int StorePastLog(const std::string &_log, int _level, int _minLevel);
+
+	int Width()              const { return width; }
+	int MinLevelForContext() const { return minLevelForContext; }
+	int MinContextLevel()    const { return minContextLevel; }
+	int NPastLogs()          const { return pastLogs.size(); }
+
+	int Width(int _w)                { return (width = (_w >= 0)?_w:width); }
+	int MinLevelForContext(int _ml)  { return (minLevelForContext = (_ml >= 0)?_ml:minLevelForContext); }
+	int MinContextLevel(int _ml)     { return (minContextLevel = (_ml >= 0)?_ml:minContextLevel); }
+
+
+
 
 private:
 	int  width;					// number of logs before and after the current one

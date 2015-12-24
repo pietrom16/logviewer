@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
 
 	vector<Compare> compare;		// set of comparisons to be done
 
-	LogViewer::Context context;
+	LogViewer::LogContext context;
 
 	std::chrono::milliseconds pause(1000);
 
@@ -295,21 +295,21 @@ int main(int argc, char* argv[])
 		{
 			string contextWidth;
 			arguments.GetValue("--contextWidth", contextWidth);
-			context.width = atoi(contextWidth.c_str());
+			context.Width(atoi(contextWidth.c_str()));
 		}
 
 		if(arguments.GetValue("--minLevelForContext"))
 		{
 			string minLevelForContext;
 			arguments.GetValue("--minLevelForContext", minLevelForContext);
-			context.minLevelForContext = atoi(minLevelForContext.c_str());
+			context.MinLevelForContext(atoi(minLevelForContext.c_str()));
 		}
 
 		if(arguments.GetValue("--minContextLevel"))
 		{
 			string minContextLevel;
 			arguments.GetValue("--minContextLevel", minContextLevel);
-			context.minContextLevel = atoi(minContextLevel.c_str());
+			context.MinContextLevel(atoi(minContextLevel.c_str()));
 		}
 
 		if(arguments.GetValue("--logLevels"))
@@ -384,9 +384,9 @@ int main(int argc, char* argv[])
 
 		cout << "Minimum log level for a log to be shown: " << minLevel << endl;
 
-		cout << "Log context:  width = " << context.width
-			 << "  minLevelForContext = " << context.minLevelForContext
-			 << "  minContextLevel = " << context.minContextLevel << endl;
+		cout << "Log context:  width = " << context.Width()
+			 << "  minLevelForContext = " << context.MinLevelForContext()
+			 << "  minContextLevel = " << context.MinContextLevel() << endl;
 
 		if(incStrFlag) {
 			cout << "Show logs which include the string(s): ";
@@ -537,7 +537,7 @@ int main(int argc, char* argv[])
 				{
 					++distPrevLogContext;
 
-					if(level >= context.minLevelForContext)
+					if(level >= context.MinLevelForContext())
 						distPrevLogContext = 0;
 
 					if(level >= minLevel)
@@ -547,8 +547,8 @@ int main(int argc, char* argv[])
 					}
 
 					if(level < minLevel &&
-					   level >= context.minContextLevel &&
-					   distPrevLogContext <= context.width)
+					   level >= context.MinContextLevel() &&
+					   distPrevLogContext <= context.Width())
 					{
 						printLog = true;
 						contextLog = true;
