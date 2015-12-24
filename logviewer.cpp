@@ -21,7 +21,7 @@
 
 /* TODO
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
-	-- Group code blocks in separate functions.
+	-- Group code blocks in separate functions/classes.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
@@ -42,6 +42,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <queue>
 #include <sstream>
 #include <string>
 #include <thread>
@@ -85,8 +86,21 @@ struct Context {
 	int  width;					// number of logs before and after the current one
 	int  minLevelForContext;	// the minimum level a log must have to get a context
 	int  minContextLevel;		// the minimum level a log must have to be part of the context
+
+	std::queue<std::string>  pastLogs;
+
 	Context() :
 		width(0), minLevelForContext(5 /*ERROR*/), minContextLevel(2 /*DETAIL*/) {}
+
+	int StorePastLog(const std::string &_log, int _level)
+	{
+		if(width == 0)                return 0;
+		if(_level < minContextLevel)  return 0;
+		//+ if(_level >= minLevel)        return 0;		//+TODO - This should have been already printed
+		if(pastLogs.size() >= width)  pastLogs.pop();
+		pastLogs.push(_log);
+		return pastLogs.size();
+	}
 };
 
 int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
