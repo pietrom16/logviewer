@@ -30,4 +30,16 @@ int LogContext::StorePastLog(const std::string &_log,
 }
 
 
+int LogContext::ExtractPastLog(std::string &_log)
+{
+	if(pastLogs.empty())
+		return -1;
+
+	_log = pastLogs.back();		//+?+++
+	pastLogs.pop();
+
+	return int(pastLogs.size());
+}
+
+
 } // LogViewer

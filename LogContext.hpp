@@ -28,6 +28,7 @@ public:
 		width(0), minLevelForContext(5 /*ERROR*/), minContextLevel(2 /*DETAIL*/) {}
 
 	int StorePastLog(const std::string &_log, int _level, int _minLevel);
+	int ExtractPastLog(std::string &_log);
 
 	int Width()              const { return width; }
 	int MinLevelForContext() const { return minLevelForContext; }
