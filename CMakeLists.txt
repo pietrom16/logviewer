@@ -30,6 +30,8 @@ set(SRC
 	logviewer.cpp
 	logLevels.cpp
 	logLevels.h
+	LogContext.cpp
+	LogContext.hpp
 	progArgs.cpp
 	progArgs.h
 	ReadKeyboard.cpp
