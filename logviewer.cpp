@@ -31,6 +31,7 @@
 	. Allow to pass custom log level tags/values; this allows to use the program to, e.g., process any text document, highlighting blocks on the basis of their contents.
  */
 
+#include "LogContext.hpp"
 #include "logLevels.h"
 #include "progArgs.h"
 #include "ReadKeyboard.h"
@@ -81,27 +82,6 @@ struct Compare {
 	bool comparison;	// false = less than; true = greater than
 };
 
-// Context of the current log
-struct Context {
-	int  width;					// number of logs before and after the current one
-	int  minLevelForContext;	// the minimum level a log must have to get a context
-	int  minContextLevel;		// the minimum level a log must have to be part of the context
-
-	std::queue<std::string>  pastLogs;
-
-	Context() :
-		width(0), minLevelForContext(5 /*ERROR*/), minContextLevel(2 /*DETAIL*/) {}
-
-	int StorePastLog(const std::string &_log, int _level)
-	{
-		if(width == 0)                return 0;
-		if(_level < minContextLevel)  return 0;
-		//+ if(_level >= minLevel)        return 0;		//+TODO - This should have been already printed
-		if(pastLogs.size() >= width)  pastLogs.pop();
-		pastLogs.push(_log);
-		return pastLogs.size();
-	}
-};
 
 int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
 
