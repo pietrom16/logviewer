@@ -429,7 +429,7 @@ int main(int argc, char* argv[])
 	/// Open log file
 
 	ifstream   ifs;
-	string     log, token;
+	string     log, token, contextLog;
 
 	streamoff  pos = 0;					// position of the current log
 	streamoff  lastPrintedLogPos = 0;	// position of the last log with level above the threshold
@@ -437,7 +437,7 @@ int main(int argc, char* argv[])
 
 	int  distNextLogContext = 0;		// distance of a past log from the current one
 	int  distPrevLogContext = 0;		// distance of a future log from the current one
-	bool contextLog = false;			// the current log is part of the context
+	bool isContextLog = false;			// the current log is part of the context
 
 	bool warning = true;
 
@@ -523,13 +523,19 @@ int main(int argc, char* argv[])
 
 				printLog = false;
 
+				// To reduce disk stress, store context logs in memory
 				context.StorePastLog(log, level, minLevel);
 
-				if(level >= context.MinLevelForContext())
+				if(level >= context.MinContextLevel())
 				{
-					// Check backward context	//+TODO
+					// Log backward context	//+TODO
+					if(level >= context.MinLevelForContext())
 					{
-						//+TODO: To reduce disk stress, store the previous n logs in a temporary memory based structure
+						while(context.NPastLogs() > 0) {
+							context.ExtractPastLog(contextLog);
+							cout << "% " << Format(level) << contextLog << Reset() << endl;
+						}
+
 						distNextLogContext = 0;
 						prevLogContext = pos;
 
@@ -547,7 +553,7 @@ int main(int argc, char* argv[])
 						if(level >= minLevel)
 						{
 							printLog = true;
-							contextLog = false;
+							isContextLog = false;
 						}
 
 						if(level < minLevel &&
@@ -555,7 +561,7 @@ int main(int argc, char* argv[])
 						   distPrevLogContext <= context.Width())
 						{
 							printLog = true;
-							contextLog = true;
+							isContextLog = true;
 						}
 					}
 				}
@@ -598,7 +604,7 @@ int main(int argc, char* argv[])
 					if(printLogFile)
 						cout << logFile << ": ";
 
-					if(contextLog)
+					if(isContextLog)
 						cout << "# ";
 
 					cout << Format(level) << log << Reset() << endl;
