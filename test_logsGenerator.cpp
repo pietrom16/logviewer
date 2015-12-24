@@ -53,6 +53,8 @@ int main(int argc, char* argv[])
 	{
 		log = std::string("Test log message - ");
 		log += std::to_string(rand() % 1000);
+		log += std::string(" - Log id = ");
+		log += std::to_string(i);
 
 		if(gen == 0) {						// Random
 			level = rand() % nLogLevels;
