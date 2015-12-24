@@ -21,7 +21,7 @@
 
 /* TODO
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
-	-- Gruop code blocks in separate functions.
+	-- Group code blocks in separate functions.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
@@ -436,8 +436,14 @@ int main(int argc, char* argv[])
 
 	ifstream   ifs;
 	string     log, token;
+
 	streamoff  pos = 0;					// position of the current log
 	streamoff  lastPrintedLogPos = 0;	// position of the last log with level above the threshold
+	streamoff  prevLogContext = 0;		// cursor exploring previous logs to provide context
+
+	int  distNextLogContext = 0;		// distance of a past log from the current one
+	int  distPrevLogContext = 0;		// distance of a future log from the current one
+	bool contextLog = false;
 
 	bool warning = true;
 
@@ -462,8 +468,6 @@ int main(int argc, char* argv[])
 
 	int  level = 0;
 	bool printLog = false;
-	int  distPrevLogContext = 0;
-	bool contextLog = false;
 
 	if(nLatestChars >= 0)
 	{
@@ -525,7 +529,17 @@ int main(int argc, char* argv[])
 
 				printLog = false;
 
-				// Check context	//+TEST - Forward context OK
+				// Check backward context	//+TODO
+				{
+					//+TODO: To reduce disk stress, store the previous n logs in a temporary memory based structure
+					distNextLogContext = 0;
+					prevLogContext = pos;
+
+
+					//+ while(distNextLogContext <= context.width)
+				}
+
+				// Check forward context	//+TEST - OK
 				{
 					++distPrevLogContext;
 
