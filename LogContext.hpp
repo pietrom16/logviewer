@@ -38,9 +38,6 @@ public:
 	int MinLevelForContext(int _ml)  { return (minLevelForContext = (_ml >= 0)?_ml:minLevelForContext); }
 	int MinContextLevel(int _ml)     { return (minContextLevel = (_ml >= 0)?_ml:minContextLevel); }
 
-
-
-
 private:
 	int  width;					// number of logs before and after the current one
 	int  minLevelForContext;	// the minimum level a log must have to get a context

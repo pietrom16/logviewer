@@ -437,7 +437,7 @@ int main(int argc, char* argv[])
 
 	int  distNextLogContext = 0;		// distance of a past log from the current one
 	int  distPrevLogContext = 0;		// distance of a future log from the current one
-	bool contextLog = false;
+	bool contextLog = false;			// the current log is part of the context
 
 	bool warning = true;
 
@@ -523,35 +523,40 @@ int main(int argc, char* argv[])
 
 				printLog = false;
 
-				// Check backward context	//+TODO
+				context.StorePastLog(log, level, minLevel);
+
+				if(level >= context.MinLevelForContext())
 				{
-					//+TODO: To reduce disk stress, store the previous n logs in a temporary memory based structure
-					distNextLogContext = 0;
-					prevLogContext = pos;
-
-
-					//+ while(distNextLogContext <= context.width)
-				}
-
-				// Check forward context	//+TEST - OK
-				{
-					++distPrevLogContext;
-
-					if(level >= context.MinLevelForContext())
-						distPrevLogContext = 0;
-
-					if(level >= minLevel)
+					// Check backward context	//+TODO
 					{
-						printLog = true;
-						contextLog = false;
+						//+TODO: To reduce disk stress, store the previous n logs in a temporary memory based structure
+						distNextLogContext = 0;
+						prevLogContext = pos;
+
+
+						//+ while(distNextLogContext <= context.width)
 					}
 
-					if(level < minLevel &&
-					   level >= context.MinContextLevel() &&
-					   distPrevLogContext <= context.Width())
+					// Check forward context	//+TEST - OK
 					{
-						printLog = true;
-						contextLog = true;
+						++distPrevLogContext;
+
+						if(level >= context.MinLevelForContext())
+							distPrevLogContext = 0;
+
+						if(level >= minLevel)
+						{
+							printLog = true;
+							contextLog = false;
+						}
+
+						if(level < minLevel &&
+						   level >= context.MinContextLevel() &&
+						   distPrevLogContext <= context.Width())
+						{
+							printLog = true;
+							contextLog = true;
+						}
 					}
 				}
 
