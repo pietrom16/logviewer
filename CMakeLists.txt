@@ -10,8 +10,8 @@ project(${PRJ})
 
 # Specify the build type on the command line: Release, Debug, RelWithDebInfo, MinSizeRel
 if(CMAKE_BUILD_TYPE MATCHES "")
-    #set(CMAKE_BUILD_TYPE Debug)
-    set(CMAKE_BUILD_TYPE Release)
+	set(CMAKE_BUILD_TYPE Debug)
+	#set(CMAKE_BUILD_TYPE Release)
 endif()
 
 # Specify compiler path
@@ -20,6 +20,11 @@ set(CMAKE_CXX_COMPILER /opt/local/bin/clang++-mp-3.7)
 
 # Specify C++ standard version
 set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
+
+# Internal tests: LOGCONTEXT_TEST, READ_KEYBOARD_TEST
+#add_definitions(-DRUN_INTERNAL_TESTS)
+#add_definitions(-DLOGCONTEXT_TEST)
+#add_definitions(-DREAD_KEYBOARD_TEST)
 
 
 message("==============================================")
@@ -32,11 +37,14 @@ set(SRC
 	logLevels.h
 	LogContext.cpp
 	LogContext.hpp
+	LogContext_test.cpp
 	progArgs.cpp
 	progArgs.h
 	ReadKeyboard.cpp
 	ReadKeyboard.h
 	ReadKeyboard_test.cpp
+	RunInternalTests.cpp
+	RunInternalTests.h
 	textModeFormatting.h
 )
 

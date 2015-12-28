@@ -21,6 +21,8 @@
 
 /* TODO
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
+		-- Fix highlighting of pre-context logs.
+		-- Do not print the same logs twice.
 	-- Group code blocks in separate functions/classes.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	- Allow to pass multiple values for each command line parameter.
@@ -109,6 +111,10 @@ ResetDefaults rd;
 int main(int argc, char* argv[])
 {
 	using namespace LogViewer;
+
+#ifdef RUN_INTERNAL_TESTS
+	return RunInternalTests();
+#endif // RUN_INTERNAL_TESTS
 
 	string  logFile;
 

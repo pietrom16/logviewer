@@ -4,7 +4,7 @@
 	Test of the utilities::ReadKeyboard class.
  */
 
-#ifdef READ_KEYBOARD_TEST_H
+#ifdef READ_KEYBOARD_TEST
 
 #include <iostream>
 #include <vector>
@@ -12,7 +12,7 @@
 #include "ReadKeyboard.h"
 
 
-int main()
+int ReadKeyboard_test()
 {
 	using namespace std;
 	using namespace utilities;
@@ -70,4 +70,4 @@ int main()
 	return 0;
 }
 
-#endif // READ_KEYBOARD_TEST_H
+#endif // READ_KEYBOARD_TEST
