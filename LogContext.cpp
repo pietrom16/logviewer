@@ -35,7 +35,7 @@ int LogContext::ExtractPastLog(std::string &_log)
 	if(pastLogs.empty())
 		return -1;
 
-	_log = pastLogs.back();		//+?+++
+	_log = pastLogs.front();
 	pastLogs.pop();
 
 	return int(pastLogs.size());
