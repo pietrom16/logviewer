@@ -21,7 +21,7 @@
 
 /* TODO
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
-		-- Fix highlighting of pre-context logs.
+		. Fix highlighting of pre-context logs.
 		-- Do not print the same logs twice.
 		-- When no context is specified, show the logs as before.
 	-- Group code blocks in separate functions/classes.
@@ -467,7 +467,7 @@ int main(int argc, char* argv[])
 
 	/// Print log file
 
-	int  level = 0;
+	int  level = 0, contextLevel = 0;
 	bool printLog = false;
 
 	if(nLatestChars >= 0)
@@ -508,25 +508,7 @@ int main(int argc, char* argv[])
 		{
 			while(getline(ifs, log))
 			{
-				if(levelColumn >= 0)		// index based log level search
-				{
-					stringstream str(log);
-					for(int i = 0; i < levelColumn; ++i)
-						str >> token;
-
-					level = logLevels.GetVal(token);
-				}
-				else {						// tag based log level search
-					level = logLevels.FindLogLevelVal(log);
-
-					if (level < 0) {
-						level = 4;
-#ifdef _WIN32
-						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-#endif
-						cerr << "Found log with no recognized log level. Level set to WARNING/4." << endl;
-					}
-				}
+				level = logLevels.FindLogLevel(log, levelColumn);
 
 				printLog = false;
 
@@ -540,16 +522,14 @@ int main(int argc, char* argv[])
 					{
 						while(context.NPastLogs() > 0) {
 							context.ExtractPastLog(contextLog);
+							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
 							if(printLogFile)
 								cout << logFile << ": ";
-							cout << "% " << Format(level) << contextLog << Reset() << endl;
+							cout << "% " << Format(contextLevel) << contextLog << Reset() << endl;
 						}
 
 						distNextLogContext = 0;
 						prevLogContext = pos;
-
-
-						//+ while(distNextLogContext <= context.width)
 					}
 
 					// Check forward context	//+TEST - OK

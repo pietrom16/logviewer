@@ -46,16 +46,24 @@ public:
 	int AddLogLevels(const std::string &_levelsFName);
 	int ClearLogLevels();
 
-	int         GetVal(const std::string &_tag);
-	std::string GetTag(int _val);
+	int         GetVal(const std::string &_tag) const;
+	std::string GetTag(int _val) const;
 
-	int LogLevelMapping(const std::string &_tag);
+	int LogLevelMapping(const std::string &_tag) const;
+
+	// Return log level tag and value in a log message;
+	// empty string/negative value if not found
+	int FindLogLevel(const std::string &_log, std::string &_levelTag, int _column = -1) const;
+
+	// Return log level value in a log message;
+	// negative value if not found
+	int FindLogLevel(const std::string &_log, int _column = -1) const;
 
 	// Return the log level tag in a log message; empty string if not found
-	std::string FindLogLevelTag(const std::string &_log);
+	std::string FindLogLevelTag(const std::string &_log, int _column = -1) const;
 
 	// Return the log level value in a log message
-	int FindLogLevelVal(const std::string &_log);
+	int FindLogLevelVal(const std::string &_log, int _column = -1) const;
 
 private:
 	std::vector<TagLevel> levels;

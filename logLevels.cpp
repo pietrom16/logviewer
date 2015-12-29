@@ -14,6 +14,8 @@
 #include "textModeFormatting.h"
 #include <cstdlib>
 #include <fstream>
+#include <iostream>
+#include <sstream>
 
 namespace LogViewer {
 
@@ -108,7 +110,7 @@ int LogLevels::ClearLogLevels()
 }
 
 
-int LogLevels::GetVal(const std::string &_tag)
+int LogLevels::GetVal(const std::string &_tag) const
 {
 	if (isdigit(_tag[0]))
 		// A number, use it directly
@@ -137,7 +139,7 @@ int LogLevels::GetVal(const std::string &_tag)
 }
 
 
-std::string LogLevels::GetTag(int _val)
+std::string LogLevels::GetTag(int _val) const
 {
 	size_t i = 0;
 
@@ -152,7 +154,7 @@ std::string LogLevels::GetTag(int _val)
 }
 
 
-int LogLevels::LogLevelMapping(const std::string &_tag)
+int LogLevels::LogLevelMapping(const std::string &_tag) const
 {
 	int colorCode = 0;
 
@@ -167,9 +169,82 @@ int LogLevels::LogLevelMapping(const std::string &_tag)
 }
 
 
+// Return log level tag and value in a log message;
+// empty string/negative value if not found
+
+int LogLevels::FindLogLevel(const std::string &_log,
+							std::string &_levelTag,
+							int _column) const
+{
+	int levelVal = 0;
+
+	if(_column >= 0)     // index based log level search
+	{
+		std::string token;
+		std::stringstream str(_log);
+		for(int i = 0; i < _column; ++i)
+			str >> token;
+
+		levelVal = GetVal(token);
+		_levelTag = token;
+	}
+	else                 // tag based log level search
+	{
+		levelVal = FindLogLevelVal(_log);
+
+		if (levelVal < 0) {
+			levelVal = 4;
+#ifdef _WIN32
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+#endif
+			std::cerr << "Found log with no recognized log level. Level set to WARNING/4." << std::endl;
+		}
+
+		_levelTag = levels[levelVal].tag;
+	}
+
+	return levelVal;
+}
+
+
+// Return log level value in a log message;
+// negative value if not found
+
+int LogLevels::FindLogLevel(const std::string &_log,
+							int _column) const
+{
+	int levelVal = 0;
+
+	if(_column >= 0)     // index based log level search
+	{
+		std::string token;
+		std::stringstream str(_log);
+		for(int i = 0; i < _column; ++i)
+			str >> token;
+
+		levelVal = GetVal(token);
+	}
+	else                 // tag based log level search
+	{
+		levelVal = FindLogLevelVal(_log);
+
+		if (levelVal < 0) {
+			levelVal = 4;
+#ifdef _WIN32
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+#endif
+			std::cerr << "Found log with no recognized log level. Level set to WARNING/4." << std::endl;
+		}
+	}
+
+	return levelVal;
+}
+
+
 // Return the log level tag in a log message; empty string if not found
 	
-std::string LogLevels::FindLogLevelTag(const std::string &_log)
+std::string LogLevels::FindLogLevelTag(const std::string &_log,
+									   int _column) const
 {
 	const std::string log = LogLevels::ToUppercase(_log);
 
@@ -187,7 +262,8 @@ std::string LogLevels::FindLogLevelTag(const std::string &_log)
 
 // Return the log level value in a log message; err_levelNotFound if not found
 
-int LogLevels::FindLogLevelVal(const std::string &_log)
+int LogLevels::FindLogLevelVal(const std::string &_log,
+							   int _column) const
 {
 	const std::string log = LogLevels::ToUppercase(_log);
 
