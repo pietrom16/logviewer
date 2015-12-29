@@ -23,7 +23,7 @@
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 		. Fix highlighting of pre-context logs.
 		-- Do not print the same logs twice.
-		-- When no context is specified, show the logs as before.
+		. When no context is specified, show the logs as before.
 	-- Group code blocks in separate functions/classes.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	- Allow to pass multiple values for each command line parameter.
@@ -554,6 +554,9 @@ int main(int argc, char* argv[])
 						}
 					}
 				}
+
+				if(level >= minLevel)
+					printLog = true;
 
 				if(printLog)
 				{
