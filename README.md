@@ -6,6 +6,9 @@ Features:
 
 - Text mode log viewer, runs everywhere after recompilation.
 
+- Dynamic log level threshold: in the proximity of logs with high level,
+  automatically lower the level threshold to provide context for critical cases.
+
 - Log level based highlighting (on Linux, OS-X, Windows).
 	- Levels can be numeric (1-7) or strings.
 
