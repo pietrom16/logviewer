@@ -20,10 +20,7 @@
  */
 
 /* TODO
-	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
-		. Fix highlighting of pre-context logs.
-		. Do not print the same logs twice.
-		. When no context is specified, show the logs as before.
+	. Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	-- Group code blocks in separate functions/classes.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	- Allow to pass multiple values for each command line parameter.
@@ -514,7 +511,7 @@ int main(int argc, char* argv[])
 
 				if(level >= context.MinContextLevel())
 				{
-					// Check forward context	//+TEST - ?
+					// Check forward context
 					{
 						++distPrevLogContext;
 
@@ -536,17 +533,14 @@ int main(int argc, char* argv[])
 						}
 					}
 
-					// Log backward context		//+TEST - ?
+					// Log backward context
 
-					// To reduce disk stress, store context logs in memory
 					if(printLog == false)
+						// To reduce disk stress, store context logs in memory
 						context.StorePastLog(log, level, minLevel);
 
 					if(level >= context.MinLevelForContext())
 					{
-						//+TODO - Remove logs which have been already printed as forward context.
-						//+TODO - Check if the current log matches any past log
-
 						while(context.NPastLogs() > 0) {
 							context.ExtractPastLog(contextLog);
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
