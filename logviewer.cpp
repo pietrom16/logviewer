@@ -20,14 +20,13 @@
  */
 
 /* TODO
-	-- Group code blocks in separate functions/classes.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
+	-- Derive a tool to make automatic summaries from text using user specified keywords.
+	-- Group code blocks in separate functions/classes.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
-	-- Derive a tool to make automatic summaries from text using user specified keywords.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 	- Better randomize the colors in LogLevelMapping().
-	. Allow to pass custom log level tags/values; this allows to use the program to, e.g., process any text document, highlighting blocks on the basis of their contents.
  */
 
 #include "LogContext.hpp"
