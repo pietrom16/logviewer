@@ -20,6 +20,7 @@
  */
 
 /* TODO
+	-- Bug: allow to specify relative paths on the command line.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	-- Derive a tool to make automatic summaries from text using user specified keywords.
 	-- Group code blocks in separate functions/classes.
@@ -118,6 +119,7 @@ int main(int argc, char* argv[])
 	int  minLevel = 0;					// minimum level a log must have to be shown
 	int  beepLevel = -1;				// minimum level to get an audio signal (disabled if < 0)
 	bool printLogFile = false;			// print the log file name for each log message
+	bool textParsing = false;			// parse the input file as normal text, not as a log file
 
 	LogLevels logLevels;
 
@@ -179,6 +181,8 @@ int main(int argc, char* argv[])
 		arg.Set("--minContextLevel", "-mcl", "Minimum level a log must have to be in the context", true, true, "2");
 		arguments.AddArg(arg);
 		arg.Set("--logLevels", "-ll", "Load custom log levels from file (format: tag value\\n)", true, true);
+		arguments.AddArg(arg);
+		arg.Set("--text", "-t", "Parse the input file as a generic text, not as a log file.", true, false);
 		arguments.AddArg(arg);
 		arg.Set("--verbose", "-vb", "Print extra information");
 		arguments.AddArg(arg);
@@ -337,6 +341,9 @@ int main(int argc, char* argv[])
 			arguments.GetValue("--beepLevel", level);
 			beepLevel = atoi(level.c_str());
 		}
+
+		if(arguments.GetValue("--text"))
+			textParsing = true;
 
 		if(arguments.GetValue("--verbose"))
 			verbose = 1;
