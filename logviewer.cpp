@@ -22,7 +22,7 @@
 /* TODO
 	-- Log messages with level lower than the specified one if around a log with high priority (to provide context).
 		. Fix highlighting of pre-context logs.
-		-- Do not print the same logs twice.
+		. Do not print the same logs twice.
 		. When no context is specified, show the logs as before.
 	-- Group code blocks in separate functions/classes.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
@@ -512,28 +512,10 @@ int main(int argc, char* argv[])
 
 				printLog = false;
 
-				// To reduce disk stress, store context logs in memory
-				context.StorePastLog(log, level, minLevel);
-
 				if(level >= context.MinContextLevel())
 				{
-					// Log backward context		//+TEST - OK
-					if(level >= context.MinLevelForContext())
-					{
-						while(context.NPastLogs() > 0) {
-							context.ExtractPastLog(contextLog);
-							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
-							if(printLogFile)
-								cout << logFile << ": ";
-							cout << "% " << Format(contextLevel) << contextLog << Reset() << endl;
-						}
-
-						distNextLogContext = 0;
-						prevLogContext = pos;
-					}
-
 					// Check forward context	//+TEST - ?
-/*					{
+					{
 						++distPrevLogContext;
 
 						if(level >= context.MinLevelForContext())
@@ -553,7 +535,30 @@ int main(int argc, char* argv[])
 							isContextLog = true;
 						}
 					}
-*/				}
+
+					// Log backward context		//+TEST - ?
+
+					// To reduce disk stress, store context logs in memory
+					if(printLog == false)
+						context.StorePastLog(log, level, minLevel);
+
+					if(level >= context.MinLevelForContext())
+					{
+						//+TODO - Remove logs which have been already printed as forward context.
+						//+TODO - Check if the current log matches any past log
+
+						while(context.NPastLogs() > 0) {
+							context.ExtractPastLog(contextLog);
+							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
+							if(printLogFile)
+								cout << logFile << ": ";
+							cout << "% " << Format(contextLevel) << contextLog << Reset() << endl;
+						}
+
+						distNextLogContext = 0;
+						prevLogContext = pos;
+					}
+				}
 
 				if(level >= minLevel)
 					printLog = true;
