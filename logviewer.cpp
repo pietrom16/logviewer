@@ -120,6 +120,7 @@ int main(int argc, char* argv[])
 	int  beepLevel = -1;				// minimum level to get an audio signal (disabled if < 0)
 	bool printLogFile = false;			// print the log file name for each log message
 	bool textParsing = false;			// parse the input file as normal text, not as a log file
+	bool warnUnknownLogLevel = true;	// warning for missing level in a log
 
 	LogLevels logLevels;
 
@@ -164,7 +165,7 @@ int main(int argc, char* argv[])
 		arguments.AddArg(arg);
 		arg.Set("--nLatestChars", "-nc", "Print the latest n characters only", true, true, "-1");
 		arguments.AddArg(arg);
-		arg.Set("--printLogFile", "-f", "Print the log file name for each message (useful if multiple log files are shown simultaneously).", true, false);
+		arg.Set("--printLogFile", "-f", "Print the log file name for each message (useful if multiple log files are shown simultaneously)", true, false);
 		arguments.AddArg(arg);
 		arg.Set("--subString", "-s", "Print the logs which contain the specified substring", true, true);
 		arguments.AddArg(arg);
@@ -174,7 +175,7 @@ int main(int argc, char* argv[])
 		arguments.AddArg(arg);
 		arg.Set("--greaterThan", "-gt", "Print the logs whose i-th token is greater than the specified i_value", true, true);
 		arguments.AddArg(arg);
-		arg.Set("--contextWidth", "-cw", "Number of context logs to show if the current log is above a threshold level.", true, true, "0");
+		arg.Set("--contextWidth", "-cw", "Number of context logs to show if the current log is above a threshold level", true, true, "0");
 		arguments.AddArg(arg);
 		arg.Set("--minLevelForContext", "-mlc", "Minimum level a log must have to get a context", true, true, "5");
 		arguments.AddArg(arg);
@@ -182,7 +183,7 @@ int main(int argc, char* argv[])
 		arguments.AddArg(arg);
 		arg.Set("--logLevels", "-ll", "Load custom log levels from file (format: tag value\\n)", true, true);
 		arguments.AddArg(arg);
-		arg.Set("--text", "-t", "Parse the input file as a generic text, not as a log file.", true, false);
+		arg.Set("--text", "-t", "Parse the input file as a generic text, not as a log file", true, false);
 		arguments.AddArg(arg);
 		arg.Set("--verbose", "-vb", "Print extra information");
 		arguments.AddArg(arg);
@@ -342,8 +343,11 @@ int main(int argc, char* argv[])
 			beepLevel = atoi(level.c_str());
 		}
 
-		if(arguments.GetValue("--text"))
+		if(arguments.GetValue("--text")) {
 			textParsing = true;
+			warnUnknownLogLevel = false;
+			logLevels.EnableWarnings(false);
+		}
 
 		if(arguments.GetValue("--verbose"))
 			verbose = 1;
@@ -431,6 +435,9 @@ int main(int argc, char* argv[])
 			cout << "Showing the last " << nLatest << " logs of the existing log file." << endl;
 		else
 			cout << "Number of past logs to be shown: all" << endl;
+
+		if(textParsing)
+			cout << "Interpreting input file as plain text, not as a log file." << endl;
 
 		cout << string(80, '-') << endl;
 	}

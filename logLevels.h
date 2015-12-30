@@ -65,8 +65,14 @@ public:
 	// Return the log level value in a log message
 	int FindLogLevelVal(const std::string &_log, int _column = -1) const;
 
+	void EnableWarnings(bool _enable = true) {
+		warnUnknownLogLevel = _enable;
+	}
+
 private:
 	std::vector<TagLevel> levels;
+
+	bool warnUnknownLogLevel;
 
 	static std::string ToUppercase(const std::string &_str);
 };

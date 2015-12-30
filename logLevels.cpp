@@ -41,6 +41,8 @@ int LogLevels::InitLogLevels()
 	levels.push_back(TagLevel("FATAL",     7));
 	levels.push_back(TagLevel("EMERGENCY", 7));
 
+	warnUnknownLogLevel = true;
+
 	return levels.size();
 }
 
@@ -48,6 +50,7 @@ int LogLevels::InitLogLevels()
 int LogLevels::InitLogLevels(const std::vector<TagLevel> &_levels)
 {
 	levels = _levels;
+	warnUnknownLogLevel = true;
 	return levels.size();
 }
 
@@ -192,7 +195,7 @@ int LogLevels::FindLogLevel(const std::string &_log,
 	{
 		levelVal = FindLogLevelVal(_log);
 
-		if (levelVal < 0) {
+		if (levelVal < 0 && warnUnknownLogLevel) {
 			levelVal = 4;
 #ifdef _WIN32
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
@@ -228,7 +231,7 @@ int LogLevels::FindLogLevel(const std::string &_log,
 	{
 		levelVal = FindLogLevelVal(_log);
 
-		if (levelVal < 0) {
+		if (levelVal < 0 && warnUnknownLogLevel) {
 			levelVal = 4;
 #ifdef _WIN32
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
