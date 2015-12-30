@@ -517,7 +517,7 @@ int main(int argc, char* argv[])
 
 				if(level >= context.MinContextLevel())
 				{
-					// Log backward context	//+TODO
+					// Log backward context		//+TEST - OK
 					if(level >= context.MinLevelForContext())
 					{
 						while(context.NPastLogs() > 0) {
@@ -532,8 +532,8 @@ int main(int argc, char* argv[])
 						prevLogContext = pos;
 					}
 
-					// Check forward context	//+TEST - OK
-					{
+					// Check forward context	//+TEST - ?
+/*					{
 						++distPrevLogContext;
 
 						if(level >= context.MinLevelForContext())
@@ -553,7 +553,7 @@ int main(int argc, char* argv[])
 							isContextLog = true;
 						}
 					}
-				}
+*/				}
 
 				if(level >= minLevel)
 					printLog = true;
