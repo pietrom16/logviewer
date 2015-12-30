@@ -72,7 +72,7 @@ using namespace Utilities;
 
 namespace LogViewer {
 
-const int version = 3, subversion = 5, subsubversion = 0;
+const int version = 4, subversion = 0, subsubversion = 0;
 
 struct Compare {
 	string value;
