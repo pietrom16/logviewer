@@ -20,7 +20,6 @@
  */
 
 /* TODO
-	. Log messages with level lower than the specified one if around a log with high priority (to provide context).
 	-- Group code blocks in separate functions/classes.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	- Allow to pass multiple values for each command line parameter.
@@ -767,6 +766,8 @@ void PrintHelp(const ProgArgs &_args, const char* _progName, LogLevels *_logLeve
 	cout << "\n" << progName.substr(pos) << ": a text mode log file viewer.\n";
 	cout << "\n" << "Features:\n";
 	cout << "\t- Log file format agnostic.\n";
+	cout << "\t- Dynamic log level threshold: in the proximity of logs with high level,\n";
+	cout << "\t  automatically lower the level threshold to provide context for critical cases.\n";
 	cout << "\t- Log level based highlighting. Levels can be numeric (1-7) or strings.\n";
 	cout << "\t- Filtering capability.\n";
 	cout << "\t- Text mode, runs everywhere after recompilation.\n";
@@ -784,16 +785,18 @@ void PrintHelp(const ProgArgs &_args, const char* _progName, LogLevels *_logLeve
 	}
 	cout << Reset() << endl;
 
-	cout << "\nExample:\n";
-	cout << "Print the logs in the specified file, with minimum level 1, "
-			"with level placed in the second column, which include the "
-			"substrings \"abc def\" and \"123\", which do not include the "
-			"substring \"ghi\", with timestamp between 0.123 and 0.125 seconds, "
-			"done after 2012-10-08T14:11:09, "
-			"in verbose mode:\n\n";
+	cout << "\nExamples:\n\n";
+	cout << "Print the logs in the specified file, with minimum level 1, with level placed in\n"
+			"the second column, which include the substrings \"abc def\" and \"123\", which do\n"
+			"not include the substring \"ghi\", with timestamp between 0.123 and 0.125 seconds,\n"
+			"done after 2012-10-08T14:11:09, in verbose mode:\n\n";
 	cout << progName.substr(pos)
 		 << " -i /path/to/test.log -m 1 -l 2 -s \"abc def\" -s \"123\" -ns \"ghi\""
-		 << " -gt 1_0.123 -lt 1_0.125 -gt 3_2012-10-08T14:11:09 -vb" << endl;
+		 << " -gt 1_0.123 -lt 1_0.125 -gt 3_2012-10-08T14:11:09 -vb\n\n";
+	cout << "Print the logs in the specified file, with minimum level 4, with level in any column,\n"
+			"and 6 context logs with level higher than 2 when the current level is higher than 4:\n\n";
+	cout << progName.substr(pos)
+		 << " -i /path/to/test.log -m 4 -cw 6 -mlc 4 -mcl 2" << endl;
 
 	cout << "\nKeystroke runtime commands:\n\n";
 	cout << "\t [P]       Pause/resume logs display.\n";
