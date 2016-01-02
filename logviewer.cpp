@@ -115,6 +115,8 @@ int main(int argc, char* argv[])
 
 	string  logFile;
 
+	char delimiter = '\n';				// delimit the end of a log
+
 	int  levelColumn = -1;				// depends on the logs format (dynamic if < 0)
 	int  minLevel = 0;					// minimum level a log must have to be shown
 	int  beepLevel = -1;				// minimum level to get an audio signal (disabled if < 0)
@@ -184,6 +186,8 @@ int main(int argc, char* argv[])
 		arg.Set("--logLevels", "-ll", "Load custom log levels from file (format: tag value\\n)", true, true);
 		arguments.AddArg(arg);
 		arg.Set("--text", "-t", "Parse the input file as a generic text, not as a log file", true, false);
+		arguments.AddArg(arg);
+		arg.Set("--delimiter", "-d", "Specify a custom delimiter for the messages (default = new line)", true, true);
 		arguments.AddArg(arg);
 		arg.Set("--verbose", "-vb", "Print extra information");
 		arguments.AddArg(arg);
@@ -349,6 +353,12 @@ int main(int argc, char* argv[])
 			logLevels.EnableWarnings(false);
 		}
 
+		if(arguments.GetValue("--delimiter")) {
+			string delim;
+			arguments.GetValue("--delimiter", delim);
+			delimiter = delim.front();
+		}
+
 		if(arguments.GetValue("--verbose"))
 			verbose = 1;
 
@@ -439,6 +449,14 @@ int main(int argc, char* argv[])
 		if(textParsing)
 			cout << "Interpreting input file as plain text, not as a log file." << endl;
 
+		cout << "Log message/text block delimiter: ";
+		switch(delimiter) {
+		case '\n': cout << "\\n"; break;
+		case '\t': cout << "tab"; break;
+		default: cout << delimiter;
+		}
+		cout << endl;
+
 		cout << string(80, '-') << endl;
 	}
 
@@ -515,7 +533,7 @@ int main(int argc, char* argv[])
 	{
 		if(ifs.seekg(pos))
 		{
-			while(getline(ifs, log))
+			while(getline(ifs, log, delimiter))
 			{
 				level = logLevels.FindLogLevel(log, levelColumn);
 
