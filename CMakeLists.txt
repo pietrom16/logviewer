@@ -21,6 +21,12 @@ set(CMAKE_CXX_COMPILER /opt/local/bin/clang++-mp-3.7)
 # Specify C++ standard version
 set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
 
+# Extra code in debug mode
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+	message("Building extra checks and output in debug mode.")
+	add_definitions(-DVERBOSE)
+endif()
+
 # Internal tests: LOGCONTEXT_TEST, READ_KEYBOARD_TEST
 #add_definitions(-DRUN_INTERNAL_TESTS)
 #add_definitions(-DLOGCONTEXT_TEST)
