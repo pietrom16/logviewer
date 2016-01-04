@@ -812,7 +812,7 @@ void PrintHelp(const ProgArgs &_args, const char* _progName, LogLevels *_logLeve
 		if(_logLevels == 0)
 			cout << Format(level) << level << Reset() << " ";
 		else
-			cout << "\t" << Format(level) << level << "\t" << _logLevels->GetTag(level) << Reset() << "\n";
+			cout << "\t" << Format(level) << level << "\t" << _logLevels->GetTags(level) << Reset() << "\n";
 	}
 	cout << Reset() << endl;
 

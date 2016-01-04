@@ -48,6 +48,7 @@ public:
 
 	int         GetVal(const std::string &_tag) const;
 	std::string GetTag(int _val) const;
+	std::string GetTags(int _val) const;
 
 	int LogLevelMapping(const std::string &_tag) const;
 

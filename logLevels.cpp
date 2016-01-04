@@ -157,6 +157,24 @@ std::string LogLevels::GetTag(int _val) const
 }
 
 
+std::string LogLevels::GetTags(int _val) const
+{
+	std::string tags;
+	size_t      i = 0;
+
+	while (i < levels.size())
+	{
+		if (_val == levels[i].level) {
+			tags += levels[i].tag;
+			tags += " ";
+		}
+		++i;
+	}
+
+	return tags;
+}
+
+
 int LogLevels::LogLevelMapping(const std::string &_tag) const
 {
 	int colorCode = 0;
