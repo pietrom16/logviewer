@@ -576,7 +576,7 @@ int main(int argc, char* argv[])
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
 							if(printLogFile)
 								cout << logFile << ": ";
-							cout << "% " << Format(contextLevel) << contextLog << Reset() << endl;
+							cout << "-" << Format(contextLevel) << contextLog << Reset() << endl;
 						}
 
 						distNextLogContext = 0;
@@ -626,7 +626,7 @@ int main(int argc, char* argv[])
 						cout << logFile << ": ";
 
 					if(isContextLog)
-						cout << "# ";
+						cout << "+";
 
 					cout << Format(level) << log << Reset() << endl;
 
