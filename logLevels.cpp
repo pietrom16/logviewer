@@ -249,12 +249,16 @@ int LogLevels::FindLogLevel(const std::string &_log,
 	{
 		levelVal = FindLogLevelVal(_log);
 
-		if (levelVal < 0 && warnUnknownLogLevel) {
+		if(levelVal < 0)
+		{
 			levelVal = 4;
+
+			if(warnUnknownLogLevel) {
 #ifdef _WIN32
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 #endif
-			std::cerr << "Found log with no recognized log level. Level set to WARNING/4." << std::endl;
+				std::cerr << "Found log with no recognized log level. Level set to WARNING/4." << std::endl;
+			}
 		}
 	}
 

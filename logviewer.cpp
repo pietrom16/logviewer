@@ -125,6 +125,7 @@ int main(int argc, char* argv[])
 	bool warnUnknownLogLevel = true;	// warning for missing level in a log
 
 	LogLevels logLevels;
+	logLevels.EnableWarnings(false);
 
 	const int printAll = -1;
 	int nLatest = printAll;				// number of latest logs to be printed (-1 = all)
@@ -359,8 +360,10 @@ int main(int argc, char* argv[])
 			delimiter = delim.front();
 		}
 
-		if(arguments.GetValue("--verbose"))
+		if(arguments.GetValue("--verbose")) {
 			verbose = 1;
+			logLevels.EnableWarnings(true);
+		}
 
 		string sPause;
 		arguments.GetValue("--pause", sPause);
