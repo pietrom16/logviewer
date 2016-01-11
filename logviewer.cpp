@@ -786,8 +786,6 @@ string GetLogDate(const string &_logFile)
 	}
 #endif
 
-	//+D? std::tm tm = *std::localtime(&date);
-
 	char mbstr[100];
 	if (std::strftime(mbstr, sizeof(mbstr), "%FT%T", std::localtime(&date))) {
 		logDate = mbstr;
@@ -795,8 +793,6 @@ string GetLogDate(const string &_logFile)
 	else {
 		logDate = "?\n";
 	}
-
-	//logDate = ctime(&date);		//+ ctime() deprecated
 
 	return logDate;
 }
