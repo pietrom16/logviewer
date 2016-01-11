@@ -39,6 +39,7 @@
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -759,16 +760,14 @@ string GetLogDate(const string &_logFile)
 	// Return the time the log was generated
 
 	string logDate;
+	time_t date;
 
 #ifdef POSIX
 	struct stat st;
-	if (stat(_logFile.c_str(), &st) == 0)
-	{
-		time_t date = st.st_mtime;
-		logDate = ctime(&date);		//+ ctime() deprecated
-	}
+	if(stat(_logFile.c_str(), &st) == 0)
+		date = st.st_mtime;
 	else
-		logDate = "?\n";
+		return "?\n";
 #else // _WIN32
 	//+TEST
 	TCHAR szBuf[MAX_PATH];
@@ -776,15 +775,24 @@ string GetLogDate(const string &_logFile)
 		NULL, OPEN_EXISTING, 0, NULL);
 
 	if (hFile == INVALID_HANDLE_VALUE)
-		logDate = "?\n";
+		return "?\n";
 	else {
 		if (GetLastWriteTime(hFile, szBuf, MAX_PATH))
 			logDate = szBuf;
 		else
 			logDate = "?\n";
 		CloseHandle(hFile);
+		return logDate;
 	}
 #endif
+
+	char mbstr[100];
+	if (std::strftime(mbstr, sizeof(mbstr), "%FT%T", std::localtime(&date))) {
+		logDate = mbstr;
+	}
+	else {
+		logDate = "?\n";
+	}
 
 	return logDate;
 }
