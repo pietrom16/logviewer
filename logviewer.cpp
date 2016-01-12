@@ -20,9 +20,9 @@
  */
 
 /* TODO
-	-- Bug: allow to specify relative paths on the command line.
-	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	-- Derive a tool to make automatic summaries from text using user specified keywords.
+	. Bug: allow to specify relative paths on the command line.
+	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	-- Group code blocks in separate functions/classes.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
