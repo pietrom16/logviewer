@@ -116,6 +116,9 @@ int main(int argc, char* argv[])
 
 	string  logFile;
 
+	ostream *logStream;					// generic output stream for the logs
+	string   outLogFile;				// file name for the output stream
+
 	char delimiter = '\n';				// delimit the end of a log
 
 	int  levelColumn = -1;				// depends on the logs format (dynamic if < 0)
@@ -190,6 +193,8 @@ int main(int argc, char* argv[])
 		arg.Set("--text", "-t", "Parse the input file as a generic text, not as a log file", true, false);
 		arguments.AddArg(arg);
 		arg.Set("--delimiter", "-d", "Specify a custom delimiter for the messages (default = new line)", true, true);
+		arguments.AddArg(arg);
+		arg.Set("--outFile", "-o", "Redirect the output to a file (default = standard output)", false);
 		arguments.AddArg(arg);
 		arg.Set("--verbose", "-vb", "Print extra information");
 		arguments.AddArg(arg);
@@ -359,6 +364,15 @@ int main(int argc, char* argv[])
 			string delim;
 			arguments.GetValue("--delimiter", delim);
 			delimiter = delim.front();
+		}
+
+		//+TODO
+		if(arguments.GetValue("--outFile")) {
+			arguments.GetValue("--outFile", outLogFile);
+			logStream = new ofstream(outLogFile, std::ofstream::out | std::ofstream::app);
+		}
+		else {
+			logStream = new ostream();	//+TODO+++ http://stackoverflow.com/questions/18031357/why-the-constructor-of-stdostream-is-protected
 		}
 
 		if(arguments.GetValue("--verbose")) {
@@ -632,7 +646,7 @@ int main(int argc, char* argv[])
 					if(isContextLog)
 						cout << "+";
 
-					cout << Format(level) << log << Reset() << endl;
+					*logStream << Format(level) << log << Reset() << endl;
 
 					if(beepLevel >= 0 && level >= beepLevel)
 						cout << char(7) << flush;	// beep
