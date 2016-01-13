@@ -116,12 +116,14 @@ int main(int argc, char* argv[])
 
 	string  logFile;
 
-	ostream       logStream(0);			// generic output stream for the logs
-	std::filebuf  fileBuffer;
-	string        outLogFile;			// file name for the output stream
-	bool          logToFile = false;
+	ostream  logStream(0);				// generic output stream for the logs
+	filebuf  fileBuffer;
+	string   outLogFile;				// file name for the output stream
+	bool     logToFile = false;
 
 	char delimiter = '\n';				// delimit the end of a log
+
+	string logHeader;
 
 	int  levelColumn = -1;				// depends on the logs format (dynamic if < 0)
 	int  minLevel = 0;					// minimum level a log must have to be shown
@@ -399,19 +401,19 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	/// Print header
+	/// Logs header
 	{
 		string logDate = GetLogDate(logFile);		// time the log was generated
 
-		stringstream header;
-		header << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
-			   << "Log file: " << logFile << " - " << logDate;
+		stringstream header, tmp;
+		tmp << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
+			<< "Log file: " << logFile << " - " << logDate;
 
-		int barLen = header.str().length();
+		int barLen = tmp.str().length();
 
-		cout << string(barLen, '-') << "\n";
-		cout << header.str() << "\n";
-		cout << string(barLen, '-') << endl;
+		header << string(barLen, '-') << "\n" << tmp.str() << "\n" << string(barLen, '-');
+
+		logHeader = header.str();
 	}
 
 	/// Print extra info
@@ -529,6 +531,8 @@ int main(int argc, char* argv[])
 		logStream.rdbuf(&fileBuffer);
 		logToFile = true;
 	}
+
+	logStream << logHeader << endl;
 
 	if(nLatestChars >= 0)
 	{
