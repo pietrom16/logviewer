@@ -116,8 +116,10 @@ int main(int argc, char* argv[])
 
 	string  logFile;
 
-	ostream *logStream;					// generic output stream for the logs
-	string   outLogFile;				// file name for the output stream
+	ostream       logStream(0);			// generic output stream for the logs
+	std::filebuf  fileBuffer;
+	string        outLogFile;			// file name for the output stream
+	bool          logToFile = false;
 
 	char delimiter = '\n';				// delimit the end of a log
 
@@ -366,13 +368,10 @@ int main(int argc, char* argv[])
 			delimiter = delim.front();
 		}
 
-		//+TODO
 		if(arguments.GetValue("--outFile")) {
-			arguments.GetValue("--outFile", outLogFile);
-			logStream = new ofstream(outLogFile, std::ofstream::out | std::ofstream::app);
-		}
-		else {
-			logStream = new ostream();	//+TODO+++ http://stackoverflow.com/questions/18031357/why-the-constructor-of-stdostream-is-protected
+			arguments.GetValue("--outFile", outLogFile);	//+B+++ file name not picked!
+			//outLogFile = "./temp.log"; //+T+++
+			logToFile = true;
 		}
 
 		if(arguments.GetValue("--verbose")) {
@@ -418,6 +417,11 @@ int main(int argc, char* argv[])
 	/// Print extra info
 	if(verbose)
 	{
+		if(logToFile)
+			cout << "Saving the logs on file: " << outLogFile << endl;
+		else
+			cout << "Showing the logs on the standard output." << endl;
+
 		if(levelColumn >= 0)
 			cout << "Column ID containing the log level: " << levelColumn << endl;
 		else
@@ -515,6 +519,17 @@ int main(int argc, char* argv[])
 	int  level = 0, contextLevel = 0;
 	bool printLog = false;
 
+	// Send the output either to cout or to a file
+	if(outLogFile.empty()) {
+		logStream.rdbuf(std::cout.rdbuf());
+		logToFile = false;
+	}
+	else {
+		fileBuffer.open(outLogFile.c_str(), std::ios_base::out | std::ofstream::app);
+		logStream.rdbuf(&fileBuffer);
+		logToFile = true;
+	}
+
 	if(nLatestChars >= 0)
 	{
 		// Start reading from the last "nChars" characters
@@ -593,8 +608,11 @@ int main(int argc, char* argv[])
 							context.ExtractPastLog(contextLog);
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
 							if(printLogFile)
-								cout << logFile << ": ";
-							cout << "-" << Format(contextLevel) << contextLog << Reset() << endl;
+								logStream << logFile << ": ";
+							if(logToFile)
+								logStream << "-" << contextLog << endl;
+							else
+								logStream << "-" << Format(contextLevel) << contextLog << Reset() << endl;
 						}
 
 						distNextLogContext = 0;
@@ -641,12 +659,15 @@ int main(int argc, char* argv[])
 					}
 
 					if(printLogFile)
-						cout << logFile << ": ";
+						logStream << logFile << ": ";
 
 					if(isContextLog)
-						cout << "+";
+						logStream << "+";
 
-					*logStream << Format(level) << log << Reset() << endl;
+					if(logToFile)
+						logStream << log << endl;
+					else
+						logStream << Format(level) << log << Reset() << endl;
 
 					if(beepLevel >= 0 && level >= beepLevel)
 						cout << char(7) << flush;	// beep
