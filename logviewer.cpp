@@ -20,9 +20,13 @@
  */
 
 /* TODO
+	-- Bug: output log file name not picked. The issue is in the storage of the file name from the command line.
+		Its subsequent reading seems to be ok.
+	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
+		-- Specify formatting independently from the output stream. Add a command line parameter
+		   to specify which format to use (e.g. UNIX shell highlighting, HTML formatting, markdown, ...).
 	-- Derive a tool to make automatic summaries from text using user specified keywords.
 	. Bug: allow to specify relative paths on the command line.
-	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 	-- Group code blocks in separate functions/classes.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
@@ -119,6 +123,7 @@ int main(int argc, char* argv[])
 	ostream  logStream(0);				// generic output stream for the logs
 	filebuf  fileBuffer;
 	string   outLogFile;				// file name for the output stream
+	string   outLogFileFormat;			// OS shell highlighting, HTML, markdown, ...
 	bool     logToFile = false;
 
 	char delimiter = '\n';				// delimit the end of a log
@@ -166,6 +171,9 @@ int main(int argc, char* argv[])
 
 	// Set command line parameters:
 	{
+		/* int Set(std::string _tag, std::string _shortTag, std::string _desc = "",
+				   bool _optional = true, bool _needed = false, std::string _default = "");
+		*/
 		arg.Set("--input", "-i", "Input log file", false, true);
 		arguments.AddArg(arg);
 		arg.Set("--levelCol", "-l", "ID of the column which contains the log level", true, true, "-1");
@@ -199,6 +207,8 @@ int main(int argc, char* argv[])
 		arg.Set("--delimiter", "-d", "Specify a custom delimiter for the messages (default = new line)", true, true);
 		arguments.AddArg(arg);
 		arg.Set("--outFile", "-o", "Redirect the output to a file (default = standard output)", false);
+		arguments.AddArg(arg);
+		arg.Set("--outFileFormat", "-of", "Format of the output log file", false);	//+TODO - Specify available formats
 		arguments.AddArg(arg);
 		arg.Set("--verbose", "-vb", "Print extra information");
 		arguments.AddArg(arg);
@@ -374,6 +384,7 @@ int main(int argc, char* argv[])
 			arguments.GetValue("--outFile", outLogFile);	//+B+++ file name not picked!
 			//outLogFile = "./temp.log"; //+T+++
 			logToFile = true;
+			cout << "outLogFile = " << outLogFile << "  outLogFileFormat = " << outLogFileFormat << endl; //+T
 		}
 
 		if(arguments.GetValue("--verbose")) {
