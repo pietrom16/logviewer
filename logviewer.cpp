@@ -20,13 +20,13 @@
  */
 
 /* TODO
-	-- Bug: output log file name not picked. The issue is in the storage of the file name from the command line.
+	. Bug: output log file name not picked. The issue is in the storage of the file name from the command line.
 		Its subsequent reading seems to be ok.
 		Bug location:
 		int ProgArgs::Argument::Set(std::string _tag, std::string _shortTag, std::string _desc = "",
 									bool _optional = true, bool _needed = false, std::string _default = "");
 		for _needed = false
-
+		Solution: not a bug, but a feature.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 		-- Specify formatting independently from the output stream. Add a command line parameter
 		   to specify which format to use (e.g. UNIX shell highlighting, HTML formatting, markdown, ...).
@@ -213,7 +213,7 @@ int main(int argc, char* argv[])
 		arguments.AddArg(arg);
 		arg.Set("--outFile", "-o", "Redirect the output to a file (default = standard output)", true, true);
 		arguments.AddArg(arg);
-		arg.Set("--outFileFormat", "-of", "Format of the output log file", true, false);	//+TODO - Specify available formats
+		arg.Set("--outFileFormat", "-of", "Format of the output log file", true, true);	//+TODO - Specify available formats
 		arguments.AddArg(arg);
 		arg.Set("--verbose", "-vb", "Print extra information");
 		arguments.AddArg(arg);
