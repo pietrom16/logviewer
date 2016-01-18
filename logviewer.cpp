@@ -20,13 +20,6 @@
  */
 
 /* TODO
-	. Bug: output log file name not picked. The issue is in the storage of the file name from the command line.
-		Its subsequent reading seems to be ok.
-		Bug location:
-		int ProgArgs::Argument::Set(std::string _tag, std::string _shortTag, std::string _desc = "",
-									bool _optional = true, bool _needed = false, std::string _default = "");
-		for _needed = false
-		Solution: not a bug, but a feature.
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 		-- Specify formatting independently from the output stream. Add a command line parameter
 		   to specify which format to use (e.g. UNIX shell highlighting, HTML formatting, markdown, ...).
@@ -386,15 +379,12 @@ int main(int argc, char* argv[])
 		}
 
 		if(arguments.GetValue("--outFile")) {
-			arguments.GetValue("--outFile", outLogFile);	//+B+++ file name not picked!
-			//outLogFile = "./temp.log"; //+T+++
+			arguments.GetValue("--outFile", outLogFile);
 			logToFile = true;
-			cout << "outLogFile = " << outLogFile << endl; //+T
 		}
 
 		if(arguments.GetValue("--outFileFormat")) {
-			arguments.GetValue("--outFileFormat", outLogFileFormat);	//+B+++ file format not picked!
-			cout << "  outLogFileFormat = " << outLogFileFormat << endl; //+T
+			arguments.GetValue("--outFileFormat", outLogFileFormat);
 		}
 
 		if(arguments.GetValue("--verbose")) {
