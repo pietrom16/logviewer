@@ -4,7 +4,7 @@
  * Context of the current log, i.e. set of logs that may be shown if the
  * current log's level is above a specific threshold.
  *
- * Copyright (C) 2012-2015 Pietro Mele
+ * Copyright (C) 2012-2016 Pietro Mele
  * Released under a GPL 3 license.
  *
  * pietrom16@gmail.com

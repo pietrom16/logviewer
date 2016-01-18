@@ -1,6 +1,6 @@
 # CMakeLists.txt - logviewer
 #
-# Copyright 2012-2015 Pietro Mele
+# Copyright 2012-2016 Pietro Mele
 
 cmake_minimum_required(VERSION 3.0)
 

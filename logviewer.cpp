@@ -3,7 +3,7 @@
  *
  * Utility to display log files in real time on the console.
  *
- * Copyright (C) 2012-2015 Pietro Mele
+ * Copyright (C) 2012-2016 Pietro Mele
  * Released under a GPL 3 license.
  *
  * pietrom16@gmail.com
@@ -922,7 +922,7 @@ void PrintVersion(const char* _progName)
 	string progName = _progName;
 	size_t p = progName.find_last_of(slash) + 1;
 	cout << "\n\t" << progName.substr(p) << " version " << version << "." << subversion << "." << subsubversion << endl;
-	cout << "\n\t" << "Copyright 2012-2015 Pietro Mele" << endl;
+	cout << "\n\t" << "Copyright 2012-2016 Pietro Mele" << endl;
 	cout << "\n\t" << "Released under a GPL 3 license." << endl;
 	cout << "\n\t" << "pietrom16@gmail.com"
 		 << "\n\t" << "https://sites.google.com/site/pietrom16" << endl;
