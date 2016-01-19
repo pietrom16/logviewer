@@ -11,6 +11,8 @@
  *****************************************************************************/
 
 #include "LogFormatter.hpp"
+#include "textModeFormatting.h"
+#include <sstream>
 
 
 namespace LogViewer {
@@ -58,27 +60,38 @@ bool LogFormatter::CheckFormat(const std::string &_format) const
 
 // Formatters
 
-std::string LogFormatter::operator[] (const std::string &_input) const
+std::string LogFormatter::Format(const std::string &_log, int _level, const std::string &_file, char _tag) const
 {
-	if(format == "plain")         return FormatPlain(_input);
-	else if(format == "console")  return FormatConsole(_input);
-	else if(format == "HTML")     return FormatHTML(_input);
-	else if(format == "markdown") return FormatMarkdown(_input);
+	if(format == "plain")         return FormatPlain(_log, _level, _file, _tag);
+	else if(format == "console")  return FormatConsole(_log, _level, _file, _tag);
+	else if(format == "HTML")     return FormatHTML(_log, _level, _file, _tag);
+	else if(format == "markdown") return FormatMarkdown(_log, _level, _file, _tag);
 
-	return FormatPlain(_input);
+	return FormatPlain(_log, _level, _file, _tag);
 }
 
 
-std::string LogFormatter::FormatPlain(const std::string &_input) const
+std::string LogFormatter::FormatPlain(const std::string &_log, int _level, const std::string &_file, char _tag) const
 {
-	return _input;
+	return _log;
 }
 
 
-//+TODO
-std::string LogFormatter::FormatConsole(const std::string &_input) const{return _input;}
-std::string LogFormatter::FormatHTML(const std::string &_input) const{return _input;}
-std::string LogFormatter::FormatMarkdown(const std::string &_input) const{return _input;}
+//+TEST
+std::string LogFormatter::FormatConsole(const std::string &_log, int _level, const std::string &_file, char _tag) const
+{
+	using namespace textModeFormatting;
+	using textModeFormatting::Format;
+
+	std::stringstream formStr(0);
+	formStr << Reset() << _file << ": " << Format(nLevels - 1) << _tag << Format(_level) << _log << Reset();
+
+	return formStr.str();
+}
+
+
+std::string LogFormatter::FormatHTML(const std::string &_log, int _level, const std::string &_file, char _tag) const{return _log;}
+std::string LogFormatter::FormatMarkdown(const std::string &_log, int _level, const std::string &_file, char _tag) const{return _log;}
 
 
 } // LogViewer
