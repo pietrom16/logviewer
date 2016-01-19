@@ -44,6 +44,8 @@ set(SRC
 	LogContext.cpp
 	LogContext.hpp
 	LogContext_test.cpp
+	LogFormatter.cpp
+	LogFormatter.hpp
 	progArgs.cpp
 	progArgs.h
 	ReadKeyboard.cpp
