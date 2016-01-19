@@ -27,11 +27,16 @@ public:
 	int SetFormat(const std::string &_format);
 	std::string GetFormat() const { return format; }
 
-	// Formatter
-	std::string operator[] (const std::string &_input) const;
-
 	std::string AvailableFormats() const { return availableFormats; }
 	bool CheckFormat(const std::string &_format) const;
+
+	// Formatters
+	std::string operator[] (const std::string &_input) const;
+
+	std::string FormatPlain(const std::string &_input) const;
+	std::string FormatConsole(const std::string &_input) const;
+	std::string FormatHTML(const std::string &_input) const;
+	std::string FormatMarkdown(const std::string &_input) const;
 
 private:
 
