@@ -210,7 +210,7 @@ int main(int argc, char* argv[])
 		arguments.AddArg(arg);
 		arg.Set("--outFile", "-o", "Redirect the output to a file (default = standard output)", true, true);
 		arguments.AddArg(arg);
-		arg.Set("--outFileFormat", "-of", "Format of the output log file", true, true);	//+TODO - Specify available formats
+		arg.Set("--outFileFormat", "-of", "Format of the output log file: plain, console, (TODO: HTML, markdown)", true, true);	//+TODO - Specify available formats
 		arguments.AddArg(arg);
 		arg.Set("--verbose", "-vb", "Print extra information");
 		arguments.AddArg(arg);
@@ -387,8 +387,18 @@ int main(int argc, char* argv[])
 			logToFile = true;
 		}
 
-		if(arguments.GetValue("--outFileFormat")) {
+		if(arguments.GetValue("--outFileFormat"))
+		{
 			arguments.GetValue("--outFileFormat", outLogFileFormat);
+
+			if(logFormatter.CheckFormat(outLogFileFormat) == false)
+			{
+				std::cerr << "Warning: " << outLogFileFormat << " is an invalid output file format.\n"
+						  << "              The default " << logFormatter.DefaultFormat() << " format will be used." << std::endl;
+				outLogFileFormat = logFormatter.DefaultFormat();
+			}
+
+			logFormatter.SetFormat(outLogFileFormat);
 		}
 
 		if(arguments.GetValue("--verbose")) {

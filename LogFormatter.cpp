@@ -19,11 +19,12 @@ namespace LogViewer {
 
 
 const std::string LogFormatter::availableFormats = "plain console HTML markdown";
+const std::string LogFormatter::defaultFormat = "plain";
 
 
 LogFormatter::LogFormatter()
 {
-	SetFormat("plain");
+	SetFormat(defaultFormat);
 }
 
 
@@ -41,7 +42,7 @@ int LogFormatter::SetFormat(const std::string &_format)
 		format = _format;
 	else
 	{
-		format = "plain";
+		format = defaultFormat;
 		success = -1;
 	}
 

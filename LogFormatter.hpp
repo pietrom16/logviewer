@@ -28,6 +28,7 @@ public:
 	std::string GetFormat() const { return format; }
 
 	std::string AvailableFormats() const { return availableFormats; }
+	std::string DefaultFormat()    const { return defaultFormat;    }
 	bool CheckFormat(const std::string &_format) const;
 
 	// Formatters
@@ -41,6 +42,7 @@ public:
 private:
 
 	static const std::string availableFormats;
+	static const std::string defaultFormat;
 
 	std::string format;
 };
