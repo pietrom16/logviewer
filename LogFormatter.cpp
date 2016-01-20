@@ -89,7 +89,8 @@ std::string LogFormatter::FormatConsole(const std::string &_log, int _level, con
 
 	std::string fLog(Reset());
 
-	fLog += _file + ": ";
+	if(!_file.empty())
+		fLog += _file + ": ";
 
 	fLog += std::string(Format(nLevels - 1))
 			+ _tag
