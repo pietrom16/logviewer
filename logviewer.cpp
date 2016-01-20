@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
 	LogLevels logLevels;
 	logLevels.EnableWarnings(false);
 
-	LogFormatter logFormatter;
+	LogFormatter logFormatter("console");
 
 	const int printAll = -1;
 	int nLatest = printAll;				// number of latest logs to be printed (-1 = all)

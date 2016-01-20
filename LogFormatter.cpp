@@ -87,10 +87,17 @@ std::string LogFormatter::FormatConsole(const std::string &_log, int _level, con
 	using namespace textModeFormatting;
 	using textModeFormatting::Format;
 
-	std::stringstream formStr(0);
-	formStr << Reset() << _file << ": " << Format(nLevels - 1) << _tag << Format(_level) << _log << Reset();
+	std::string fLog(Reset());
 
-	return formStr.str();
+	fLog += _file + ": ";
+
+	fLog += std::string(Format(nLevels - 1))
+			+ _tag
+			+ std::string(Format(_level))
+			+ _log
+			+ std::string(Reset());
+
+	return fLog;
 }
 
 
