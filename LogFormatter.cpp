@@ -81,7 +81,6 @@ std::string LogFormatter::FormatPlain(const std::string &_log, int _level, const
 }
 
 
-//+TEST
 std::string LogFormatter::FormatConsole(const std::string &_log, int _level, const std::string &_file, char _tag) const
 {
 	using namespace textModeFormatting;
@@ -92,7 +91,7 @@ std::string LogFormatter::FormatConsole(const std::string &_log, int _level, con
 	if(!_file.empty())
 		fLog += _file + ": ";
 
-	fLog += std::string(Format(nLevels - 1))
+	fLog += std::string(Format(ny))
 			+ _tag
 			+ std::string(Format(_level))
 			+ _log
