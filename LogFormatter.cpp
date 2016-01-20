@@ -73,7 +73,11 @@ std::string LogFormatter::Format(const std::string &_log, int _level, const std:
 
 std::string LogFormatter::FormatPlain(const std::string &_log, int _level, const std::string &_file, char _tag) const
 {
-	return _log;
+	std::string fLog;
+	fLog += _file + ": ";
+	fLog += _tag + _log;
+
+	return fLog;
 }
 
 

@@ -23,6 +23,7 @@
 	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
 		-- Specify formatting independently from the output stream. Add a command line parameter
 		   to specify which format to use (e.g. UNIX shell highlighting, HTML formatting, markdown, ...).
+		-- LogFormatter: use strings instead of streams.
 	-- Derive a tool to make automatic summaries from text using user specified keywords.
 	. Bug: allow to specify relative paths on the command line.
 	-- Group code blocks in separate functions/classes.
@@ -33,6 +34,7 @@
  */
 
 #include "LogContext.hpp"
+#include "LogFormatter.hpp"
 #include "logLevels.h"
 #include "progArgs.h"
 #include "ReadKeyboard.h"
@@ -137,6 +139,8 @@ int main(int argc, char* argv[])
 
 	LogLevels logLevels;
 	logLevels.EnableWarnings(false);
+
+	LogFormatter logFormatter;
 
 	const int printAll = -1;
 	int nLatest = printAll;				// number of latest logs to be printed (-1 = all)
@@ -536,6 +540,7 @@ int main(int argc, char* argv[])
 	/// Print log file
 
 	int  level = 0, contextLevel = 0;
+	char contextSign = ' ';
 	bool printLog = false;
 
 	// Send the output either to cout or to a file
@@ -628,13 +633,14 @@ int main(int argc, char* argv[])
 						while(context.NPastLogs() > 0) {
 							context.ExtractPastLog(contextLog);
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
-							if(printLogFile)
+							logStream << logFormatter.Format(log, level, logFile, '-') << endl;
+/*	//+D+						if(printLogFile)
 								logStream << logFile << ": ";
 							if(logToFile)
 								logStream << "-" << contextLog << endl;
 							else
 								logStream << "-" << Format(contextLevel) << contextLog << Reset() << endl;
-						}
+*/						}
 
 						distNextLogContext = 0;
 						prevLogContext = pos;
@@ -679,6 +685,14 @@ int main(int argc, char* argv[])
 						}
 					}
 
+					//+TODO
+					if(isContextLog)
+						contextSign = '+';
+					else
+						contextSign = ' ';
+
+					logStream << logFormatter.Format(log, level, logFile, contextSign) << endl;
+/* //+D+
 					if(printLogFile)
 						logStream << logFile << ": ";
 
@@ -689,7 +703,7 @@ int main(int argc, char* argv[])
 						logStream << log << endl;
 					else
 						logStream << Format(level) << log << Reset() << endl;
-
+*/
 					if(beepLevel >= 0 && level >= beepLevel)
 						cout << char(7) << flush;	// beep
 
