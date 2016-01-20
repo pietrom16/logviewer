@@ -20,12 +20,8 @@
  */
 
 /* TODO
-	-- Log to a generic stream, not just cout. This will easy porting to other user interfaces.
-		-- Specify formatting independently from the output stream. Add a command line parameter
-		   to specify which format to use (e.g. UNIX shell highlighting, HTML formatting, markdown, ...).
-		-- LogFormatter: use strings instead of streams.
+	-- LogFormatter: HTML and markdown formatting.
 	-- Derive a tool to make automatic summaries from text using user specified keywords.
-	. Bug: allow to specify relative paths on the command line.
 	-- Group code blocks in separate functions/classes.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
