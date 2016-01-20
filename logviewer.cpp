@@ -634,13 +634,7 @@ int main(int argc, char* argv[])
 							context.ExtractPastLog(contextLog);
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
 							logStream << logFormatter.Format(log, level, logFile, '-') << endl;
-/*	//+D+						if(printLogFile)
-								logStream << logFile << ": ";
-							if(logToFile)
-								logStream << "-" << contextLog << endl;
-							else
-								logStream << "-" << Format(contextLevel) << contextLog << Reset() << endl;
-*/						}
+						}
 
 						distNextLogContext = 0;
 						prevLogContext = pos;
@@ -685,25 +679,13 @@ int main(int argc, char* argv[])
 						}
 					}
 
-					//+TODO
 					if(isContextLog)
 						contextSign = '+';
 					else
 						contextSign = ' ';
 
 					logStream << logFormatter.Format(log, level, logFile, contextSign) << endl;
-/* //+D+
-					if(printLogFile)
-						logStream << logFile << ": ";
 
-					if(isContextLog)
-						logStream << "+";
-
-					if(logToFile)
-						logStream << log << endl;
-					else
-						logStream << Format(level) << log << Reset() << endl;
-*/
 					if(beepLevel >= 0 && level >= beepLevel)
 						cout << char(7) << flush;	// beep
 
