@@ -50,6 +50,8 @@ int LogLevels::InitLogLevels()
 int LogLevels::InitLogLevels(const std::vector<TagLevel> &_levels)
 {
 	levels = _levels;
+	MakeAllUppercase();
+
 	warnUnknownLogLevel = true;
 	return levels.size();
 }
@@ -62,6 +64,8 @@ int LogLevels::AddLogLevels(const std::vector<TagLevel> &_levels)
 		levels.push_back(_levels[i]);
 	}
 
+	MakeAllUppercase();
+
 	return levels.size();
 }
 
@@ -69,6 +73,8 @@ int LogLevels::AddLogLevels(const std::vector<TagLevel> &_levels)
 int LogLevels::AddLogLevel(const TagLevel &_level)
 {
 	levels.push_back(_level);
+	levels.back().tag = LogLevels::ToUppercase(levels.back().tag);
+
 	return levels.size();
 }
 
@@ -100,6 +106,7 @@ int LogLevels::AddLogLevels(const std::string &_levelsFName)
 		ifs >> tag;
 		ifs >> level;
 		levels.push_back(TagLevel(tag, level));
+		levels.back().tag = LogLevels::ToUppercase(levels.back().tag);
 	}
 
 	return levels.size();
@@ -304,6 +311,15 @@ int LogLevels::FindLogLevelVal(const std::string &_log,
 	}
 
 	return err_levelNotFound;
+}
+
+
+void LogLevels::MakeAllUppercase()
+{
+	for(size_t i = 0; i < levels.size(); ++i)
+	{
+		levels[i].tag = LogLevels::ToUppercase(levels[i].tag);
+	}
 }
 
 

@@ -21,7 +21,7 @@ namespace LogViewer {
 /// List of all the possible log tags with their corresponding log levels:
 
 struct TagLevel {
-	std::string  tag;
+	std::string  tag;		// will be converted to uppercase
 	int          level;
 
 	TagLevel() : tag(""), level(0) {}
@@ -69,6 +69,8 @@ public:
 	void EnableWarnings(bool _enable = true) {
 		warnUnknownLogLevel = _enable;
 	}
+
+	void MakeAllUppercase();
 
 private:
 	std::vector<TagLevel> levels;

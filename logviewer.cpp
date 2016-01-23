@@ -20,8 +20,8 @@
  */
 
 /* TODO
-	--> Derive a tool to make automatic summaries from text using user specified keywords.
-		--> BUG: LogLevels::FindLogLevelVal()
+	. Derive a tool to make automatic summaries from text using user specified keywords.
+		. BUG fixed: LogLevels::FindLogLevelVal() - Make strings comparison case insesitive.
 	-- LogFormatter: HTML and markdown formatting.
 	- Group code blocks in separate functions/classes.
 	- Allow to pass multiple values for each command line parameter.
