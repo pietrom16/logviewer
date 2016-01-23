@@ -20,9 +20,9 @@
  */
 
 /* TODO
+	--> Derive a tool to make automatic summaries from text using user specified keywords.
 	-- LogFormatter: HTML and markdown formatting.
-	-- Derive a tool to make automatic summaries from text using user specified keywords.
-	-- Group code blocks in separate functions/classes.
+	- Group code blocks in separate functions/classes.
 	- Allow to pass multiple values for each command line parameter.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
@@ -74,7 +74,11 @@ using namespace Utilities;
 
 namespace LogViewer {
 
-const int version = 4, subversion = 2, subsubversion = 0;
+const int version = 4, subversion = 3, subsubversion = 0;
+/* Versioning conventions:
+ *	- Even subversion number: stable version.
+ *	- Odd subversion number: unstable/development version.
+ */
 
 struct Compare {
 	string value;
