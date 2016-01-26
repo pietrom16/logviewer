@@ -23,6 +23,7 @@
 	. Derive a tool to make automatic summaries from text using user specified keywords.
 		. BUG fixed: LogLevels::FindLogLevelVal() - Make strings comparison case insesitive.
 		--> Regression: with log files, the pre-context is made of copies of the current log.
+			- It predates this branch. Looking at previous commits...
 	-- LogFormatter: HTML and markdown formatting.
 	- Group code blocks in separate functions/classes.
 	- Allow to pass multiple values for each command line parameter.
