@@ -602,6 +602,7 @@ int main(int argc, char* argv[])
 		pos = ifs.tellg();
 	}
 
+	// Main loop
 	while(true)
 	{
 		if(ifs.seekg(pos))
@@ -612,6 +613,7 @@ int main(int argc, char* argv[])
 
 				printLog = false;
 
+				// Check if this log's level is high enough to show the context
 				if(level >= context.MinContextLevel())
 				{
 					// Check forward context
@@ -646,6 +648,7 @@ int main(int argc, char* argv[])
 					if(level >= context.MinLevelForContext())
 					{
 						while(context.NPastLogs() > 0) {
+							context.Dump(); //+T+++
 							context.ExtractPastLog(contextLog);
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
 							logStream << logFormatter.Format(log, level, logFile, '-') << endl;

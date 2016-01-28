@@ -12,6 +12,7 @@
  *****************************************************************************/
 
 #include "LogContext.hpp"
+#include <iostream>
 
 
 namespace LogViewer {
@@ -39,6 +40,22 @@ int LogContext::ExtractPastLog(std::string &_log)
 	pastLogs.pop();
 
 	return int(pastLogs.size());
+}
+
+
+void LogContext::Dump() const
+{
+	std::queue<std::string>  pastLogsTmp(pastLogs);
+
+	std::cout << "--- Log's past context: ---\n";
+
+	while(pastLogsTmp.empty() == false)
+	{
+		std::cout << "Pre-Context: " << pastLogsTmp.front() << "\n";
+		pastLogsTmp.pop();
+	}
+
+	std::cout << "---------------------------" << std::endl;
 }
 
 
