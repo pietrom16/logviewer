@@ -20,10 +20,6 @@
  */
 
 /* TODO
-	. Derive a tool to make automatic summaries from text using user specified keywords.
-		. BUG fixed: LogLevels::FindLogLevelVal() - Make strings comparison case insesitive.
-		--> Regression: with log files, the pre-context is made of copies of the current log.
-			- It predates this branch. Looking at previous commits...
 	- BUG: log file printed even when --printLogFile option not specified.
 	-- LogFormatter: HTML and markdown formatting.
 	- Group code blocks in separate functions/classes.
@@ -639,7 +635,6 @@ int main(int argc, char* argv[])
 					}
 
 					// Log backward context
-					//+BUG+ Same log printed multiple times
 
 					if(printLog == false)
 						// To reduce disk stress, store context logs in memory
@@ -648,10 +643,9 @@ int main(int argc, char* argv[])
 					if(level >= context.MinLevelForContext())
 					{
 						while(context.NPastLogs() > 0) {
-							context.Dump(); //+T+++
 							context.ExtractPastLog(contextLog);
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
-							logStream << logFormatter.Format(log, level, logFile, '-') << endl;
+							logStream << logFormatter.Format(contextLog, contextLevel, logFile, '-') << endl;
 						}
 
 						distNextLogContext = 0;
