@@ -135,9 +135,14 @@ int main(int argc, char* argv[])
 	int    levelColumn = -1;				// depends on the logs format (dynamic if < 0)
 	int    minLevel = 0;					// minimum level a log must have to be shown
 	int    beepLevel = -1;					// minimum level to get an audio signal (disabled if < 0)
+
 	bool   printLogFile = false;			// print the log file name for each log message
 	string logFileField;					// log file name to be printed for each log message
+
+	int    logNumber = 0;					// log/line numbers
+	int    logNumberField = -1;				// log/line numbers to be printed for each log message
 	bool   printLogNumber = false;			// print the log/line numbers
+
 	bool   textParsing = false;				// parse the input file as normal text, not as a log file
 	bool   warnUnknownLogLevel = true;		// warning for missing level in a log
 
