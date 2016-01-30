@@ -1,0 +1,7 @@
+logviewer.txt
+------------------------
+
+Test command line parameters:
+
+-i ./test.log -m 3 -cw 3 -mlc 4 -mcl 1 --printLogNumber
+-i ../logviewer/testText0.txt -ll ../logviewer/testText_logLevels.txt -m 3 --text -d .
