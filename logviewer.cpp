@@ -20,7 +20,7 @@
  */
 
 /* TODO
-	- BUG: log file printed even when --printLogFile option not specified.
+	. BUG: log file printed even when --printLogFile option not specified.
 	-- LogFormatter: HTML and markdown formatting.
 	- Group code blocks in separate functions/classes.
 	- Allow to pass multiple values for each command line parameter.
@@ -130,12 +130,13 @@ int main(int argc, char* argv[])
 
 	string logHeader;
 
-	int  levelColumn = -1;				// depends on the logs format (dynamic if < 0)
-	int  minLevel = 0;					// minimum level a log must have to be shown
-	int  beepLevel = -1;				// minimum level to get an audio signal (disabled if < 0)
-	bool printLogFile = false;			// print the log file name for each log message
-	bool textParsing = false;			// parse the input file as normal text, not as a log file
-	bool warnUnknownLogLevel = true;	// warning for missing level in a log
+	int    levelColumn = -1;				// depends on the logs format (dynamic if < 0)
+	int    minLevel = 0;					// minimum level a log must have to be shown
+	int    beepLevel = -1;					// minimum level to get an audio signal (disabled if < 0)
+	bool   printLogFile = false;			// print the log file name for each log message
+	string logFileField;					// log file name to be printed for each log message
+	bool   textParsing = false;				// parse the input file as normal text, not as a log file
+	bool   warnUnknownLogLevel = true;		// warning for missing level in a log
 
 	LogLevels logLevels;
 	logLevels.EnableWarnings(false);
@@ -259,6 +260,11 @@ int main(int argc, char* argv[])
 
 		if(arguments.GetValue("--printLogFile")) {
 			printLogFile = true;
+			logFileField = logFile;
+		}
+		else {
+			printLogFile = false;
+			logFileField.clear();
 		}
 
 		if(arguments.GetValue("--subString"))
@@ -645,7 +651,7 @@ int main(int argc, char* argv[])
 						while(context.NPastLogs() > 0) {
 							context.ExtractPastLog(contextLog);
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
-							logStream << logFormatter.Format(contextLog, contextLevel, logFile, '-') << endl;
+							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-') << endl;
 						}
 
 						distNextLogContext = 0;
@@ -696,7 +702,7 @@ int main(int argc, char* argv[])
 					else
 						contextSign = ' ';
 
-					logStream << logFormatter.Format(log, level, logFile, contextSign) << endl;
+					logStream << logFormatter.Format(log, level, logFileField, contextSign) << endl;
 
 					if(beepLevel >= 0 && level >= beepLevel)
 						cout << char(7) << flush;	// beep

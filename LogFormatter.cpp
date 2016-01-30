@@ -75,7 +75,10 @@ std::string LogFormatter::Format(const std::string &_log, int _level, const std:
 std::string LogFormatter::FormatPlain(const std::string &_log, int _level, const std::string &_file, char _tag) const
 {
 	std::string fLog;
-	fLog += _file + ": ";
+
+	if(!_file.empty())
+		fLog += _file + ": ";
+
 	fLog += _tag + _log;
 
 	return fLog;
@@ -101,7 +104,7 @@ std::string LogFormatter::FormatConsole(const std::string &_log, int _level, con
 	return fLog;
 }
 
-
+//+TODO
 std::string LogFormatter::FormatHTML(const std::string &_log, int _level, const std::string &_file, char _tag) const{return _log;}
 std::string LogFormatter::FormatMarkdown(const std::string &_log, int _level, const std::string &_file, char _tag) const{return _log;}
 
