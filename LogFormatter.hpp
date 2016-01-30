@@ -32,12 +32,12 @@ public:
 	bool CheckFormat(const std::string &_format) const;
 
 	// Formatters
-	std::string Format(const std::string &_log, int _level, const std::string &_file, char _tag = ' ') const;
+	std::string Format(const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
 
-	std::string FormatPlain   (const std::string &_log, int _level, const std::string &_file, char _tag = ' ') const;
-	std::string FormatConsole (const std::string &_log, int _level, const std::string &_file, char _tag = ' ') const;
-	std::string FormatHTML    (const std::string &_log, int _level, const std::string &_file, char _tag = ' ') const;
-	std::string FormatMarkdown(const std::string &_log, int _level, const std::string &_file, char _tag = ' ') const;
+	std::string FormatPlain   (const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
+	std::string FormatConsole (const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
+	std::string FormatHTML    (const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
+	std::string FormatMarkdown(const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
 
 private:
 
