@@ -625,6 +625,8 @@ int main(int argc, char* argv[])
 		{
 			while(getline(ifs, log, delimiter))
 			{
+				++logNumber;
+
 				level = logLevels.FindLogLevel(log, levelColumn);
 
 				printLog = false;
@@ -716,7 +718,12 @@ int main(int argc, char* argv[])
 					else
 						contextSign = ' ';
 
-					logStream << logFormatter.Format(log, level, logFileField, contextSign) << endl;
+					if(printLogNumber)
+						logNumberField = logNumber;
+					else
+						logNumberField = -1;
+
+					logStream << logFormatter.Format(log, level, logFileField, contextSign, logNumberField) << endl;
 
 					if(beepLevel >= 0 && level >= beepLevel)
 						cout << char(7) << flush;	// beep
@@ -804,6 +811,9 @@ int main(int argc, char* argv[])
 	}
 
 	rdKb.~ReadKeyboard();
+
+	logStream << "\nTotal number of logs so far: " << logNumber << std::endl;
+
 	return 0;
 }
 
