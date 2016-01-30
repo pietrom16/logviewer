@@ -20,9 +20,12 @@
  */
 
 /* TODO
+	-- Option to print log/sentence/line number.
 	-- LogFormatter: HTML and markdown formatting.
 	- Group code blocks in separate functions/classes.
-	- Allow to pass multiple values for each command line parameter.
+	-- ProgArgs: Check if multiple parameters with the same tag can coexist.
+		-- Allow to pass multiple values for each command line parameter (especially inclusion/exclusion tokens).
+	- Add logviewer aliases with defalt parameters for specific uses.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 	- Better randomize the colors in LogLevelMapping().
@@ -73,7 +76,7 @@ using namespace Utilities;
 
 namespace LogViewer {
 
-const int version = 4, subversion = 3, subsubversion = 2;
+const int version = 4, subversion = 3, subsubversion = 3;
 /* Versioning conventions:
  *	- Even subversion number: stable version.
  *	- Odd subversion number: unstable/development version.
