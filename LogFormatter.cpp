@@ -67,12 +67,12 @@ std::string LogFormatter::Format(const std::string &_log,
 								 char _tag,
 								 int _logNumber) const
 {
-	if(format == "plain")         return FormatPlain(_log, _level, _file, _tag);
-	else if(format == "console")  return FormatConsole(_log, _level, _file, _tag);
-	else if(format == "HTML")     return FormatHTML(_log, _level, _file, _tag);
-	else if(format == "markdown") return FormatMarkdown(_log, _level, _file, _tag);
+	if(format == "plain")         return FormatPlain(_log, _level, _file, _tag, _logNumber);
+	else if(format == "console")  return FormatConsole(_log, _level, _file, _tag, _logNumber);
+	else if(format == "HTML")     return FormatHTML(_log, _level, _file, _tag, _logNumber);
+	else if(format == "markdown") return FormatMarkdown(_log, _level, _file, _tag, _logNumber);
 
-	return FormatPlain(_log, _level, _file, _tag);
+	return FormatPlain(_log, _level, _file, _tag, _logNumber);
 }
 
 
