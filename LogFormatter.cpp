@@ -87,6 +87,9 @@ std::string LogFormatter::FormatPlain(const std::string &_log,
 	if(!_file.empty())
 		fLog += _file + ": ";
 
+	if(_logNumber > 0)
+		fLog += std::to_string(_logNumber) + ": ";
+
 	fLog += _tag + _log;
 
 	return fLog;
@@ -106,6 +109,9 @@ std::string LogFormatter::FormatConsole(const std::string &_log,
 
 	if(!_file.empty())
 		fLog += _file + ": ";
+
+	if(_logNumber > 0)
+		fLog += std::to_string(_logNumber) + ": ";
 
 	fLog += std::string(Format(ny))
 			+ _tag
