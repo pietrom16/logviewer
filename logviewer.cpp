@@ -20,7 +20,6 @@
  */
 
 /* TODO
-	. BUG: log file printed even when --printLogFile option not specified.
 	-- LogFormatter: HTML and markdown formatting.
 	- Group code blocks in separate functions/classes.
 	- Allow to pass multiple values for each command line parameter.
