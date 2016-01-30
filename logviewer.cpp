@@ -664,10 +664,12 @@ int main(int argc, char* argv[])
 
 					if(level >= context.MinLevelForContext())
 					{
+						int logNumberPre = logNumber - context.NPastLogs() - 1;		//+TODO: Test with different log levels and thresholds
 						while(context.NPastLogs() > 0) {
+							++logNumberPre;
 							context.ExtractPastLog(contextLog);
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
-							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-') << endl;
+							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberPre) << endl;
 						}
 
 						distNextLogContext = 0;
