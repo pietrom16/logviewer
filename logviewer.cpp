@@ -137,6 +137,7 @@ int main(int argc, char* argv[])
 	int    beepLevel = -1;					// minimum level to get an audio signal (disabled if < 0)
 	bool   printLogFile = false;			// print the log file name for each log message
 	string logFileField;					// log file name to be printed for each log message
+	bool   printLogNumber = false;			// print the log/line numbers
 	bool   textParsing = false;				// parse the input file as normal text, not as a log file
 	bool   warnUnknownLogLevel = true;		// warning for missing level in a log
 
@@ -190,6 +191,8 @@ int main(int argc, char* argv[])
 		arg.Set("--nLatestChars", "-nc", "Print the latest n characters only", true, true, "-1");
 		arguments.AddArg(arg);
 		arg.Set("--printLogFile", "-f", "Print the log file name for each message (useful if multiple log files are shown simultaneously)", true, false);
+		arguments.AddArg(arg);
+		arg.Set("--printLogNumber", "-ln", "Print the log/line numbers", true, false);
 		arguments.AddArg(arg);
 		arg.Set("--subString", "-s", "Print the logs which contain the specified substring", true, true);
 		arguments.AddArg(arg);
@@ -267,6 +270,10 @@ int main(int argc, char* argv[])
 		else {
 			printLogFile = false;
 			logFileField.clear();
+		}
+
+		if(arguments.GetValue("--printLogNumber")) {
+			printLogNumber = true;
 		}
 
 		if(arguments.GetValue("--subString"))
