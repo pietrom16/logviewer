@@ -20,8 +20,8 @@
  */
 
 /* TODO
-	-- Option to print log/sentence/line number.
 	-- LogFormatter: HTML and markdown formatting.
+	- Option to print log/sentence/line number. Done; further testing needed.
 	- Group code blocks in separate functions/classes.
 	-- ProgArgs: Check if multiple parameters with the same tag can coexist.
 		-- Allow to pass multiple values for each command line parameter (especially inclusion/exclusion tokens).
