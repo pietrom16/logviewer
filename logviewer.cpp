@@ -76,7 +76,7 @@ using namespace Utilities;
 
 namespace LogViewer {
 
-const int version = 4, subversion = 3, subsubversion = 3;
+const int version = 4, subversion = 3, subsubversion = 4;
 /* Versioning conventions:
  *	- Even subversion number: stable version.
  *	- Odd subversion number: unstable/development version.
