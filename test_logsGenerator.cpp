@@ -28,12 +28,31 @@ std::string LogDate();
 int main(int argc, char* argv[])
 {
 	bool endless = true;
-	int  gen = 2;
+	int  gen = 0, nGen = 3;
 	int  nLogs = 0;
 
 	if(argc > 1) {
+
+		const std::string arg(argv[1]);
+
+		if(arg == "-h" || arg == "--help") {
+			std::cout << argv[0] << " nLogs distribution\n"
+					  << "distribution values:\n"
+					  << "  0. Random"
+					  << "  1. Increasing"
+					  << "  2. Spikes"
+					  << std::endl;
+			exit(0);
+		}
+
 		nLogs = atoi(argv[1]);
 		endless = false;
+	}
+
+	if(argc > 2) {
+		gen = atoi(argv[2]);
+		if(gen >= nGen)
+			gen = 0;
 	}
 
 	std::string log;
