@@ -27,8 +27,8 @@ public:
 	LogContext() :
 		width(0), minLevelForContext(5 /*ERROR*/), minContextLevel(10 /*context disabled*/) {}
 
-	int StorePastLog(const std::string &_log, int _level, int _minLevel);
-	int ExtractPastLog(std::string &_log);
+	int StorePastLog(const std::string &_log, int _level, int _minLevel, int _logNumberPre);
+	int ExtractPastLog(std::string &_log);   // return log id/number
 
 	int Width()              const { return width; }
 	int MinLevelForContext() const { return minLevelForContext; }
@@ -46,7 +46,16 @@ private:
 	int  minLevelForContext;	// the minimum level a log must have to get a context
 	int  minContextLevel;		// the minimum level a log must have to be part of the context
 
-	std::queue<std::string>  pastLogs;
+	struct PastLog {
+		std::string  log;
+		int          logNumber;
+
+		PastLog() : logNumber(0) {}
+		PastLog(const std::string &_log, int _logNum = 0)
+			: log(_log), logNumber(_logNum) {}
+	};
+
+	std::queue<PastLog>  pastLogs;
 };
 
 
