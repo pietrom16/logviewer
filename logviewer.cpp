@@ -20,6 +20,7 @@
  */
 
 /* TODO
+	--- Add new test logs: increasing/decreasing (dente di sega), to test context.
 	-- LogFormatter: HTML and markdown formatting.
 	-- Option to print log/sentence/line number. Done; further testing needed.
 		-- Pre-context logs: pick their number when storing them in the container.
