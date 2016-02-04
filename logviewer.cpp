@@ -27,6 +27,7 @@
 	-- ProgArgs: Check if multiple parameters with the same tag can coexist.
 		-- Allow to pass multiple values for each command line parameter (especially inclusion/exclusion tokens).
 	- Add logviewer aliases with defalt parameters for specific uses.
+	- Allow navigation/collapse/expansion in an interactive way.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 	- Better randomize the colors in LogLevelMapping().

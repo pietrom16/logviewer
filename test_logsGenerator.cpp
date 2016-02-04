@@ -111,6 +111,8 @@ int main(int argc, char* argv[])
 		++i;
 	}
 
+	std::cout << "\n" << i << " test logs generated in file: " << logFile << std::endl;
+
 	return 0;
 }
 
