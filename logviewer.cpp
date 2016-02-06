@@ -21,11 +21,13 @@
 
 /* TODO
 	-- LogFormatter: HTML and markdown formatting.
-	- Option to print log/sentence/line number. Done; further testing needed.
+	-- Option to print log/sentence/line number. Done; further testing needed.
+		-- Pre-context logs: pick their number when storing them in the container.
 	- Group code blocks in separate functions/classes.
 	. ProgArgs: Check if multiple parameters with the same tag can coexist. OK.
 		-- Allow to pass multiple values for each command line parameter (especially inclusion/exclusion tokens).
 	- Add logviewer aliases with defalt parameters for specific uses.
+	- Allow navigation/collapse/expansion in an interactive way.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 	- Better randomize the colors in LogLevelMapping().
@@ -660,14 +662,12 @@ int main(int argc, char* argv[])
 
 					if(printLog == false)
 						// To reduce disk stress, store context logs in memory
-						context.StorePastLog(log, level, minLevel);
+						context.StorePastLog(log, level, minLevel, logNumber);
 
 					if(level >= context.MinLevelForContext())
 					{
-						int logNumberPre = logNumber - context.NPastLogs() - 1;		//+TODO: Test with different log levels and thresholds
 						while(context.NPastLogs() > 0) {
-							++logNumberPre;
-							context.ExtractPastLog(contextLog);
+							int logNumberPre = context.ExtractPastLog(contextLog);
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
 							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberPre) << endl;
 						}

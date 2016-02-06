@@ -28,7 +28,7 @@ std::string LogDate();
 int main(int argc, char* argv[])
 {
 	bool endless = true;
-	int  gen = 0, nGen = 3;
+	int  gen = 0, nGen = 4;
 	int  nLogs = 0;
 
 	if(argc > 1) {
@@ -41,6 +41,7 @@ int main(int argc, char* argv[])
 					  << "  0. Random"
 					  << "  1. Increasing"
 					  << "  2. Spikes"
+					  << "  3. Triangle wave"
 					  << std::endl;
 			exit(0);
 		}
@@ -90,6 +91,9 @@ int main(int argc, char* argv[])
 			else
 				level = 1;
 		}
+		else if(gen == 3) {					// Triangle wave
+			level = abs((i % 14) - 7);
+		}
 
 		int format = rand() % 3;
 		switch (format) {
@@ -110,6 +114,8 @@ int main(int argc, char* argv[])
 
 		++i;
 	}
+
+	std::cout << "\n" << i << " test logs generated in file: " << logFile << std::endl;
 
 	return 0;
 }
