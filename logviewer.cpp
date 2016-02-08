@@ -33,6 +33,10 @@
 	- Better randomize the colors in LogLevelMapping().
  */
 
+/* BUGS
+	- In context mode, the first logs are always printed.
+ */
+
 #include "LogContext.hpp"
 #include "LogFormatter.hpp"
 #include "logLevels.h"
