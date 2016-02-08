@@ -36,35 +36,14 @@ Requirements:
 
 Original log file:
 
-[Sun Mar 7 16:02:00 2004] [notice] Apache/1.3.29 (Unix) configured -- resuming normal operations
-[Sun Mar 7 16:02:00 2004] [info] Server built: Feb 27 2004 13:56:37
-[Sun Mar 7 16:02:00 2004] [notice] Accept mutex: sysvsem (Default: sysvsem)
-[Sun Mar 7 17:21:44 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 17:23:53 2004] statistics: Use of uninitialized value in concatenation (.) or string at /home/httpd/twiki/lib/TWiki.pm line 528.
-[Sun Mar 7 17:23:53 2004] statistics: Can't create file /home/httpd/twiki/data/Main/WebStatistics.txt - Permission denied
-[Sun Mar 7 17:27:37 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 19:22:11 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 19:31:25 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 19:39:40 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 19:41:33 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 19:42:45 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 20:02:13 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 20:04:35 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 20:11:33 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 20:12:55 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 20:25:31 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 20:44:48 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 20:58:27 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 21:16:17 2004] [error] [client 24.70.56.49] File does not exist: /home/httpd/twiki/view/Main/WebHome
-[Sun Mar 7 21:20:14 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 21:31:12 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 21:39:55 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 21:44:10 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 22:06:16 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 22:08:43 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
-[Sun Mar 7 22:09:44 2004] [info] [client 64.242.88.10] (104)Connection reset by peer: client stopped connection before send body completed
+Command:  `logviewer --input "example.log" --minLevel 0`
 
-Command:  logviewer --input "example.log" --minLevel 4 --contextWidth 3 --minLevelForContext 5 --minContextLevel 2 -ln
+![Output:](./testApache_log0.png)
+
+Show logs with minimal level 4, and, for logs with level greater or equal to 5, show a 3 logs context (- pre and + post)
+with logs with minimal level 2:
+
+Command:  `logviewer --input "example.log" --minLevel 4 --contextWidth 3 --minLevelForContext 5 --minContextLevel 2 -ln`
 
 ![Output:](./testApache_log.png)
 
