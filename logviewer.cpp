@@ -20,6 +20,7 @@
  */
 
 /* TODO
+	--- Allow to specify multiple sentence separators, e.g. ".;\n", or use '\n' as a default separator.
 	-- LogFormatter: HTML and markdown formatting.
 	-- Option to print log/sentence/line number. Done; further testing needed.
 		-- Pre-context logs: pick their number when storing them in the container.

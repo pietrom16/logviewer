@@ -1,4 +1,4 @@
-refactoring 7
+refactoring 6
 Wikipedia   2
 Refactor    6
 Code        5
