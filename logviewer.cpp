@@ -21,6 +21,7 @@
 
 /* TODO
 	--- Allow to specify multiple sentence separators, e.g. ".;\n", or use '\n' as a default separator.
+		--- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
 	-- LogFormatter: HTML and markdown formatting.
 	-- Option to print log/sentence/line number. Done; further testing needed.
 		-- Pre-context logs: pick their number when storing them in the container.
@@ -83,7 +84,7 @@ using namespace Utilities;
 
 namespace LogViewer {
 
-const int version = 4, subversion = 4, subsubversion = 0;
+const int version = 4, subversion = 5, subsubversion = 0;
 /* Versioning conventions:
  *	- Even subversion number: stable version.
  *	- Odd subversion number: unstable/development version.
@@ -255,9 +256,19 @@ int main(int argc, char* argv[])
 		if(arguments.GetValue("--levelCol", levelCol) >= 0)
 			levelColumn = atoi(levelCol.c_str());
 
-		string minLev;
-		arguments.GetValue("--minLevel", minLev);
-		minLevel = atoi(minLev.c_str());
+		if(arguments.GetValue("--text")) {
+			textParsing = true;
+			warnUnknownLogLevel = false;
+			logLevels.EnableWarnings(false);
+		}
+
+		if(arguments.GetValue("--minLevel")) {
+			string minLev;
+			arguments.GetValue("--minLevel", minLev);
+			minLevel = atoi(minLev.c_str());
+		}
+		else if(textParsing)
+			minLevel = 0;
 
 		if(arguments.GetValue("--nLatest")) {
 			string nLogs;
@@ -395,12 +406,6 @@ int main(int argc, char* argv[])
 			string level;
 			arguments.GetValue("--beepLevel", level);
 			beepLevel = atoi(level.c_str());
-		}
-
-		if(arguments.GetValue("--text")) {
-			textParsing = true;
-			warnUnknownLogLevel = false;
-			logLevels.EnableWarnings(false);
 		}
 
 		if(arguments.GetValue("--delimiter")) {
