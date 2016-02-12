@@ -37,7 +37,6 @@
 
 /* BUGS
 	- In context mode, the first logs are always printed.
-	- In context mode, the line numbers of the pre-logs are always printed.
  */
 
 #include "LogContext.hpp"
@@ -679,8 +678,14 @@ int main(int argc, char* argv[])
 					{
 						while(context.NPastLogs() > 0) {
 							int logNumberPre = context.ExtractPastLog(contextLog);
+
+							if(printLogNumber)
+								logNumberField = logNumberPre;
+							else
+								logNumberField = -1;
+
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
-							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberPre) << endl;
+							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberField) << endl;
 						}
 
 						distNextLogContext = 0;
