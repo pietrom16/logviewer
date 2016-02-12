@@ -37,6 +37,7 @@
 
 /* BUGS
 	- In context mode, the first logs are always printed.
+	- In context mode, the line numbers of the pre-logs are always printed.
  */
 
 #include "LogContext.hpp"
