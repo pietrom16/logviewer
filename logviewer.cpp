@@ -266,7 +266,7 @@ int main(int argc, char* argv[])
 		if(arguments.GetValue("--minLevel")) {
 			string minLev;
 			arguments.GetValue("--minLevel", minLev);
-			minLevel = atoi(minLev.c_str());
+			minLevel = logLevels.GetVal(minLev);
 		}
 		else if(textParsing)
 			minLevel = 0;
