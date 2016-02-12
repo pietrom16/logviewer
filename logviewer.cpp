@@ -20,6 +20,7 @@
  */
 
 /* TODO
+	--- Command line parameters: allow to specify log levels with string tags.
 	--- Allow to specify multiple sentence separators, e.g. ".;\n", or use '\n' as a default separator.
 		--- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
 	-- LogFormatter: HTML and markdown formatting.
