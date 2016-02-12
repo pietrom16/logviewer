@@ -375,14 +375,14 @@ int main(int argc, char* argv[])
 		{
 			string minLevelForContext;
 			arguments.GetValue("--minLevelForContext", minLevelForContext);
-			context.MinLevelForContext(atoi(minLevelForContext.c_str()));
+			context.MinLevelForContext(logLevels.GetVal(minLevelForContext));
 		}
 
 		if(arguments.GetValue("--minContextLevel"))
 		{
 			string minContextLevel;
 			arguments.GetValue("--minContextLevel", minContextLevel);
-			context.MinContextLevel(atoi(minContextLevel.c_str()));
+			context.MinContextLevel(logLevels.GetVal(minContextLevel));
 		}
 
 		if(arguments.GetValue("--logLevels"))
@@ -406,7 +406,7 @@ int main(int argc, char* argv[])
 		if(arguments.GetValue("--beepLevel")) {
 			string level;
 			arguments.GetValue("--beepLevel", level);
-			beepLevel = atoi(level.c_str());
+			beepLevel = logLevels.GetVal(level);
 		}
 
 		if(arguments.GetValue("--delimiter")) {
