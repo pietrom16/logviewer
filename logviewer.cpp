@@ -643,8 +643,13 @@ int main(int argc, char* argv[])
 
 				printLog = false;
 
+				// To reduce disk stress, store context logs in memory
+				if(level >= context.MinContextLevel() &&
+				   level < context.MinLevelForContext())
+					context.StorePastLog(log, level, minLevel, logNumber);
+
 				// Check if this log's level is high enough to show the context
-				if(level >= context.MinContextLevel())
+				if(level >= context.MinLevelForContext())
 				{
 					// Check forward context
 					{
@@ -670,9 +675,9 @@ int main(int argc, char* argv[])
 
 					// Log backward context
 
-					if(printLog == false)
-						// To reduce disk stress, store context logs in memory
-						context.StorePastLog(log, level, minLevel, logNumber);
+//+?					if(printLog == false)
+//+?						// To reduce disk stress, store context logs in memory
+//+?						context.StorePastLog(log, level, minLevel, logNumber);
 
 					if(level >= context.MinLevelForContext())
 					{
