@@ -641,16 +641,44 @@ int main(int argc, char* argv[])
 
 				level = logLevels.FindLogLevel(log, levelColumn);
 
+				if(level < context.MinContextLevel() &&
+				   level < minLevel)
+					continue;
+
 				printLog = false;
 
 				// To reduce disk stress, store context logs in memory
 				if(level >= context.MinContextLevel() &&
-				   level < context.MinLevelForContext())
+				   level < context.MinLevelForContext() &&
+				   level < minLevel)
+				{
 					context.StorePastLog(log, level, minLevel, logNumber);
+					pos = ifs.tellg();
+					continue;
+				}
 
-				// Check if this log's level is high enough to show the context
+				// Check if this log's level is high enough to print the backward context
 				if(level >= context.MinLevelForContext())
 				{
+					// Log backward context
+
+					while(context.NPastLogs() > 0)
+					{
+						int logNumberPre = context.ExtractPastLog(contextLog);
+
+						if(printLogNumber)
+							logNumberField = logNumberPre;
+						else
+							logNumberField = -1;
+
+						contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
+						logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberField) << endl;
+					}
+
+					distNextLogContext = 0;		//+?
+					prevLogContext = pos;
+				}
+
 					// Check forward context
 					{
 						++distPrevLogContext;
@@ -673,30 +701,6 @@ int main(int argc, char* argv[])
 						}
 					}
 
-					// Log backward context
-
-//+?					if(printLog == false)
-//+?						// To reduce disk stress, store context logs in memory
-//+?						context.StorePastLog(log, level, minLevel, logNumber);
-
-					if(level >= context.MinLevelForContext())
-					{
-						while(context.NPastLogs() > 0) {
-							int logNumberPre = context.ExtractPastLog(contextLog);
-
-							if(printLogNumber)
-								logNumberField = logNumberPre;
-							else
-								logNumberField = -1;
-
-							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
-							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberField) << endl;
-						}
-
-						distNextLogContext = 0;
-						prevLogContext = pos;
-					}
-				}
 
 				if(level >= minLevel)
 					printLog = true;
