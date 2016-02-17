@@ -657,10 +657,10 @@ int main(int argc, char* argv[])
 					continue;
 				}
 
-				// Check if this log's level is high enough to print the backward context
+				// Check if this log's level is high enough to print the pre-context
 				if(level >= context.MinLevelForContext())
 				{
-					// Log backward context
+					// Log pre-context
 
 					while(context.NPastLogs() > 0)
 					{
@@ -679,7 +679,7 @@ int main(int argc, char* argv[])
 					prevLogContext = pos;
 				}
 
-					// Check forward context
+					// Check post-context
 					{
 						++distPrevLogContext;
 
