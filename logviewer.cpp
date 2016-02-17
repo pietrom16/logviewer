@@ -24,11 +24,11 @@
 		--- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
 	-- LogFormatter: HTML and markdown formatting.
 	-- Option to print log/sentence/line number. Done; further testing needed.
-		-- Pre-context logs: pick their number when storing them in the container.
+		. Pre-context logs: pick their number when storing them in the container.
 	- Group code blocks in separate functions/classes.
 	. ProgArgs: Check if multiple parameters with the same tag can coexist. OK.
 		-- Allow to pass multiple values for each command line parameter (especially inclusion/exclusion tokens).
-	- Add logviewer aliases with defalt parameters for specific uses.
+	- Add logviewer aliases with default parameters for specific uses.
 	- Allow navigation/collapse/expansion in an interactive way.
 	-- Change pause functionality: stop loading new logs, but keep interacting.
 	- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
@@ -37,9 +37,9 @@
 
 /* BUGS
 	. In context mode, the first logs are always printed.
-	- Post-context logs are no longer printed.
-		- Check minLevel <= context.MinLevelForContext()
-		- Check minLevel >  context.MinContextLevel()
+	. Post-context logs are no longer printed.
+		. Check minLevel <= context.MinLevelForContext()
+		. Check minLevel >  context.MinContextLevel()
  */
 
 #include "LogContext.hpp"
@@ -556,8 +556,8 @@ int main(int argc, char* argv[])
 	string     log, token, contextLog;
 
 	streamoff  pos = 0;					// position of the current log
-	streamoff  lastPrintedLogPos = 0;	//+D? position of the last log with level above the threshold
-	streamoff  prevLogContext = 0;		// cursor exploring previous logs to provide context
+	streamoff  lastPrintedLogPos = 0;	//+? position of the last log with level above the threshold
+	streamoff  prevLogContext = 0;		//+? cursor exploring previous logs to provide context
 
 	int  distNextLogContext = 0;		// distance of a past log from the current one
 	int  distPrevLogContext = 100;		// distance of a future log from the current one
