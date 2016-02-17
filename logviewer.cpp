@@ -36,7 +36,10 @@
  */
 
 /* BUGS
-	- In context mode, the first logs are always printed.
+	. In context mode, the first logs are always printed.
+	- Post-context logs are no longer printed.
+		- Check minLevel <= context.MinLevelForContext()
+		- Check minLevel >  context.MinContextLevel()
  */
 
 #include "LogContext.hpp"
@@ -553,12 +556,12 @@ int main(int argc, char* argv[])
 	string     log, token, contextLog;
 
 	streamoff  pos = 0;					// position of the current log
-	streamoff  lastPrintedLogPos = 0;	// position of the last log with level above the threshold
+	streamoff  lastPrintedLogPos = 0;	//+D? position of the last log with level above the threshold
 	streamoff  prevLogContext = 0;		// cursor exploring previous logs to provide context
 
 	int  distNextLogContext = 0;		// distance of a past log from the current one
 	int  distPrevLogContext = 0;		// distance of a future log from the current one
-	bool isContextLog = false;			// the current log is part of the context
+	bool isPostContextLog = false;			// the current log is part of the context
 
 	bool warning = true;
 
@@ -657,7 +660,7 @@ int main(int argc, char* argv[])
 					continue;
 				}
 
-				// Check if this log's level is high enough to print the pre-context
+				// Check if this log's level is high enough to log the pre-context
 				if(level >= context.MinLevelForContext())
 				{
 					// Log pre-context
@@ -679,31 +682,34 @@ int main(int argc, char* argv[])
 					prevLogContext = pos;
 				}
 
-					// Check post-context
-					{
-						++distPrevLogContext;
+				// Check if this log's level is high enough to log the post-context
 
-						if(level >= context.MinLevelForContext())
-							distPrevLogContext = 0;
+				isPostContextLog = false;
 
-						if(level >= minLevel)
-						{
-							printLog = true;
-							isContextLog = false;
-						}
-
-						if(level < minLevel &&
-						   level >= context.MinContextLevel() &&
-						   distPrevLogContext <= context.Width())
-						{
-							printLog = true;
-							isContextLog = true;
-						}
-					}
-
+				if(level >= context.MinLevelForContext())
+					distPrevLogContext = 0;
 
 				if(level >= minLevel)
+				{
+					// Normal log
+
+					isPostContextLog = false;
 					printLog = true;
+					contextSign = ' ';
+				}
+				else if(level >= context.MinContextLevel())
+				{
+					// Post-context log
+
+					++distPrevLogContext;
+
+					if(distPrevLogContext <= context.Width())
+					{
+						isPostContextLog = true;
+						printLog = true;
+						contextSign = '+';
+					}
+				}
 
 				if(printLog)
 				{
@@ -739,11 +745,6 @@ int main(int argc, char* argv[])
 							}
 						}
 					}
-
-					if(isContextLog)
-						contextSign = '+';
-					else
-						contextSign = ' ';
 
 					if(printLogNumber)
 						logNumberField = logNumber;
