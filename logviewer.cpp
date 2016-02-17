@@ -560,8 +560,8 @@ int main(int argc, char* argv[])
 	streamoff  prevLogContext = 0;		// cursor exploring previous logs to provide context
 
 	int  distNextLogContext = 0;		// distance of a past log from the current one
-	int  distPrevLogContext = 0;		// distance of a future log from the current one
-	bool isPostContextLog = false;			// the current log is part of the context
+	int  distPrevLogContext = 100;		// distance of a future log from the current one
+	bool isPostContextLog = false;		// the current log is part of the context
 
 	bool warning = true;
 
