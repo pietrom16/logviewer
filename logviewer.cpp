@@ -648,12 +648,11 @@ int main(int argc, char* argv[])
 				   level < minLevel)
 					continue;
 
-				printLog = false;
-
 				// To reduce disk stress, store context logs in memory
 				if(level >= context.MinContextLevel() &&
 				   level < context.MinLevelForContext() &&
-				   level < minLevel)
+				   level < minLevel &&
+				   distPrevLogContext > context.Width())
 				{
 					context.StorePastLog(log, level, minLevel, logNumber);
 					pos = ifs.tellg();
@@ -685,6 +684,7 @@ int main(int argc, char* argv[])
 				// Check if this log's level is high enough to log the post-context
 
 				isPostContextLog = false;
+				printLog = false;
 
 				if(level >= context.MinLevelForContext())
 					distPrevLogContext = 0;
