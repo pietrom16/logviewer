@@ -36,16 +36,16 @@ Requirements:
 
 Original log file:
 
-Command:  `logviewer --input "example.log" --minLevel 0`
+Command:  `logviewer --input "./test/example.log" --minLevel 0`
 
-![Output:](./testApache_log0.png)
+![Output:](./test/testApache_log0.png)
 
 Show logs with minimal level 4, and, for logs with level greater or equal to 5, show a 3 logs context (- pre and + post)
 with logs with minimal level 2:
 
-Command:  `logviewer --input "example.log" --minLevel 4 --contextWidth 3 --minLevelForContext 5 --minContextLevel 2 -ln`
+Command:  `logviewer --input "./test/example.log" --minLevel 4 --contextWidth 3 --minLevelForContext 5 --minContextLevel 2 -ln`
 
-![Output:](./testApache_log.png)
+![Output:](./test/testApache_log.png)
 
 ##### - Example: underline a Wikipedia page
 
@@ -86,7 +86,7 @@ and/or introduce new bugs.
 ```
 
 
-In the file `testText_logLevels.txt` specify the keywords to look for with their priority:
+In the file `./test/testText_logLevels.txt` specify the keywords to look for with their priority:
 
 ```
 refactoring 6
@@ -99,9 +99,9 @@ OOP         2
 field       1
 ```
 
-Command:  `logviewer -i ../logviewer/testText.txt -ll ../logviewer/testText_logLevels.txt -m 3 --text -d .`
+Command:  `logviewer -i ./test/testText.txt -ll ./test/testText_logLevels.txt -m 3 --text -d .`
 
-![Output:](./testText.png)
+![Output:](./test/testText.png)
 
 
 
