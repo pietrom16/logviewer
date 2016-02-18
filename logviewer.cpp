@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
 	string   outLogFileFormat;			// OS shell highlighting, HTML, markdown, ...
 	bool     logToFile = false;
 
-	char delimiter = '\n';				// delimit the end of a log
+	string delimiters = "";				// delimit the end of a log (\n included by default)
 
 	string logHeader;
 
@@ -389,9 +389,7 @@ int main(int argc, char* argv[])
 		}
 
 		if(arguments.GetValue("--delimiter")) {
-			string delim;
-			arguments.GetValue("--delimiter", delim);
-			delimiter = delim.front();
+			arguments.GetValue("--delimiter", delimiters);
 		}
 
 		if(arguments.GetValue("--outFile")) {
@@ -511,10 +509,12 @@ int main(int argc, char* argv[])
 			cout << "Interpreting input file as plain text, not as a log file." << endl;
 
 		cout << "Log message/text block delimiter: ";
-		switch(delimiter) {
-		case '\n': cout << "\\n"; break;
-		case '\t': cout << "tab"; break;
-		default: cout << delimiter;
+		for(size_t i = 0; i < delimiters.size(); ++i)
+		{
+			switch(delimiters[i]) {
+			case '\t': cout << "tab "; break;
+			default: cout << delimiters << " ";
+			}
 		}
 		cout << endl;
 
@@ -530,7 +530,7 @@ int main(int argc, char* argv[])
 	/// Open log file
 
 	ifstream   ifs;
-	string     log, token, contextLog;
+	string     line, log, token, contextLog;
 
 	streamoff  pos = 0;					// position of the current log
 	streamoff  lastPrintedLogPos = 0;	//+? position of the last log with level above the threshold
@@ -615,8 +615,18 @@ int main(int argc, char* argv[])
 	{
 		if(ifs.seekg(pos))
 		{
-			while(getline(ifs, log, delimiter))
+			getline(ifs, line);
+
+			string::size_type pos_beg = 0, pos_end = 0;
+
+			while(pos_beg != string::npos)
 			{
+				pos_end = line.find_first_of(delimiters);
+
+				log = line.substr(pos_beg, pos_end - pos_beg);		//+TODO test with pos_end = npos
+
+				pos_beg = pos_end;
+
 				++logNumber;
 
 				level = logLevels.FindLogLevel(log, levelColumn);
