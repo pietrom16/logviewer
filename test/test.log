@@ -1,0 +1,28 @@
+Delta_t Date                L - Log message                                     
+0.00247 2012-08-31T21:16:53 1 - Test log message n.1
+0.00249 2012-08-31T21:16:53 2 - Test log message n.2
+0.00252 2012-08-31T21:16:53 3 - Test log message n.3
+0.00253 2012-08-31T21:16:53 4 - Test log message n.4
+0.00254 2012-08-31T21:16:53 5 - Test log message n.5
+0.00255 2012-08-31T21:16:53 6 - Test log message n.6
+0.00256 2012-08-31T21:16:53 7 - Test log message n.7
+Delta_t Date                L Process:PID      Source:Function:Line    - Log message                                     
+0.00259 2012-08-31T21:16:53 6 plogger_test:17832 Logger_test.cpp:main:83 - Test log message n.2
+Delta_t Date                L - Log message
+0.00247 2012-08-31T21:16:53 VERBOSE - Test log message n.1
+0.00247 2012-08-31T21:16:53 DETAIL - Test log message n.2
+0.00249 2012-08-31T21:16:53 INFO - Test log message n.3
+0.00252 2012-08-31T21:16:53 WARNING - Test log message n.4
+0.00253 2012-08-31T21:16:53 ERROR - Test log message n.5
+0.00254 2012-08-31T21:16:53 SEVERE - Test log message n.6
+0.00255 2012-08-31T21:16:53 FATAL - Test log message n.7
+Delta_t Date                L Process:PID      Source:Function:Line    - Log message                                     
+0.00259 2012-08-31T21:16:53 6 plogger_test:17832 Logger_test.cpp:main:83 - Test log message n.2
+Delta_t Date                L - Log message                                     
+0.00247 2012-08-31T21:16:53 MY_VERBOSE - Test log message n.1
+0.00247 2012-08-31T21:16:53 MY_DETAIL - Test log message n.2
+0.00249 2012-08-31T21:16:53 MY_INFO - Test log message n.3
+0.00252 2012-08-31T21:16:53 MY_WARNING - Test log message n.4
+0.00253 2012-08-31T21:16:53 MY_ERROR - Test log message n.5
+0.00254 2012-08-31T21:16:53 MY_SEVERE - Test log message n.6
+0.00255 2012-08-31T21:16:53 MY_FATAL - Test log message n.7
