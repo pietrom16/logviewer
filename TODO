@@ -1,0 +1,31 @@
+TODO - logviewer
+
+. Create a test directory, with all the files related to tests.
+
+-- Consider using: 	bool show; cout << (show?"...":"") << endl;
+
+--- Allow to specify multiple sentence separators, e.g. ".;\n", or use '\n' as a default separator.
+	--- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
+
+-- LogFormatter: HTML and markdown formatting.
+
+-- Option to print log/sentence/line number. Done; further testing needed.
+	. Pre-context logs: pick their number when storing them in the container.
+
+- Group code blocks in separate functions/classes.
+
+. ProgArgs: Check if multiple parameters with the same tag can coexist. OK.
+	-- Allow to pass multiple values for each command line parameter (especially inclusion/exclusion tokens).
+
+- Add logviewer aliases with default parameters for specific uses.
+
+- Allow navigation/collapse/expansion in an interactive way.
+
+-- Change pause functionality: stop loading new logs, but keep interacting.
+
+- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
+
+- Better randomize the colors in LogLevelMapping().
+
+
+BUGS
