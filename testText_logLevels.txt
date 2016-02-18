@@ -1,8 +1,0 @@
-refactoring 6
-Wikipedia   2
-Refactor    6
-Code        5
-cycle       4
-technique   3
-OOP         2
-field       1
