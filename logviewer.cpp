@@ -509,11 +509,13 @@ int main(int argc, char* argv[])
 			cout << "Interpreting input file as plain text, not as a log file." << endl;
 
 		cout << "Log message/text block delimiter: ";
+		cout << "\\n (new line) ";
 		for(size_t i = 0; i < delimiters.size(); ++i)
 		{
 			switch(delimiters[i]) {
-			case '\t': cout << "tab "; break;
-			default: cout << delimiters << " ";
+			case '\t': cout << "\\t (tab) "; break;
+			case '\n': cout << "\\n "; break;
+			default: cout << delimiters[i] << " ";
 			}
 		}
 		cout << endl;
@@ -621,7 +623,7 @@ int main(int argc, char* argv[])
 
 			while(pos_beg != string::npos)
 			{
-				pos_end = line.find_first_of(delimiters);
+				pos_end = line.find_first_of(delimiters, pos_beg);
 
 				log = line.substr(pos_beg, pos_end - pos_beg);		//+TODO test with pos_end = npos
 
