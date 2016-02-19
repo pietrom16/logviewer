@@ -748,10 +748,10 @@ int main(int argc, char* argv[])
 
 					lastPrintedLogPos = pos;
 				}
-
-				nextLine:
-				pos = ifs.tellg();
 			}
+
+			nextLine:
+			pos = ifs.tellg();
 		}
 
 		if(!ifs.eof()) {
