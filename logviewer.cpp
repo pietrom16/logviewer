@@ -135,7 +135,7 @@ int main(int argc, char* argv[])
 	bool   warnUnknownLogLevel = true;	// warning for missing level in a log
 
 	LogLevels logLevels;
-	logLevels.EnableWarnings(false);
+	logLevels.EnableWarnings(warnUnknownLogLevel);
 
 	LogFormatter logFormatter("console");
 
@@ -239,7 +239,7 @@ int main(int argc, char* argv[])
 		if(arguments.GetValue("--text")) {
 			textParsing = true;
 			warnUnknownLogLevel = false;
-			logLevels.EnableWarnings(false);
+			logLevels.EnableWarnings(warnUnknownLogLevel);
 		}
 
 		if(arguments.GetValue("--minLevel")) {
@@ -413,7 +413,8 @@ int main(int argc, char* argv[])
 
 		if(arguments.GetValue("--verbose")) {
 			verbose = 1;
-			logLevels.EnableWarnings(true);
+			if(textParsing == false)
+				logLevels.EnableWarnings(true);
 		}
 
 		string sPause;
