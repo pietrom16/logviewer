@@ -205,7 +205,7 @@ int main(int argc, char* argv[])
 		arguments.AddArg(arg);
 		arg.Set("--text", "-t", "Parse the input file as a generic text, not as a log file", true, false);
 		arguments.AddArg(arg);
-		arg.Set("--delimiter", "-d", "Specify a custom delimiter for the messages (default = new line)", true, true);
+		arg.Set("--delimiters", "-d", "Specify custom delimiters for the messages (default = new line)", true, true);
 		arguments.AddArg(arg);
 		arg.Set("--outFile", "-o", "Redirect the output to a file (default = standard output)", true, true);
 		arguments.AddArg(arg);
@@ -388,8 +388,8 @@ int main(int argc, char* argv[])
 			beepLevel = logLevels.GetVal(level);
 		}
 
-		if(arguments.GetValue("--delimiter")) {
-			arguments.GetValue("--delimiter", delimiters);
+		if(arguments.GetValue("--delimiters")) {
+			arguments.GetValue("--delimiters", delimiters);
 		}
 
 		if(arguments.GetValue("--outFile")) {
@@ -508,7 +508,7 @@ int main(int argc, char* argv[])
 		if(textParsing)
 			cout << "Interpreting input file as plain text, not as a log file." << endl;
 
-		cout << "Log message/text block delimiter: ";
+		cout << "Log message/text block delimiters: ";
 		cout << "\\n (new line) ";
 		for(size_t i = 0; i < delimiters.size(); ++i)
 		{
