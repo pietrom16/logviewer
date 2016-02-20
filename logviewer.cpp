@@ -620,6 +620,10 @@ int main(int argc, char* argv[])
 		{
 			getline(ifs, line);
 
+			cerr << "DEBUG: line = " << line << endl; //+DEBUG
+			//cerr << "DEBUG: pos  = " << pos << endl; //+DEBUG
+
+#if 0
 			string::size_type pos_beg = 0, pos_end = 0;
 
 			while(pos_beg != string::npos)
@@ -628,10 +632,13 @@ int main(int argc, char* argv[])
 
 				log = line.substr(pos_beg, pos_end - pos_beg);		//+TODO test with pos_end = npos
 
+				cerr << "DEBUG: log  = " << log << endl; //+DEBUG
+				cerr << "DEBUG: pos_beg = " << int(pos_beg) << "   pos_end = " << int(pos_end) << endl; //+DEBUG
+
 				pos_beg = pos_end;
 
 				++logNumber;
-
+/*
 				level = logLevels.FindLogLevel(log, levelColumn);
 
 				if(level < context.MinContextLevel() &&
@@ -748,19 +755,15 @@ int main(int argc, char* argv[])
 
 					lastPrintedLogPos = pos;
 				}
+*/
 			}
-
+#endif
 			nextLine:
 			pos = ifs.tellg();
 		}
 
-		if(!ifs.eof()) {
-			cerr << argv[0] << " error: could not read this log file till the end: " << logFile << endl;
-			break;
-		}
-
 		ifs.clear();		// clear the eof state to keep reading the growing log file
-
+/*
 		/// Read the keyboard for real time user interaction
 		{
 			key = rdKb.Get();
@@ -823,7 +826,7 @@ int main(int argc, char* argv[])
 				exit(0);
 			}
 		}
-
+*/
 		// Take a break
 		this_thread::sleep_for(pause);
 	}
