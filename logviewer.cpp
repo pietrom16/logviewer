@@ -616,153 +616,159 @@ int main(int argc, char* argv[])
 	// Main loop
 	while(true)
 	{
-		if(ifs.seekg(pos))
+		while(!ifs.eof())
 		{
-			getline(ifs, line);
+			if(ifs.seekg(pos))		//+B+++ After reaching EOF, this condition is always false
+			{
+				getline(ifs, line);
 
-			cerr << "DEBUG: line = " << line << endl; //+DEBUG
-			//cerr << "DEBUG: pos  = " << pos << endl; //+DEBUG
+				cerr << "DEBUG: line = " << line << endl; //+DEBUG
+				//cerr << "DEBUG: pos  = " << pos << endl; //+DEBUG
 
 #if 0
-			string::size_type pos_beg = 0, pos_end = 0;
+				string::size_type pos_beg = 0, pos_end = 0;
 
-			while(pos_beg != string::npos)
-			{
-				pos_end = line.find_first_of(delimiters, pos_beg);
-
-				log = line.substr(pos_beg, pos_end - pos_beg);		//+TODO test with pos_end = npos
-
-				cerr << "DEBUG: log  = " << log << endl; //+DEBUG
-				cerr << "DEBUG: pos_beg = " << int(pos_beg) << "   pos_end = " << int(pos_end) << endl; //+DEBUG
-
-				pos_beg = pos_end;
-
-				++logNumber;
-/*
-				level = logLevels.FindLogLevel(log, levelColumn);
-
-				if(level < context.MinContextLevel() &&
-				   level < minLevel)
-					continue;
-
-				// To reduce disk stress, store context logs in memory
-				if(level >= context.MinContextLevel() &&
-				   level < context.MinLevelForContext() &&
-				   level < minLevel &&
-				   distPrevLogContext > context.Width())
+				while(pos_beg != string::npos)
 				{
-					context.StorePastLog(log, level, minLevel, logNumber);
-					pos = ifs.tellg();
-					continue;
-				}
+					pos_end = line.find_first_of(delimiters, pos_beg);
 
-				// Check if this log's level is high enough to log the pre-context
-				if(level >= context.MinLevelForContext())
-				{
-					// Log pre-context
+					log = line.substr(pos_beg, pos_end - pos_beg);		//+TODO test with pos_end = npos
 
-					while(context.NPastLogs() > 0)
+					cerr << "DEBUG: log  = " << log << endl; //+DEBUG
+					cerr << "DEBUG: pos_beg = " << int(pos_beg) << "   pos_end = " << int(pos_end) << endl; //+DEBUG
+
+					pos_beg = pos_end;
+
+					++logNumber;
+
+					level = logLevels.FindLogLevel(log, levelColumn);
+
+					if(level < context.MinContextLevel() &&
+					   level < minLevel)
+						continue;
+
+					// To reduce disk stress, store context logs in memory
+					if(level >= context.MinContextLevel() &&
+					   level < context.MinLevelForContext() &&
+					   level < minLevel &&
+					   distPrevLogContext > context.Width())
 					{
-						int logNumberPre = context.ExtractPastLog(contextLog);
+						context.StorePastLog(log, level, minLevel, logNumber);
+						pos = ifs.tellg();
+						continue;
+					}
+
+					// Check if this log's level is high enough to log the pre-context
+					if(level >= context.MinLevelForContext())
+					{
+						// Log pre-context
+
+						while(context.NPastLogs() > 0)
+						{
+							int logNumberPre = context.ExtractPastLog(contextLog);
+
+							if(printLogNumber)
+								logNumberField = logNumberPre;
+							else
+								logNumberField = -1;
+
+							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
+							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberField) << endl;
+						}
+
+						distNextLogContext = 0;		//+?
+						prevLogContext = pos;
+					}
+
+					// Check if this log's level is high enough to log the post-context
+
+					isPostContextLog = false;
+					printLog = false;
+
+					if(level >= context.MinLevelForContext())
+						distPrevLogContext = 0;
+
+					if(level >= minLevel)
+					{
+						// Normal log
+
+						isPostContextLog = false;
+						printLog = true;
+						contextSign = ' ';
+					}
+					else if(level >= context.MinContextLevel())
+					{
+						// Post-context log
+
+						++distPrevLogContext;
+
+						if(distPrevLogContext <= context.Width())
+						{
+							isPostContextLog = true;
+							printLog = true;
+							contextSign = '+';
+						}
+					}
+
+					if(printLog)
+					{
+						if(incStrFlag) {
+							for(size_t s = 0; s < includeStrings.size(); ++s) {
+								if(log.find(includeStrings[s]) == string::npos)
+									goto nextLine;
+							}
+						}
+
+						if(excStrFlag) {
+							for(size_t s = 0; s < excludeStrings.size(); ++s) {
+								if(log.find(excludeStrings[s]) != string::npos)
+									goto nextLine;
+							}
+						}
+
+						if(compare.empty() == false)
+						{
+							for(size_t c = 0; c < compare.size(); ++c)
+							{
+								stringstream str(log);
+								for(int i = 0; i < compare[c].column; ++i)
+									str >> token;
+
+								if(compare[c].comparison == false) {	// check less than
+									if(token >= compare[c].value)
+										goto nextLine;
+								}
+								else {									// check greater than
+									if(token <= compare[c].value)
+										goto nextLine;
+								}
+							}
+						}
 
 						if(printLogNumber)
-							logNumberField = logNumberPre;
+							logNumberField = logNumber;
 						else
 							logNumberField = -1;
 
-						contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
-						logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberField) << endl;
+						logStream << logFormatter.Format(log, level, logFileField, contextSign, logNumberField) << endl;
+
+						if(beepLevel >= 0 && level >= beepLevel)
+							cout << char(7) << flush;	// beep
+
+						lastPrintedLogPos = pos;
 					}
 
-					distNextLogContext = 0;		//+?
-					prevLogContext = pos;
 				}
-
-				// Check if this log's level is high enough to log the post-context
-
-				isPostContextLog = false;
-				printLog = false;
-
-				if(level >= context.MinLevelForContext())
-					distPrevLogContext = 0;
-
-				if(level >= minLevel)
-				{
-					// Normal log
-
-					isPostContextLog = false;
-					printLog = true;
-					contextSign = ' ';
-				}
-				else if(level >= context.MinContextLevel())
-				{
-					// Post-context log
-
-					++distPrevLogContext;
-
-					if(distPrevLogContext <= context.Width())
-					{
-						isPostContextLog = true;
-						printLog = true;
-						contextSign = '+';
-					}
-				}
-
-				if(printLog)
-				{
-					if(incStrFlag) {
-						for(size_t s = 0; s < includeStrings.size(); ++s) {
-							if(log.find(includeStrings[s]) == string::npos)
-								goto nextLine;
-						}
-					}
-
-					if(excStrFlag) {
-						for(size_t s = 0; s < excludeStrings.size(); ++s) {
-							if(log.find(excludeStrings[s]) != string::npos)
-								goto nextLine;
-						}
-					}
-
-					if(compare.empty() == false)
-					{
-						for(size_t c = 0; c < compare.size(); ++c)
-						{
-							stringstream str(log);
-							for(int i = 0; i < compare[c].column; ++i)
-								str >> token;
-
-							if(compare[c].comparison == false) {	// check less than
-								if(token >= compare[c].value)
-									goto nextLine;
-							}
-							else {									// check greater than
-								if(token <= compare[c].value)
-									goto nextLine;
-							}
-						}
-					}
-
-					if(printLogNumber)
-						logNumberField = logNumber;
-					else
-						logNumberField = -1;
-
-					logStream << logFormatter.Format(log, level, logFileField, contextSign, logNumberField) << endl;
-
-					if(beepLevel >= 0 && level >= beepLevel)
-						cout << char(7) << flush;	// beep
-
-					lastPrintedLogPos = pos;
-				}
-*/
-			}
 #endif
-			nextLine:
-			pos = ifs.tellg();
+				nextLine:
+				pos = ifs.tellg();
+
+				cerr << "."; //+T+++
+			}
 		}
 
 		ifs.clear();		// clear the eof state to keep reading the growing log file
+
 /*
 		/// Read the keyboard for real time user interaction
 		{
@@ -829,6 +835,8 @@ int main(int argc, char* argv[])
 */
 		// Take a break
 		this_thread::sleep_for(pause);
+
+		cerr << "_"; //+T+++
 	}
 
 	rdKb.~ReadKeyboard();
