@@ -618,12 +618,12 @@ int main(int argc, char* argv[])
 	{
 		while(!ifs.eof())
 		{
-			if(ifs.seekg(pos))		//+B+++ After reaching EOF, this condition is always false
+			//+? if(ifs.seekg(pos))		//+B+++ After reaching EOF, this condition is always false
+			if(ifs.tellg() != -1)
 			{
 				getline(ifs, line);
 
-				cerr << "DEBUG: line = " << line << endl; //+DEBUG
-				//cerr << "DEBUG: pos  = " << pos << endl; //+DEBUG
+				cerr << "DEBUG: line = " << line << "     pos  = " << pos << endl; //+DEBUG
 
 #if 0
 				string::size_type pos_beg = 0, pos_end = 0;
