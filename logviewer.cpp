@@ -390,6 +390,7 @@ int main(int argc, char* argv[])
 
 		if(arguments.GetValue("--delimiters")) {
 			arguments.GetValue("--delimiters", delimiters);
+			delimiters.append("\n\t");	// default delimiters
 		}
 
 		if(arguments.GetValue("--outFile")) {
@@ -545,6 +546,9 @@ int main(int argc, char* argv[])
 
 	bool warning = true;
 
+	int  nReadLogs = 0;			// number of read logs
+	int  nPrintedLogs = 0;		// number of printed logs
+
 	// Wait for the log file to be available
 	while(true)
 	{
@@ -618,26 +622,31 @@ int main(int argc, char* argv[])
 	{
 		while(!ifs.eof())
 		{
-			//+? if(ifs.seekg(pos))		//+B+++ After reaching EOF, this condition is always false
 			if(ifs.tellg() != -1)
 			{
 				getline(ifs, line);
 
+				++nReadLogs;
+
 				cerr << "DEBUG: line = " << line << "     pos  = " << pos << endl; //+DEBUG
 
-#if 0
 				string::size_type pos_beg = 0, pos_end = 0;
-
+/*
 				while(pos_beg != string::npos)
 				{
-					pos_end = line.find_first_of(delimiters, pos_beg);
+					pos_end = line.find_first_of(delimiters, pos_beg);		//+TODO - Include the delimiter
 
-					log = line.substr(pos_beg, pos_end - pos_beg);		//+TODO test with pos_end = npos
+					if(pos_end != string::npos) {
+						log = line.substr(pos_beg, pos_end - pos_beg + 1);		//+TODO test with pos_end = npos
+						pos_beg = pos_end + 1;
+					}
+					else {
+						log = line.substr(pos_beg);
+						pos_beg = pos_end = 0;
+					}
 
 					cerr << "DEBUG: log  = " << log << endl; //+DEBUG
 					cerr << "DEBUG: pos_beg = " << int(pos_beg) << "   pos_end = " << int(pos_end) << endl; //+DEBUG
-
-					pos_beg = pos_end;
 
 					++logNumber;
 
@@ -674,6 +683,8 @@ int main(int argc, char* argv[])
 
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
 							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberField) << endl;
+
+							++nPrintedLogs;
 						}
 
 						distNextLogContext = 0;		//+?
@@ -752,6 +763,8 @@ int main(int argc, char* argv[])
 
 						logStream << logFormatter.Format(log, level, logFileField, contextSign, logNumberField) << endl;
 
+						++nPrintedLogs;
+
 						if(beepLevel >= 0 && level >= beepLevel)
 							cout << char(7) << flush;	// beep
 
@@ -759,11 +772,12 @@ int main(int argc, char* argv[])
 					}
 
 				}
-#endif
+*/
 				nextLine:
 				pos = ifs.tellg();
 
 				cerr << "."; //+T+++
+				if(nReadLogs > 50) exit(0); //+T+++ It does not get here!
 			}
 		}
 
