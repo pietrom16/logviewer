@@ -111,3 +111,4 @@ Techniques for improving names and location of code
 	- Rename Method or Rename Field – changing the name into a new one that better reveals its purpose
 	- Pull Up – in OOP, move to a superclass
 	- Push Down – in OOP, move to a subclass
+

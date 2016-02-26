@@ -631,7 +631,7 @@ int main(int argc, char* argv[])
 				cerr << "DEBUG: line = " << line << "     pos  = " << pos << endl; //+DEBUG
 
 				string::size_type pos_beg = 0, pos_end = 0;
-/*
+
 				while(pos_beg != string::npos)
 				{
 					pos_end = line.find_first_of(delimiters, pos_beg);		//+TODO - Include the delimiter
@@ -642,7 +642,7 @@ int main(int argc, char* argv[])
 					}
 					else {
 						log = line.substr(pos_beg);
-						pos_beg = pos_end = 0;
+						pos_beg = string::npos;
 					}
 
 					cerr << "DEBUG: log  = " << log << endl; //+DEBUG
@@ -772,7 +772,7 @@ int main(int argc, char* argv[])
 					}
 
 				}
-*/
+
 				nextLine:
 				pos = ifs.tellg();
 
