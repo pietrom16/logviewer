@@ -27,5 +27,7 @@ TODO - logviewer
 
 - Better randomize the colors in LogLevelMapping().
 
+- When printing the list of log levels, the latest one is printed twice.
+
 
 BUGS
