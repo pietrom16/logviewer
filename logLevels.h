@@ -49,6 +49,8 @@ public:
 	int         GetVal(const std::string &_tag) const;
 	std::string GetTag(int _val) const;
 	std::string GetTags(int _val) const;
+	size_t      size() const { return levels.size(); }
+	size_t      NLevels() const;  // number of distinct value log levels
 
 	int LogLevelMapping(const std::string &_tag) const;
 
