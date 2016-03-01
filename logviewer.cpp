@@ -461,6 +461,12 @@ int main(int argc, char* argv[])
 		else
 			cout << "Showing the logs on the standard output." << endl;
 
+		cout << "\nLog levels highlighting:\n";
+		for(int level = 1; level <= logLevels.NLevels(); ++level) {
+			cout << "\t" << Format(level) << level << "\t" << logLevels.GetTags(level) << Reset() << "\n";
+		}
+		cout << Reset() << endl;
+
 		if(levelColumn >= 0)
 			cout << "Column ID containing the log level: " << levelColumn << endl;
 		else

@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <set>
 #include <sstream>
 
 namespace LogViewer {
@@ -179,6 +180,21 @@ std::string LogLevels::GetTags(int _val) const
 	}
 
 	return tags;
+}
+
+
+// Return number of distinct value log levels
+
+size_t LogLevels::NLevels() const
+{
+	std::set<int> vals;
+
+	for(size_t i = 0; i < levels.size(); ++i)
+	{
+		vals.insert(levels[i].level);
+	}
+
+	return vals.size();
 }
 
 
