@@ -1,5 +1,8 @@
 TODO - logviewer
 
+--> Restore system: add a command line option to restore the system in a
+	proper state, e.g. set the keyboard in blocking mode.
+
 . Create a test directory, with all the files related to tests.
 
 -- Consider using: 	bool show; cout << (show?"...":"") << endl;
