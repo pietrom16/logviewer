@@ -42,7 +42,7 @@ int LogLevels::InitLogLevels()
 	levels.push_back(TagLevel("FATAL",     7));
 	levels.push_back(TagLevel("EMERGENCY", 7));
 
-	warnUnknownLogLevel = true;
+	warnUnknownLogLevel = false;
 
 	return levels.size();
 }
@@ -53,7 +53,7 @@ int LogLevels::InitLogLevels(const std::vector<TagLevel> &_levels)
 	levels = _levels;
 	MakeAllUppercase();
 
-	warnUnknownLogLevel = true;
+	warnUnknownLogLevel = false;
 	return levels.size();
 }
 

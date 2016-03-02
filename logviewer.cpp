@@ -132,7 +132,7 @@ int main(int argc, char* argv[])
 	bool   printLogNumber = false;		// print the log/line numbers
 
 	bool   textParsing = false;			// parse the input file as normal text, not as a log file
-	bool   warnUnknownLogLevel = true;	// warning for missing level in a log
+	bool   warnUnknownLogLevel = false;	// warning for missing level in a log
 
 	LogLevels logLevels;
 	logLevels.EnableWarnings(warnUnknownLogLevel);

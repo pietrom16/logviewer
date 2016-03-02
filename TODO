@@ -24,11 +24,14 @@ TODO - logviewer
 
 -- Change pause functionality: stop loading new logs, but keep interacting.
 
-- Bug [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
-
 - Better randomize the colors in LogLevelMapping().
 
 - When printing the list of log levels, the latest one is printed twice.
 
 
 BUGS
+
+-- [POSIX]: Does not read the keyboard after a run. Check destructor of ReadKeyboard.
+
+- [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
+
