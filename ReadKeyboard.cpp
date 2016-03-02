@@ -72,14 +72,14 @@ namespace utilities {
 		newt = oldt;
 		newt.c_lflag &= ~(ICANON | ECHO);
 		tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-		blocking = true;
+		blocking = false;
 	}
 	
 	
 	void ReadKeyboard::Blocking()
 	{
 		tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-		blocking = false;
+		blocking = true;
 	}
 	
 
@@ -111,13 +111,13 @@ namespace utilities {
 	
 	void ReadKeyboard::NonBlocking()
 	{
-		blocking = true;
+		blocking = false;
 	}
 	
 	
 	void ReadKeyboard::Blocking()
 	{
-		blocking = false;
+		blocking = true;
 	}
 	
 
