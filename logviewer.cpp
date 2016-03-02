@@ -217,6 +217,8 @@ int main(int argc, char* argv[])
 		arguments.AddArg(arg);
 		arg.Set("--pause", "-p", "Pause (in seconds) among a check of the log file and the next", true, true, "1.0");
 		arguments.AddArg(arg);
+		arg.Set("--restore", "-res", "Restore system in case of problems.");
+		arguments.AddArg(arg);
 		arg.Set("--help", "-h", "Help");
 		arguments.AddArg(arg);
 		arg.Set("--version", "-v", "Version and license details");
@@ -422,6 +424,14 @@ int main(int argc, char* argv[])
 		arguments.GetValue("--pause", sPause);
 		float fPause = float(atof(sPause.c_str()));
 		pause = std::chrono::milliseconds(int(1000 * fPause));
+
+		if(arguments.GetValue("--restore"))
+		{
+			std::cout << "Restoring the system..." << std::endl;
+			rdKb.~ReadKeyboard();
+			std::cout << "...done." << std::endl;
+			exit(0);
+		}
 
 		if(arguments.GetValue("--help"))
 		{
