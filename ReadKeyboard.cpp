@@ -78,6 +78,7 @@ namespace utilities {
 	
 	void ReadKeyboard::Blocking()
 	{
+		oldt.c_lflag |= ECHO;
 		tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 		blocking = true;
 	}

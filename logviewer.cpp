@@ -430,7 +430,6 @@ int main(int argc, char* argv[])
 			std::cout << "Restoring the system..." << std::endl;
 			rdKb.~ReadKeyboard();
 			std::cout << "...done." << std::endl;
-			std::cerr << "blocking = " << rdKb.Status() << std::endl; //+T+
 			exit(0);
 		}
 
