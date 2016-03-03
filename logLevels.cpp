@@ -236,7 +236,7 @@ int LogLevels::FindLogLevel(const std::string &_log,
 	{
 		levelVal = FindLogLevelVal(_log);
 
-		if (levelVal < 0 && warnUnknownLogLevel) {
+		if (levelVal < 0 && warnUnknownLogLevel && _log.size() > 0) {
 			levelVal = 4;
 #ifdef _WIN32
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
@@ -274,7 +274,7 @@ int LogLevels::FindLogLevel(const std::string &_log,
 
 		if(levelVal < 0)
 		{
-			if(warnUnknownLogLevel)
+			if(warnUnknownLogLevel && _log.size() > 0)
 			{
 				levelVal = 4;
 
