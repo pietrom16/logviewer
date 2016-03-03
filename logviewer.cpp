@@ -644,7 +644,7 @@ int main(int argc, char* argv[])
 
 				++nReadLogs;
 
-				cerr << "DEBUG: line = " << line << "     pos  = " << pos << endl; //+DEBUG
+				//cerr << "DEBUG: line = " << line << "     pos  = " << pos << endl; //+DEBUG
 
 				string::size_type pos_beg = 0, pos_end = 0;
 
@@ -661,8 +661,8 @@ int main(int argc, char* argv[])
 						pos_beg = string::npos;
 					}
 
-					cerr << "DEBUG: log  = " << log << endl; //+DEBUG
-					cerr << "DEBUG: pos_beg = " << int(pos_beg) << "   pos_end = " << int(pos_end) << endl; //+DEBUG
+					//cerr << "DEBUG: log  = " << log << endl; //+DEBUG
+					//cerr << "DEBUG: pos_beg = " << int(pos_beg) << "   pos_end = " << int(pos_end) << endl; //+DEBUG
 
 					++logNumber;
 
@@ -777,12 +777,15 @@ int main(int argc, char* argv[])
 						else
 							logNumberField = -1;
 
-						logStream << logFormatter.Format(log, level, logFileField, contextSign, logNumberField) << endl;
+						if(log.size() > 0)
+						{
+							logStream << logFormatter.Format(log, level, logFileField, contextSign, logNumberField) << endl;
 
-						++nPrintedLogs;
+							++nPrintedLogs;
 
-						if(beepLevel >= 0 && level >= beepLevel)
-							cout << char(7) << flush;	// beep
+							if(beepLevel >= 0 && level >= beepLevel)
+								cout << char(7) << flush;	// beep
+						}
 
 						lastPrintedLogPos = pos;
 					}
@@ -791,15 +794,12 @@ int main(int argc, char* argv[])
 
 				nextLine:
 				pos = ifs.tellg();
-
-				cerr << "."; //+T+++
-				if(nReadLogs > 50) exit(0); //+T+++ It does not get here!
 			}
 		}
 
 		ifs.clear();		// clear the eof state to keep reading the growing log file
 
-/*
+
 		/// Read the keyboard for real time user interaction
 		{
 			key = rdKb.Get();
@@ -862,11 +862,12 @@ int main(int argc, char* argv[])
 				exit(0);
 			}
 		}
-*/
+
 		// Take a break
 		this_thread::sleep_for(pause);
 
-		cerr << "_"; //+T+++
+		if(verbose)
+			cout << "." << flush;
 	}
 
 	rdKb.~ReadKeyboard();
