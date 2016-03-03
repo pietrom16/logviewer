@@ -1,5 +1,7 @@
 TODO - logviewer
 
+- OK with log files. Retest with text.
+
 . Create a test directory, with all the files related to tests.
 
 -- Consider using: 	bool show; cout << (show?"...":"") << endl;
