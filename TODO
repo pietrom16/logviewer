@@ -1,10 +1,5 @@
 TODO - logviewer
 
---> Restore system: add a command line option to restore the system in a
-	proper state, e.g. set the keyboard in blocking mode.
-	- BUG: Now if the console is already in non blocking mode, running the program will read
-	  this state and it will restore it in the dtor.
-
 . Create a test directory, with all the files related to tests.
 
 -- Consider using: 	bool show; cout << (show?"...":"") << endl;
@@ -35,8 +30,6 @@ TODO - logviewer
 
 
 BUGS
-
--- [POSIX]: Does not read the keyboard after a run. Check destructor of ReadKeyboard.
 
 - [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 
