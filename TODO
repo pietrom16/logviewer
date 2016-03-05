@@ -1,6 +1,7 @@
 TODO - logviewer
 
-- OK with log files. Retest with text.
+- OK with log files.
+- OK with text files.
 
 . Create a test directory, with all the files related to tests.
 
