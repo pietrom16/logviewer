@@ -644,8 +644,6 @@ int main(int argc, char* argv[])
 
 				++nReadLogs;
 
-				//cerr << "DEBUG: line = " << line << "     pos  = " << pos << endl; //+DEBUG
-
 				string::size_type pos_beg = 0, pos_end = 0;
 
 				while(pos_beg != string::npos)
@@ -660,9 +658,6 @@ int main(int argc, char* argv[])
 						log = line.substr(pos_beg);
 						pos_beg = string::npos;
 					}
-
-					//cerr << "DEBUG: log  = " << log << endl; //+DEBUG
-					//cerr << "DEBUG: pos_beg = " << int(pos_beg) << "   pos_end = " << int(pos_end) << endl; //+DEBUG
 
 					++logNumber;
 
