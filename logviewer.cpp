@@ -140,6 +140,7 @@ int main(int argc, char* argv[])
 	LogFormatter logFormatter("console");
 
 	const int printAll = -1;
+	bool newLogsOnly = false;			// only print logs generated from now on
 	int nLatest = printAll;				// number of latest logs to be printed (-1 = all)
 	int nLatestChars = printAll;		// number of latest characters to be printed (-1 = all)
 
@@ -178,6 +179,8 @@ int main(int argc, char* argv[])
 		arg.Set("--levelCol", "-l", "ID of the column which contains the log level", true, true, "-1");
 		arguments.AddArg(arg);
 		arg.Set("--minLevel", "-m", "Minimum level a log must have to be shown", true, true, "3");
+		arguments.AddArg(arg);
+		arg.Set("--printNewLogsOnly", "-nl", "Print the new logs only", true, false);
 		arguments.AddArg(arg);
 		arg.Set("--nLatest", "-n", "Print the latest n logs only", true, true, "-1");
 		arguments.AddArg(arg);
@@ -251,6 +254,10 @@ int main(int argc, char* argv[])
 		}
 		else if(textParsing)
 			minLevel = 0;
+
+		if(arguments.GetValue("--printNewLogsOnly")) {
+			newLogsOnly = true;
+		}
 
 		if(arguments.GetValue("--nLatest")) {
 			string nLogs;
@@ -601,7 +608,15 @@ int main(int argc, char* argv[])
 
 	logStream << logHeader << endl;
 
-	if(nLatestChars >= 0)
+	if(newLogsOnly)
+	{
+		// Read only the logs generated from now on; discard the past
+
+		// Reposition the cursor at the end of the file
+		ifs.seekg(0, ios::end);
+		pos = ifs.tellg();
+	}
+	else if(nLatestChars >= 0)
 	{
 		// Start reading from the last "nChars" characters
 
