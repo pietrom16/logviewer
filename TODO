@@ -1,7 +1,6 @@
 TODO - logviewer
 
-
--- Option to show the logs generated from now on, only.
+- Option to show logviewer is waiting for new logs with ....
 
 --- Allow to specify multiple sentence separators, e.g. ".;\n", or use '\n' as a default separator.
 	--- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
