@@ -4,24 +4,22 @@ TODO - logviewer
 	--- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
 	--- std::basic_string::find_first_of(const std::basic_string& str, size_type pos = 0) const;
 
+-- Refactoring: group code blocks in separate functions/classes.
+
 -- LogFormatter: HTML and markdown formatting.
 
-- Consider using: 	bool show; cout << (show?"...":"") << endl;
-
-- Group code blocks in separate functions/classes.
+-- Change pause functionality: stop loading new logs, but keep interacting.
 
 . ProgArgs: Check if multiple parameters with the same tag can coexist. OK.
 	-- Allow to pass multiple values for each command line parameter (especially inclusion/exclusion tokens).
+
+- Consider using: 	bool show; cout << (show?"...":"") << endl;
 
 - Add logviewer aliases with default parameters for specific uses.
 
 - Allow navigation/collapse/expansion in an interactive way.
 
--- Change pause functionality: stop loading new logs, but keep interacting.
-
 - Better randomize the colors in LogLevelMapping().
-
-- When printing the list of log levels, the latest one is printed twice.
 
 
 BUGS
