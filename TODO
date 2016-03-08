@@ -4,7 +4,7 @@ TODO - logviewer
 	--- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
 	--- std::basic_string::find_first_of(const std::basic_string& str, size_type pos = 0) const;
 
--- Refactoring: group code blocks in separate functions/classes.
+-- Refactoring (Extract Methods): group code blocks in separate functions/classes.
 
 -- LogFormatter: HTML and markdown formatting.
 
@@ -24,5 +24,7 @@ TODO - logviewer
 
 BUGS
 
+-- When displaying text, a delay is introduced between each line.
 - [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
+
 
