@@ -1,7 +1,5 @@
 TODO - logviewer
 
-- Option to show logviewer is waiting for new logs with ....
-
 --- Allow to specify multiple sentence separators, e.g. ".;\n", or use '\n' as a default separator.
 	--- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
 	--- std::basic_string::find_first_of(const std::basic_string& str, size_type pos = 0) const;

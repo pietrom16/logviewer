@@ -594,6 +594,7 @@ int main(int argc, char* argv[])
 	int  level = 0, contextLevel = 0;
 	char contextSign = ' ';
 	bool printLog = false;
+	bool newLine = false;
 
 	// Send the output either to cout or to a file
 	if(outLogFile.empty()) {
@@ -708,6 +709,12 @@ int main(int argc, char* argv[])
 								logNumberField = -1;
 
 							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
+
+							if(newLine) {
+								cout << endl;
+								newLine = false;
+							}
+
 							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberField) << endl;
 
 							++nPrintedLogs;
@@ -789,6 +796,11 @@ int main(int argc, char* argv[])
 
 						if(log.size() > 0)
 						{
+							if(newLine) {
+								cout << endl;
+								newLine = false;
+							}
+
 							logStream << logFormatter.Format(log, level, logFileField, contextSign, logNumberField) << endl;
 
 							++nPrintedLogs;
@@ -876,8 +888,10 @@ int main(int argc, char* argv[])
 		// Take a break
 		this_thread::sleep_for(pause);
 
-		if(verbose)
+		if(verbose) {
 			cout << "." << flush;
+			newLine = true;
+		}
 	}
 
 	rdKb.~ReadKeyboard();
