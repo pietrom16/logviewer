@@ -24,7 +24,6 @@ TODO - logviewer
 
 BUGS
 
--- When displaying text, a delay is introduced between each line.
 - [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 
 

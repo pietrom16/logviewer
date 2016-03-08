@@ -889,7 +889,8 @@ int main(int argc, char* argv[])
 		}
 
 		// Take a break
-		this_thread::sleep_for(pause);
+		if(textParsing == false)
+			this_thread::sleep_for(pause);
 
 		if(verbose) {
 			cout << "." << flush;
