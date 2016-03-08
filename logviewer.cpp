@@ -658,6 +658,9 @@ int main(int argc, char* argv[])
 			{
 				getline(ifs, line);
 
+				if(line.empty())
+					break;
+
 				++nReadLogs;
 
 				string::size_type pos_beg = 0, pos_end = 0;
