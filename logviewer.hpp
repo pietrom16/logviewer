@@ -24,6 +24,7 @@ class LogViewer
 public:
 	LogViewer();
 	LogViewer(const std::string &_logFile, int _minLogLevel = 0);
+	LogViewer(int argc, char* argv[]);
 
 	int SetDefaultValues();
 	int SetLogFileName(const std::string &_logFile);
@@ -61,6 +62,58 @@ private:
 	bool restore;               // Restore system in case of problems..
 	int help;                   // Help.
 	std::string version;        // Version and license details.
+
+
+	string  logFile;
+
+	ostream  logStream(0);				// generic output stream for the logs
+	filebuf  fileBuffer;
+	string   outLogFile;				// file name for the output stream
+	string   outLogFileFormat;			// OS shell highlighting, HTML, markdown, ...
+	bool     logToFile = false;
+
+	string delimiters = "";				// delimit the end of a log (\n included by default)
+
+	string logHeader;
+
+	int    levelColumn = -1;			// depends on the logs format (dynamic if < 0)
+	int    minLevel = 0;				// minimum level a log must have to be shown
+	int    beepLevel = -1;				// minimum level to get an audio signal (disabled if < 0)
+
+	bool   printLogFile = false;		// print the log file name for each log message
+	string logFileField;				// log file name to be printed for each log message
+
+	int    logNumber = 0;				// log/line numbers
+	int    logNumberField = -1;			// log/line numbers to be printed for each log message
+	bool   printLogNumber = false;		// print the log/line numbers
+
+	bool   textParsing = false;			// parse the input file as normal text, not as a log file
+	bool   warnUnknownLogLevel = false;	// warning for missing level in a log
+
+	LogLevels logLevels;
+	logLevels.EnableWarnings(warnUnknownLogLevel);
+
+	LogFormatter logFormatter("console");
+
+	const int printAll = -1;
+	bool newLogsOnly = false;			// only print logs generated from now on
+	int nLatest = printAll;				// number of latest logs to be printed (-1 = all)
+	int nLatestChars = printAll;		// number of latest characters to be printed (-1 = all)
+
+	vector<string> includeStrings, excludeStrings;		// sub strings to be included/excluded by the logs
+	string tempStr;
+	bool   incStrFlag = false, excStrFlag = false;		// flags to decide whether to check for substrings
+
+	vector<Compare> compare;		// set of comparisons to be done
+
+	LogViewer::LogContext context;
+
+	std::chrono::milliseconds pause(1000);
+
+	int verbose = 0;
+
+	utilities::ReadKeyboard rdKb;
+	int key = 0;
 
 };
 

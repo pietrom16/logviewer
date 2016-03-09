@@ -66,6 +66,303 @@ using namespace Utilities;
 namespace log_viewer {
 
 
+/// Ctor: Read command line parameters
+
+int LogViewer::LogViewer(int argc, char *argv[])
+{
+	ProgArgs            arguments;
+	ProgArgs::Argument  arg;
+
+	// Set command line parameters:
+	{
+		/* int Set(std::string _tag, std::string _shortTag, std::string _desc = "",
+				   bool _optional = true, bool _needed = false, std::string _default = "");
+		*/
+		arg.Set("--input", "-i", "Input log file", false, true);
+		arguments.AddArg(arg);
+		arg.Set("--levelCol", "-l", "ID of the column which contains the log level", true, true, "-1");
+		arguments.AddArg(arg);
+		arg.Set("--minLevel", "-m", "Minimum level a log must have to be shown", true, true, "3");
+		arguments.AddArg(arg);
+		arg.Set("--printNewLogsOnly", "-nl", "Print the new logs only", true, false);
+		arguments.AddArg(arg);
+		arg.Set("--nLatest", "-n", "Print the latest n logs only", true, true, "-1");
+		arguments.AddArg(arg);
+		arg.Set("--nLatestChars", "-nc", "Print the latest n characters only", true, true, "-1");
+		arguments.AddArg(arg);
+		arg.Set("--printLogFile", "-f", "Print the log file name for each message (useful if multiple log files are shown simultaneously)", true, false);
+		arguments.AddArg(arg);
+		arg.Set("--printLogNumber", "-ln", "Print the log/line numbers", true, false);
+		arguments.AddArg(arg);
+		arg.Set("--subString", "-s", "Print the logs which contain the specified substring", true, true);
+		arguments.AddArg(arg);
+		arg.Set("--notSubString", "-ns", "Print the logs which do not contain the specified substring", true, true);
+		arguments.AddArg(arg);
+		arg.Set("--lessThan", "-lt", "Print the logs whose i-th token is less than the specified i_value", true, true);
+		arguments.AddArg(arg);
+		arg.Set("--greaterThan", "-gt", "Print the logs whose i-th token is greater than the specified i_value", true, true);
+		arguments.AddArg(arg);
+		arg.Set("--contextWidth", "-cw", "Number of context logs to show if the current log is above a threshold level", true, true, "0");
+		arguments.AddArg(arg);
+		arg.Set("--minLevelForContext", "-mlc", "Minimum level a log must have to get a context", true, true, "5");
+		arguments.AddArg(arg);
+		arg.Set("--minContextLevel", "-mcl", "Minimum level a log must have to be in the context", true, true, "2");
+		arguments.AddArg(arg);
+		arg.Set("--logLevels", "-ll", "Load custom log levels from file (format: tag value\\n)", true, true);
+		arguments.AddArg(arg);
+		arg.Set("--text", "-t", "Parse the input file as a generic text, not as a log file", true, false);
+		arguments.AddArg(arg);
+		arg.Set("--delimiters", "-d", "Specify custom delimiters for the messages (default = new line)", true, true);
+		arguments.AddArg(arg);
+		arg.Set("--outFile", "-o", "Redirect the output to a file (default = standard output)", true, true);
+		arguments.AddArg(arg);
+		arg.Set("--outFileFormat", "-of", "Format of the output log file: plain, console, (TODO: HTML, markdown)", true, true);	//+TODO - Specify available formats
+		arguments.AddArg(arg);
+		arg.Set("--verbose", "-vb", "Print extra information");
+		arguments.AddArg(arg);
+		arg.Set("--beepLevel", "-bl", "Level above which an audio signal is produced", true, true, "-1");
+		arguments.AddArg(arg);
+		arg.Set("--pause", "-p", "Pause (in seconds) among a check of the log file and the next", true, true, "1.0");
+		arguments.AddArg(arg);
+		arg.Set("--restore", "-res", "Restore system in case of problems.");
+		arguments.AddArg(arg);
+		arg.Set("--help", "-h", "Help");
+		arguments.AddArg(arg);
+		arg.Set("--version", "-v", "Version and license details");
+		arguments.AddArg(arg);
+	}
+
+	// Read command line parameters:
+	{
+		int nUnknown = arguments.Parse(argc, argv);
+		if(nUnknown > 0) {
+			cerr << "Warning: passed " << nUnknown << " unknown argument(s); they will be ignored." << endl;
+		}
+
+		arguments.GetValue("--input", logFile);
+
+		string levelCol;
+		if(arguments.GetValue("--levelCol", levelCol) >= 0)
+			levelColumn = atoi(levelCol.c_str());
+
+		if(arguments.GetValue("--text")) {
+			textParsing = true;
+			warnUnknownLogLevel = false;
+			logLevels.EnableWarnings(warnUnknownLogLevel);
+		}
+
+		if(arguments.GetValue("--minLevel")) {
+			string minLev;
+			arguments.GetValue("--minLevel", minLev);
+			minLevel = logLevels.GetVal(minLev);
+		}
+		else if(textParsing)
+			minLevel = 0;
+
+		if(arguments.GetValue("--printNewLogsOnly")) {
+			newLogsOnly = true;
+		}
+
+		if(arguments.GetValue("--nLatest")) {
+			string nLogs;
+			arguments.GetValue("--nLatest", nLogs);
+			nLatest = atoi(nLogs.c_str());
+			if(nLatest < 0)
+				nLatest = printAll;
+		}
+
+		if(arguments.GetValue("--nLatestChars")) {
+			string nChars;
+			arguments.GetValue("--nLatestChars", nChars);
+			nLatestChars = atoi(nChars.c_str());
+			if(nLatestChars < 0)
+				nLatestChars = printAll;
+		}
+
+		if(arguments.GetValue("--printLogFile")) {
+			printLogFile = true;
+			logFileField = logFile;
+		}
+		else {
+			printLogFile = false;
+			logFileField.clear();
+		}
+
+		if(arguments.GetValue("--printLogNumber")) {
+			printLogNumber = true;
+		}
+
+		if(arguments.GetValue("--subString"))
+		{
+			int n = 0;
+			while(n >= 0) {
+				n = arguments.GetValue("--subString", tempStr, n);
+				if(n >= 0) {
+					includeStrings.push_back(tempStr);
+					incStrFlag = true;
+				}
+			}
+		}
+
+		if(arguments.GetValue("--notSubString"))
+		{
+			int n = 0;
+			while(n >= 0) {
+				n = arguments.GetValue("--notSubString", tempStr, n);
+				if(n >= 0) {
+					excludeStrings.push_back(tempStr);
+					excStrFlag = true;
+				}
+			}
+		}
+
+		if(arguments.GetValue("--lessThan"))
+		{
+			int n = 0;
+			Compare cmp;
+			while(n >= 0) {
+				n = arguments.GetValue("--lessThan", tempStr, n);
+				if(n >= 0) {
+					if(tempStr.length() < 3) {
+						cerr << "Error in the format of the --lessThan parameter." << endl;
+						rdKb.~ReadKeyboard();
+						exit(-1);
+					}
+					cmp.value = tempStr.substr(2);
+					cmp.column = tempStr[0] - '0';
+					cmp.comparison = false;
+					compare.push_back(cmp);
+				}
+			}
+		}
+
+		if(arguments.GetValue("--greaterThan"))
+		{
+			int n = 0;
+			Compare cmp;
+			while(n >= 0) {
+				n = arguments.GetValue("--greaterThan", tempStr, n);
+				if(n >= 0) {
+					if(tempStr.length() < 3) {
+						cerr << "Error in the format of the --greaterThan parameter." << endl;
+						rdKb.~ReadKeyboard();
+						exit(-1);
+					}
+					cmp.value = tempStr.substr(2);
+					cmp.column = tempStr[0] - '0';
+					cmp.comparison = true;
+					compare.push_back(cmp);
+				}
+			}
+		}
+
+		if(arguments.GetValue("--contextWidth"))
+		{
+			string contextWidth;
+			arguments.GetValue("--contextWidth", contextWidth);
+			context.Width(atoi(contextWidth.c_str()));
+		}
+
+		if(arguments.GetValue("--minLevelForContext"))
+		{
+			string minLevelForContext;
+			arguments.GetValue("--minLevelForContext", minLevelForContext);
+			context.MinLevelForContext(logLevels.GetVal(minLevelForContext));
+		}
+
+		if(arguments.GetValue("--minContextLevel"))
+		{
+			string minContextLevel;
+			arguments.GetValue("--minContextLevel", minContextLevel);
+			context.MinContextLevel(logLevels.GetVal(minContextLevel));
+		}
+
+		if(arguments.GetValue("--logLevels"))
+		{
+			string logFileName;
+			if(arguments.GetValue("--logLevels", logFileName) < 0) {
+				cerr << argv[0] << " - Error: log levels file not specified." << endl;
+				rdKb.~ReadKeyboard();
+				exit(LogLevels::err_fileNotFound);
+			}
+
+			cout << "Loading log levels from: " << logFileName << endl;
+
+			if(logLevels.InitLogLevels(logFileName) == LogLevels::err_fileNotFound) {
+				cerr << argv[0] << " - Error: log levels file " << logFileName << " not found." << endl;
+				rdKb.~ReadKeyboard();
+				exit(LogLevels::err_fileNotFound);
+			}
+		}
+
+		if(arguments.GetValue("--beepLevel")) {
+			string level;
+			arguments.GetValue("--beepLevel", level);
+			beepLevel = logLevels.GetVal(level);
+		}
+
+		if(arguments.GetValue("--delimiters")) {
+			arguments.GetValue("--delimiters", delimiters);
+			delimiters.append("\n\t");	// default delimiters
+		}
+
+		if(arguments.GetValue("--outFile")) {
+			arguments.GetValue("--outFile", outLogFile);
+			logToFile = true;
+		}
+
+		if(arguments.GetValue("--outFileFormat"))
+		{
+			arguments.GetValue("--outFileFormat", outLogFileFormat);
+
+			if(logFormatter.CheckFormat(outLogFileFormat) == false)
+			{
+				std::cerr << "Warning: " << outLogFileFormat << " is an invalid output file format.\n"
+						  << "              The default " << logFormatter.DefaultFormat() << " format will be used." << std::endl;
+				outLogFileFormat = logFormatter.DefaultFormat();
+			}
+
+			logFormatter.SetFormat(outLogFileFormat);
+		}
+
+		if(arguments.GetValue("--verbose")) {
+			verbose = 1;
+			if(textParsing == false)
+				logLevels.EnableWarnings(true);
+		}
+
+		string sPause;
+		arguments.GetValue("--pause", sPause);
+		float fPause = float(atof(sPause.c_str()));
+		pause = std::chrono::milliseconds(int(1000 * fPause));
+
+		if(arguments.GetValue("--restore"))
+		{
+			std::cout << "Restoring the system..." << std::endl;
+			rdKb.~ReadKeyboard();
+			std::cout << "...done." << std::endl;
+			exit(0);
+		}
+
+		if(arguments.GetValue("--help"))
+		{
+			PrintHelp(arguments, argv[0], &logLevels);
+			rdKb.~ReadKeyboard();
+			exit(0);
+		}
+
+		if(arguments.GetValue("--version"))
+		{
+			PrintVersion(argv[0]);
+			rdKb.~ReadKeyboard();
+			exit(0);
+		}
+	}
+
+	return 0;
+}
+
+
 /// Set default values for the class member variables
 
 int LogViewer::SetDefaultValues()
