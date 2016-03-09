@@ -38,7 +38,9 @@ message("Building project: ${PRJ}")
 message("==============================================")
 
 set(SRC
+	entrypoint.cpp
 	logviewer.cpp
+	logviewer.hpp
 	logLevels.cpp
 	logLevels.h
 	LogContext.cpp
