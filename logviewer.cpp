@@ -394,6 +394,45 @@ int LogViewer::SetDefaultValues()
 	help = 0;
 	version = "";
 
+	///---
+
+	logFile;
+
+	logStream = 0;
+	logToFile = false;
+
+	delimiters = "";
+
+	levelColumn = -1;
+	minLevel = 0;
+	beepLevel = -1;
+
+	printLogFile = false;
+
+	logNumber = 0;
+	logNumberField = -1;
+	printLogNumber = false;
+
+	textParsing = false;
+	warnUnknownLogLevel = false;
+
+	logLevels.EnableWarnings(warnUnknownLogLevel);
+
+	LogFormatter logFormatter("console");
+
+	newLogsOnly = false;
+	nLatest = printAll;
+	nLatestChars = printAll;
+
+	incStrFlag = false;
+	excStrFlag = false;
+
+	pause = 1000;
+
+	verbose = 0;
+
+	key = 0;
+
 	return 0;
 }
 
