@@ -62,7 +62,7 @@ using namespace Utilities;
 	static const char slash = '\\';
 #endif
 
-namespace LogViewer {
+namespace log_viewer {
 
 const int version = 4, subversion = 6, subsubversion = 0;
 /* Versioning conventions:
@@ -97,12 +97,12 @@ struct ResetDefaults
 
 ResetDefaults rd;
 
-} // LogViewer
+} // log_viewer
 
 
 int main(int argc, char* argv[])
 {
-	using namespace LogViewer;
+	using namespace log_viewer;
 
 #ifdef RUN_INTERNAL_TESTS
 	return RunInternalTests();
@@ -906,7 +906,7 @@ int main(int argc, char* argv[])
 }
 
 
-namespace LogViewer {
+namespace log_viewer {
 
 
 #ifdef WIN32
@@ -1056,4 +1056,4 @@ void PrintVersion(const char* _progName)
 	cout << endl;
 }
 
-} // LogViewer
+} // log_viewer

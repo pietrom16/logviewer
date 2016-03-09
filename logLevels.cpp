@@ -18,7 +18,7 @@
 #include <set>
 #include <sstream>
 
-namespace LogViewer {
+namespace log_viewer {
 
 using namespace textModeFormatting;
 
@@ -353,4 +353,4 @@ std::string LogLevels::ToUppercase(const std::string &_str)
 }
 
 
-} // LogViewer
+} // log_viewer

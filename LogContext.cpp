@@ -15,7 +15,7 @@
 #include <iostream>
 
 
-namespace LogViewer {
+namespace log_viewer {
 
 
 int LogContext::StorePastLog(const std::string &_log,
@@ -64,4 +64,4 @@ void LogContext::Dump() const
 }
 
 
-} // LogViewer
+} // log_viewer

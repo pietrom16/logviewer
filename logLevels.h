@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-namespace LogViewer {
+namespace log_viewer {
 
 /// List of all the possible log tags with their corresponding log levels:
 
@@ -83,7 +83,7 @@ private:
 };
 
 
-} // LogViewer
+} // log_viewer
 
 #endif // LOGLEVELS_H
 

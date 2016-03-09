@@ -18,7 +18,7 @@
 #include <string>
 
 
-namespace LogViewer {
+namespace log_viewer {
 
 
 class LogContext
@@ -59,7 +59,7 @@ private:
 };
 
 
-} // LogViewer
+} // log_viewer
 
 
 #endif // LOGCONTEXT_HPP

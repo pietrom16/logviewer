@@ -15,7 +15,7 @@
 #include <sstream>
 
 
-namespace LogViewer {
+namespace log_viewer {
 
 
 const std::string LogFormatter::availableFormats = "plain console HTML markdown";
@@ -144,4 +144,4 @@ std::string LogFormatter::FormatMarkdown(const std::string &_log,
 }
 
 
-} // LogViewer
+} // log_viewer

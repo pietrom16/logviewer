@@ -22,7 +22,7 @@
 
 int main(int argc, char* argv[])
 {
-	using namespace LogViewer;
+	using namespace log_viewer;
 
 #ifdef RUN_INTERNAL_TESTS
 	return RunInternalTests();
@@ -826,7 +826,7 @@ int main(int argc, char* argv[])
 }
 
 
-namespace LogViewer {
+namespace log_viewer {
 
 
 #ifdef WIN32

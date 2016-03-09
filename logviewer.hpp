@@ -15,9 +15,9 @@
 #define LOGVIEWER_HPP
 
 
-namespace LogViewer {
+namespace log_viewer {
 
-} // LogViewer
+} // log_viewer
 
 
 #endif // LOGVIEWER_HPP
