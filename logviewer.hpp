@@ -17,6 +17,13 @@
 
 namespace log_viewer {
 
+
+class LogViewer
+{
+
+};
+
+
 } // log_viewer
 
 
