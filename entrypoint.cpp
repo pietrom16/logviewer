@@ -19,6 +19,9 @@
  *		logviewer --help
  */
 
+#include <string>
+#include "logviewer.hpp"
+
 
 int main(int argc, char* argv[])
 {

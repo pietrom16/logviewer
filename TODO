@@ -6,6 +6,10 @@ TODO - logviewer
 	--- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
 	--- std::basic_string::find_first_of(const std::basic_string& str, size_type pos = 0) const;
 
+-- Show multiple log files.
+
+-- Allow to control the logviewer while running through a "command file".
+
 -- LogFormatter: HTML and markdown formatting.
 
 -- Change pause functionality: stop loading new logs, but keep interacting.

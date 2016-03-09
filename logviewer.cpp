@@ -19,6 +19,7 @@
  *		logviewer --help
  */
 
+#include "logviewer.hpp"
 #include "LogContext.hpp"
 #include "LogFormatter.hpp"
 #include "logLevels.h"
@@ -63,6 +64,43 @@ using namespace Utilities;
 #endif
 
 namespace log_viewer {
+
+
+/// Set default values for the class member variables
+
+int LogViewer::SetDefaultValues()
+{
+	input = "";
+	levelCol = 0;
+	minLevel = 0;
+	printNewLogsOnly = false;
+	nLatest = 0;
+	nLatestChars = 0;
+	printLogFile = false;
+	printLogNumber = false;
+	subString = "";
+	notSubString = "";
+	lessThan = 0;
+	greaterThan = 0;
+	contextWidth = 0;
+	minLevelForContext = 0;
+	minContextLevel = 0;
+	logLevels = "";
+	text = false;
+	delimiters = "";
+	outFile = "";
+	outFileFormat = 0;
+	verbose = 0;
+	beepLevel = 0;
+	pause = 0;
+	restore = false;
+	help = 0;
+	version = "";
+
+	return 0;
+}
+
+
 
 const int version = 4, subversion = 6, subsubversion = 0;
 /* Versioning conventions:
