@@ -39,6 +39,8 @@ public:
 	LogViewer(const std::string &_logFile, int _minLogLevel = 0);
 	LogViewer(int argc, char* argv[]);
 
+	int Run();
+
 	int SetDefaultValues();
 	int SetLogFileName(const std::string &_logFile);
 	int SetMinLogLevel(int _minLogLevel);

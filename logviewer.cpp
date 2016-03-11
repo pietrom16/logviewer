@@ -11,19 +11,11 @@
  *****************************************************************************/
 
 
-/* Usage example:
- *
- *		logviewer --input example.log --minLevel 2
- *		logviewer --input example.log --minLevel 2 --levelCol 3
- *		logviewer -i example.log -m 2 -l 3
- *		logviewer --help
- */
-
 #include "logviewer.hpp"
-#include "LogFormatter.hpp"
-#include "logLevels.h"
+
 #include "progArgs.h"
 #include "textModeFormatting.h"
+
 #include <cctype>
 #include <chrono>
 #include <cmath>
