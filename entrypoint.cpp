@@ -21,7 +21,7 @@
 
 #include "logviewer.hpp"
 
-const int version = 4, subversion = 6, subsubversion = 0;
+const int version = 4, subversion = 99, subsubversion = 0;
 /* Versioning conventions:
  *	- Even subversion number: stable version.
  *	- Odd subversion number: unstable/development version.
