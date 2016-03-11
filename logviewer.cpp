@@ -444,13 +444,6 @@ const int version = 4, subversion = 6, subsubversion = 0;
  *	- Odd subversion number: unstable/development version.
  */
 
-struct Compare {
-	string value;
-	int column;
-	bool comparison;	// false = less than; true = greater than
-};
-
-
 int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
 
 string GetLogDate(const string &_logFile);
