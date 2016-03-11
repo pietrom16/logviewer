@@ -20,11 +20,9 @@
  */
 
 #include "logviewer.hpp"
-#include "LogContext.hpp"
 #include "LogFormatter.hpp"
 #include "logLevels.h"
 #include "progArgs.h"
-#include "ReadKeyboard.h"
 #include "textModeFormatting.h"
 #include <cctype>
 #include <chrono>

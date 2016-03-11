@@ -17,6 +17,7 @@
 #include "LogContext.hpp"
 #include "LogFormatter.hpp"
 #include "logLevels.h"
+#include "ReadKeyboard.h"
 
 #include <fstream>
 #include <string>
@@ -49,40 +50,37 @@ public:
 
 private:
 
-	int levelCol;               // ID of the column which contains the log level (default = -1).
-	bool printNewLogsOnly;      // Print the new logs only.
-	std::string subString;      // Print the logs which contain the specified substring.
-	std::string notSubString;   // Print the logs which do not contain the specified substring.
-	int lessThan;               // Print the logs whose i-th token is less than the specified i_value.
-	int greaterThan;            // Print the logs whose i-th token is greater than the specified i_value.
-	int contextWidth;           // Number of context logs to show if the current log is above a threshold level (default = 0).
-	int minLevelForContext;     // Minimum level a log must have to get a context (default = 5).
-	int minContextLevel;        // Minimum level a log must have to be in the context (default = 2).
-	std::string logLevels;      // Load custom log levels from file (format: tag value\n).
-	bool text;                  // Parse the input file as a generic text, not as a log file.
-	std::string outFile;        // Redirect the output to a file (default = standard output).
-	int outFileFormat;          //+ Format of the output log file: plain, console, (TODO: HTML, markdown).
-	bool restore;               // Restore system in case of problems..
-	int help;                   // Help.
-	std::string version;        // Version and license details.
+	//+TMP - Variables to be moved/deleted
+	std::string subString;      // Print the logs which contain the specified substring
+	std::string notSubString;   // Print the logs which do not contain the specified substring
+	int lessThan;               // Print the logs whose i-th token is less than the specified i_value
+	int greaterThan;            // Print the logs whose i-th token is greater than the specified i_value
+	int contextWidth;           // Number of context logs to show if the current log is above a threshold level (default = 0)
+	int minLevelForContext;     // Minimum level a log must have to get a context (default = 5)
+	int minContextLevel;        // Minimum level a log must have to be in the context (default = 2)
+	//+? std::string logLevels;      // Load custom log levels from file (format: tag value\n)
+	int outFileFormat;          //+ Format of the output log file: plain, console, (TODO: HTML, markdown)
+	bool restore;               // Restore system in case of problems
+	int help;                   // Help
 
 ///---
 
-	std::string   logFile;
+	// Files' details
+
+	std::string   logFile;				// input log file name
 
 	std::ostream  logStream;			// generic output stream for the logs
 	std::filebuf  fileBuffer;
-	std::string   outLogFile;			// file name for the output stream
-	std::string   outLogFileFormat;		// OS shell highlighting, HTML, markdown, ...
-	bool          logToFile;
 
-	std::string delimiters;				// Specify custom delimiters for the messages (default = new line).
+	bool          logToFile;			// (default = false)
+	std::string   outLogFile;			// file name for the output stream to redirect the logs (default = standard output)
+	std::string   outLogFileFormat;		// OS shell highlighting, HTML, markdown, ...
+
+	// Logs' details
+
+	std::string   delimiters;			// Specify custom delimiters for the messages (default = new line)
 
 	std::string   logHeader;
-
-	int           levelColumn;			// depends on the logs format (dynamic if < 0)
-	int           minLevel;				// minimum level a log must have to be shown
-	int           beepLevel;			// minimum level to get an audio signal (disabled if < 0)
 
 	bool          printLogFile;			// Print the log file name for each message (useful if multiple log files are shown simultaneously)
 	std::string   logFileField;			// log file name to be printed for each log message
@@ -92,9 +90,18 @@ private:
 	bool          printLogNumber;		// print the log/line numbers
 
 	bool          textParsing;			// parse the input file as normal text, not as a log file
-	bool          warnUnknownLogLevel;	// warning for missing level in a log
+
+	// Log levels
 
 	LogLevels     logLevels;			// custom log levels
+	int           levelColumn;			// ID of the column which contains the log level (default = -1, i.e. dynamic)
+	int           minLevel;				// minimum level a log must have to be shown
+	int           beepLevel;			// minimum level to get an audio signal (disabled if < 0)
+	bool          warnUnknownLogLevel;	// warning for missing level in a log
+
+	// Output details
+
+	int  verbose;						// amount of extra information to print
 
 	LogFormatter  logFormatter;
 
@@ -103,20 +110,28 @@ private:
 	int           nLatest;				// number of latest logs to be printed (-1 = all)
 	int           nLatestChars;			// number of latest characters to be printed (-1 = all)
 
-	std::vector<std::string> includeStrings, excludeStrings;	// sub strings to be included/excluded by the logs
+	// Filter details
+
+	bool printNewLogsOnly;				// print the new logs only, i.e. go to the end of the log file
+
+	std::vector<std::string>  includeStrings,
+							  excludeStrings;	// sub strings to be included/excluded by the logs
 	std::string   tempStr;
-	bool          incStrFlag, excStrFlag;		// flags to decide whether to check for substrings
+	bool          incStrFlag,
+				  excStrFlag;			// flags to decide whether to check for substrings
 
-	std::vector<Compare> compare;		// set of comparisons to be done
+	std::vector<Compare>  compare;		// set of comparisons to be done
 
-	LogViewer::LogContext context;
+	LogContext  context;				// logs belonging to the current context
 
-	std::chrono::milliseconds pause;	// pause among a check of the log file and the next (default = 1000)
+	// Timing and user interaction
 
-	int  verbose;						// amount of extra information to print
+	std::chrono::milliseconds  pause;	// pause among a check of the log file and the next (default = 1000)
 
-	utilities::ReadKeyboard rdKb;
-	int                     key;
+	utilities::ReadKeyboard  rdKb;
+	int                      key;
+
+	const std::string  version;			// version and license details
 };
 
 
