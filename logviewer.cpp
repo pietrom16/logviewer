@@ -407,19 +407,6 @@ int LogViewer::SetDefaultValues()
 
 
 
-struct ResetDefaults
-{
-	ResetDefaults() {}
-	~ResetDefaults() {
-		// Reset console colors
-#ifdef _WIN32
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-#endif
-	}
-};
-
-ResetDefaults rd;
-
 } // log_viewer
 
 

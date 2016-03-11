@@ -142,6 +142,25 @@ private:
 };
 
 
+
+struct ResetDefaults
+{
+	ResetDefaults() {
+		// Reset console colors
+#ifdef _WIN32
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+#endif
+	}
+
+	~ResetDefaults() {
+		// Reset console colors
+#ifdef _WIN32
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+#endif
+	}
+};
+
+
 } // log_viewer
 
 

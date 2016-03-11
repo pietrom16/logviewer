@@ -32,14 +32,12 @@ int main(int argc, char* argv[])
 {
 	using namespace log_viewer;
 
+	ResetDefaults rd;
+
 #ifdef RUN_INTERNAL_TESTS
 	return RunInternalTests();
 #endif // RUN_INTERNAL_TESTS
 
-	// Reset console colors
-#ifdef _WIN32
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-#endif
 
 	LogViewer logViewer(argc, argv);
 
