@@ -136,6 +136,8 @@ private:
 	utilities::ReadKeyboard  rdKb;
 	int                      key;
 
+	int  nLogsReload;					// number of logs to reload when the 'r' key is pressed
+
 	const std::string  version;			// version and license details
 };
 
