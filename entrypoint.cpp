@@ -22,6 +22,15 @@
 #include <string>
 #include "logviewer.hpp"
 
+using namespace std;
+
+
+const int version = 4, subversion = 6, subsubversion = 0;
+/* Versioning conventions:
+ *	- Even subversion number: stable version.
+ *	- Odd subversion number: unstable/development version.
+ */
+
 
 int main(int argc, char* argv[])
 {

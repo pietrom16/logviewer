@@ -62,8 +62,6 @@ private:
 	bool text;                  // Parse the input file as a generic text, not as a log file.
 	std::string outFile;        // Redirect the output to a file (default = standard output).
 	int outFileFormat;          //+ Format of the output log file: plain, console, (TODO: HTML, markdown).
-	int verbose;                // Print extra information.
-	int pause;                  // Pause (in seconds) among a check of the log file and the next (default = 1.0).
 	bool restore;               // Restore system in case of problems..
 	int help;                   // Help.
 	std::string version;        // Version and license details.
@@ -113,9 +111,9 @@ private:
 
 	LogViewer::LogContext context;
 
-	std::chrono::milliseconds pause;
+	std::chrono::milliseconds pause;	// pause among a check of the log file and the next (default = 1000)
 
-	int  verbose;
+	int  verbose;						// amount of extra information to print
 
 	utilities::ReadKeyboard rdKb;
 	int                     key;
