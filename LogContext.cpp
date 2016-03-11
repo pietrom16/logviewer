@@ -45,6 +45,13 @@ int LogContext::ExtractPastLog(std::string &_log)
 }
 
 
+void LogContext::Erase()
+{
+	while(pastLogs.empty() == false)
+		pastLogs.pop();
+}
+
+
 void LogContext::Dump() const
 {
 	std::queue<PastLog>  pastLogsTmp(pastLogs);

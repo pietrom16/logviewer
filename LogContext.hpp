@@ -39,6 +39,8 @@ public:
 	int MinLevelForContext(int _ml)  { return (minLevelForContext = (_ml >= 0)?_ml:minLevelForContext); }
 	int MinContextLevel(int _ml)     { return (minContextLevel = (_ml >= 0)?_ml:minContextLevel); }
 
+	void Erase();
+
 	void Dump() const;
 
 private:
