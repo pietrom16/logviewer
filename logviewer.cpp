@@ -13,7 +13,6 @@
 
 #include "logviewer.hpp"
 
-#include "progArgs.h"
 #include "textModeFormatting.h"
 
 #include <cctype>
@@ -58,7 +57,7 @@ namespace log_viewer {
 
 /// Ctor: Read command line parameters
 
-int LogViewer::LogViewer(int argc, char *argv[])
+LogViewer::LogViewer(int argc, char *argv[])
 {
 	ProgArgs            arguments;
 	ProgArgs::Argument  arg;
@@ -348,8 +347,6 @@ int LogViewer::LogViewer(int argc, char *argv[])
 			exit(0);
 		}
 	}
-
-	return 0;
 }
 
 
@@ -357,69 +354,49 @@ int LogViewer::LogViewer(int argc, char *argv[])
 
 int LogViewer::SetDefaultValues()
 {
-	input = "";
-	levelCol = 0;
-	minLevel = 0;
-	printNewLogsOnly = false;
-	nLatest = 0;
-	nLatestChars = 0;
-	printLogFile = false;
-	printLogNumber = false;
-	subString = "";
-	notSubString = "";
-	lessThan = 0;
-	greaterThan = 0;
-	contextWidth = 0;
-	minLevelForContext = 0;
-	minContextLevel = 0;
-	logLevels = "";
-	text = false;
-	delimiters = "";
-	outFile = "";
-	outFileFormat = 0;
-	verbose = 0;
-	beepLevel = 0;
-	pause = 0;
-	restore = false;
-	help = 0;
-	version = "";
+	logFile = "";
 
-	///---
+	//+TODO logStream;
+	//+TODO fileBuffer;
 
-	logFile;
-
-	logStream = 0;
 	logToFile = false;
+	outLogFile = "";
+	outLogFileFormat = "";
 
 	delimiters = "";
 
-	levelColumn = -1;
-	minLevel = 0;
-	beepLevel = -1;
+	logHeader = "";
 
 	printLogFile = false;
+	logFileField = "";
 
 	logNumber = 0;
 	logNumberField = -1;
 	printLogNumber = false;
 
 	textParsing = false;
+
+	levelColumn = -1;
+	minLevel = 0;
+	beepLevel = -1;
 	warnUnknownLogLevel = false;
+
+	verbose = 0;
 
 	logLevels.EnableWarnings(warnUnknownLogLevel);
 
-	LogFormatter logFormatter("console");
+	logFormatter.SetFormat("console");
 
-	newLogsOnly = false;
+	newLogsOnly = true;
 	nLatest = printAll;
 	nLatestChars = printAll;
 
 	incStrFlag = false;
 	excStrFlag = false;
 
-	pause = 1000;
+	context.Erase();
 
-	verbose = 0;
+	//+TODO pause = 1000;
 
 	key = 0;
 
@@ -429,9 +406,6 @@ int LogViewer::SetDefaultValues()
 
 int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
 
-string GetLogDate(const string &_logFile);
-void   PrintHelp (const ProgArgs &_args, const char* _progName, LogLevels *_logLevels = 0);
-void   PrintVersion (const char* _progName);
 
 
 struct ResetDefaults
@@ -1330,8 +1304,11 @@ string GetLogDate(const string &_logFile)
 }
 
 
-void PrintHelp(const ProgArgs &_args, const char* _progName, LogLevels *_logLevels)
+void LogViewer::PrintHelp(const ProgArgs &_args, const char* _progName, LogLevels *_logLevels)
 {
+	using std::cout;
+	using std::endl;
+
 	string progName = _progName;
 
 	size_t pos = progName.rfind(slash) + 1;
@@ -1392,8 +1369,11 @@ void PrintHelp(const ProgArgs &_args, const char* _progName, LogLevels *_logLeve
 }
 
 
-void PrintVersion(const char* _progName)
+void LogViewer::PrintVersion(const char* _progName)
 {
+	using std::cout;
+	using std::endl;
+
 	cout << string(80, '-') << "\n";
 	string progName = _progName;
 	size_t p = progName.find_last_of(slash) + 1;

@@ -17,6 +17,7 @@
 #include "LogContext.hpp"
 #include "LogFormatter.hpp"
 #include "logLevels.h"
+#include "progArgs.h"
 #include "ReadKeyboard.h"
 
 #include <fstream>
@@ -49,6 +50,10 @@ public:
 	int Pause();
 	int Stop();
 
+	std::string GetLogDate(const std::string &_logFile);
+
+	void  PrintHelp(const Utilities::ProgArgs &_args, const char* _progName, LogLevels *_logLevels = 0);
+	void  PrintVersion(const char* _progName);
 
 private:
 
@@ -107,14 +112,12 @@ private:
 
 	LogFormatter  logFormatter;
 
+	// Filter details
+
 	const int     printAll = -1;
 	bool          newLogsOnly;			// only print logs generated from now on
 	int           nLatest;				// number of latest logs to be printed (-1 = all)
 	int           nLatestChars;			// number of latest characters to be printed (-1 = all)
-
-	// Filter details
-
-	bool printNewLogsOnly;				// print the new logs only, i.e. go to the end of the log file
 
 	std::vector<std::string>  includeStrings,
 							  excludeStrings;	// sub strings to be included/excluded by the logs
