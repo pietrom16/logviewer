@@ -76,7 +76,6 @@ private:
 
 	std::string   logFile;				// input log file name
 
-	std::ostream  logStream;			// generic output stream for the logs
 	std::filebuf  fileBuffer;
 
 	bool          logToFile;			// (default = false)

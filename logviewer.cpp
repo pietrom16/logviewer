@@ -406,12 +406,11 @@ int LogViewer::SetDefaultValues()
 }
 
 
+/// Main loop
 
-} // log_viewer
-
-
-int main(int argc, char* argv[])
+int LogViewer::Run()
 {
+	std::ostream  logStream;			// generic output stream for the logs
 
 	/// Logs header
 	{
@@ -862,6 +861,10 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+
+
+
+} // log_viewer
 
 
 namespace log_viewer {
