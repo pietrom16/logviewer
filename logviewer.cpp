@@ -400,11 +400,10 @@ int LogViewer::SetDefaultValues()
 
 	key = 0;
 
+	nLogsReload = 20;
+
 	return 0;
 }
-
-
-int nLogsReload = 20;			// number of logs to reload when 'r' is pressed
 
 
 
