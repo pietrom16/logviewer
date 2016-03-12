@@ -142,6 +142,8 @@ private:
 	int                      key;
 
 	int  nLogsReload;					// number of logs to reload when the 'r' key is pressed
+
+	std::string cmdLineParams;			// command line parameters
 };
 
 

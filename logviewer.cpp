@@ -348,6 +348,9 @@ LogViewer::LogViewer(int argc, char *argv[])
 			exit(0);
 		}
 	}
+
+	// Copy argc/argv
+	cmdLineParams = argv[1];		//+TEST
 }
 
 
@@ -503,11 +506,7 @@ int LogViewer::Run()
 		}
 		cout << endl;
 
-		cout << "Command line parameters: ";
-		for(size_t i = 0; i < argc; ++i)
-			cout << argv[i] << " ";
-		cout << endl;
-
+		cout << "Command line parameters: " << cmdLineParams << endl;
 
 		cout << string(100, '-') << endl;
 	}
