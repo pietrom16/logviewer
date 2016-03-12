@@ -40,6 +40,7 @@
 #include <tchar.h>
 #include <strsafe.h>
 #include <windows.h>
+BOOL GetLastWriteTime(HANDLE hFile, LPTSTR lpszString, DWORD dwSize);
 #endif
 
 using namespace std;
@@ -864,41 +865,7 @@ int LogViewer::Run()
 
 
 
-} // log_viewer
-
-
-namespace log_viewer {
-
-
-#ifdef WIN32
-BOOL GetLastWriteTime(HANDLE hFile, LPTSTR lpszString, DWORD dwSize)
-{
-	FILETIME ftCreate, ftAccess, ftWrite;
-	SYSTEMTIME stUTC, stLocal;
-	DWORD dwRet;
-
-	// Retrieve the file times for the file.
-	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
-		return FALSE;
-
-	// Convert the last-write time to local time.
-	FileTimeToSystemTime(&ftWrite, &stUTC);
-	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
-
-	// Build a string showing the date and time.
-	dwRet = StringCchPrintf(lpszString, dwSize,
-		TEXT("%02d/%02d/%d  %02d:%02d"),
-		stLocal.wMonth, stLocal.wDay, stLocal.wYear,
-		stLocal.wHour, stLocal.wMinute);
-
-	if (S_OK == dwRet)
-		return TRUE;
-	else return FALSE;
-}
-#endif //WIN32
-
-
-string GetLogDate(const string &_logFile)
+string LogViewer::GetLogDate(const string &_logFile)
 {
 	// Return the time the log was generated
 
@@ -1022,5 +989,36 @@ void LogViewer::PrintVersion(const char* _progName)
 	cout << string(80, '-') << "\n";
 	cout << endl;
 }
+
+
+/// Platform specific code
+
+#ifdef WIN32
+BOOL GetLastWriteTime(HANDLE hFile, LPTSTR lpszString, DWORD dwSize)
+{
+	FILETIME ftCreate, ftAccess, ftWrite;
+	SYSTEMTIME stUTC, stLocal;
+	DWORD dwRet;
+
+	// Retrieve the file times for the file.
+	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
+		return FALSE;
+
+	// Convert the last-write time to local time.
+	FileTimeToSystemTime(&ftWrite, &stUTC);
+	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+
+	// Build a string showing the date and time.
+	dwRet = StringCchPrintf(lpszString, dwSize,
+		TEXT("%02d/%02d/%d  %02d:%02d"),
+		stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+		stLocal.wHour, stLocal.wMinute);
+
+	if (S_OK == dwRet)
+		return TRUE;
+	else return FALSE;
+}
+#endif //WIN32
+
 
 } // log_viewer

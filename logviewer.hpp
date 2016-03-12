@@ -55,6 +55,12 @@ public:
 	void  PrintHelp(const Utilities::ProgArgs &_args, const char* _progName, LogLevels *_logLevels = 0);
 	void  PrintVersion(const char* _progName);
 
+	static const int  version = 4, subversion = 99, subsubversion = 0;
+	/* Versioning conventions:
+	 *	- Even subversion number: stable version.
+	 *	- Odd subversion number: unstable/development version.
+	 */
+
 private:
 
 	//+TMP - Variables to be moved/deleted
@@ -136,8 +142,6 @@ private:
 	int                      key;
 
 	int  nLogsReload;					// number of logs to reload when the 'r' key is pressed
-
-	const std::string  version;			// version and license details
 };
 
 
