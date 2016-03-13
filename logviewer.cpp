@@ -350,7 +350,10 @@ LogViewer::LogViewer(int argc, char *argv[])
 	}
 
 	// Copy argc/argv
-	cmdLineParams = argv[1];		//+TEST
+	for(size_t i = 0; i < argc; ++i) {
+		cmdLineParams += argv[i];
+		cmdLineParams += " ";
+	}
 }
 
 
