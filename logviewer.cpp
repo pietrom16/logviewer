@@ -349,7 +349,7 @@ LogViewer::LogViewer(int argc, char *argv[])
 		}
 	}
 
-	// Copy argc/argv
+	// Copy argv[]
 	for(size_t i = 0; i < argc; ++i) {
 		cmdLineParams += argv[i];
 		cmdLineParams += " ";
@@ -394,7 +394,7 @@ int LogViewer::SetDefaultValues()
 
 	logFormatter.SetFormat("console");
 
-	newLogsOnly = true;
+	newLogsOnly = false;
 	nLatest = printAll;
 	nLatestChars = printAll;
 
