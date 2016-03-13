@@ -414,7 +414,8 @@ int LogViewer::SetDefaultValues()
 
 int LogViewer::Run()
 {
-	std::ostream  logStream;			// generic output stream for the logs
+	std::filebuf  fileBuffer;
+	std::ostream  logStream(&fileBuffer);	// generic output stream for the logs
 
 	/// Logs header
 	{
