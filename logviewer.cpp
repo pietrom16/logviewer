@@ -115,7 +115,7 @@ int LogViewer::SetDefaultValues()
 
 	context.Erase();
 
-	pause = 1000;
+	pause = std::chrono::milliseconds(1000);
 
 	key = 0;
 
@@ -132,20 +132,8 @@ int LogViewer::Run()
 	std::filebuf  fileBuffer;
 	std::ostream  logStream(&fileBuffer);	// generic output stream for the logs
 
-	/// Logs header
-	{
-		string logDate = GetLogDate(logFile);		// time the log was generated
+	GenerateLogHeader();
 
-		stringstream header, tmp;
-		tmp << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
-			<< "Log file: " << logFile << " - " << logDate;
-
-		int barLen = tmp.str().length();
-
-		header << string(barLen, '-') << "\n" << tmp.str() << "\n" << string(barLen, '-');
-
-		logHeader = header.str();
-	}
 
 	/// Print extra info
 	if(verbose)
@@ -1008,6 +996,27 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 
 	return 0;
 }
+
+
+/// Logs header
+
+int LogViewer::GenerateLogHeader()
+{
+	string logDate = GetLogDate(logFile);		// time the log was generated
+
+	stringstream header, tmp;
+	tmp << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
+		<< "Log file: " << logFile << " - " << logDate;
+
+	int barLen = tmp.str().length();
+
+	header << string(barLen, '-') << "\n" << tmp.str() << "\n" << string(barLen, '-');
+
+	logHeader = header.str();
+
+	return 0;
+}
+
 
 
 /// Platform specific code

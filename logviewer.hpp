@@ -65,6 +65,7 @@ private:
 
 	int SetCommandLineParams();
 	int ReadCommandLineParams(int argc, char *argv[]);
+	int GenerateLogHeader();
 
 private:
 
@@ -88,9 +89,6 @@ private:
 	// Files' details
 
 	std::string   logFile;				// input log file name
-
-	//+? std::filebuf  fileBuffer;
-	//+? std::ostream  logStream;			// generic output stream for the logs
 
 	bool          logToFile;			// (default = false)
 	std::string   outLogFile;			// file name for the output stream to redirect the logs (default = standard output)
