@@ -64,6 +64,7 @@ public:
 private:
 
 	int SetCommandLineParams();
+	int ReadCommandLineParams(int argc, char *argv[]);
 
 private:
 
