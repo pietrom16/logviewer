@@ -55,7 +55,7 @@ public:
 	void  PrintHelp(const Utilities::ProgArgs &_args, const char* _progName, LogLevels *_logLevels = 0);
 	void  PrintVersion(const char* _progName);
 
-	static const int  version = 4, subversion = 99, subsubversion = 2;
+	static const int  version = 5, subversion = 0, subsubversion = 0;
 	/* Versioning conventions:
 	 *	- Even subversion number: stable version.
 	 *	- Odd subversion number: unstable/development version.
