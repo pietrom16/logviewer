@@ -30,6 +30,7 @@ TODO - logviewer
 
 BUGS
 
+- Fixed: Past logs no longer printed.
 - [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 
 

@@ -63,6 +63,8 @@ LogViewer::LogViewer(int argc, char *argv[])
 	ProgArgs            arguments;
 	ProgArgs::Argument  arg;
 
+	SetDefaultValues();
+
 	// Set command line parameters:
 	{
 		/* int Set(std::string _tag, std::string _shortTag, std::string _desc = "",
@@ -442,6 +444,11 @@ int LogViewer::Run()
 			cout << "Saving the logs on file: " << outLogFile << endl;
 		else
 			cout << "Showing the logs on the standard output." << endl;
+
+		if(newLogsOnly)
+			cout << "Not showing past logs." << endl;
+		else
+			cout << "Showing past logs." << endl;
 
 		cout << "\nLog levels highlighting:\n";
 		for(int level = 1; level <= logLevels.NLevels(); ++level) {
