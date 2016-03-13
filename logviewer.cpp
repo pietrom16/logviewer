@@ -78,9 +78,6 @@ int LogViewer::SetDefaultValues()
 {
 	logFile = "";
 
-	//+TODO logStream;
-	//+TODO fileBuffer;
-
 	logToFile = false;
 	outLogFile = "";
 	outLogFileFormat = "";
@@ -118,7 +115,7 @@ int LogViewer::SetDefaultValues()
 
 	context.Erase();
 
-	//+TODO pause = 1000;
+	pause = 1000;
 
 	key = 0;
 
