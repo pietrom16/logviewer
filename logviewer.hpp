@@ -66,6 +66,7 @@ private:
 	int SetCommandLineParams();
 	int ReadCommandLineParams(int argc, char *argv[]);
 	int GenerateLogHeader();
+	int PrintExtraInfo();
 
 private:
 

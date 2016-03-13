@@ -134,91 +134,8 @@ int LogViewer::Run()
 
 	GenerateLogHeader();
 
+	PrintExtraInfo();
 
-	/// Print extra info
-	if(verbose)
-	{
-		if(logToFile)
-			cout << "Saving the logs on file: " << outLogFile << endl;
-		else
-			cout << "Showing the logs on the standard output." << endl;
-
-		if(newLogsOnly)
-			cout << "Not showing past logs." << endl;
-		else
-			cout << "Showing past logs." << endl;
-
-		cout << "\nLog levels highlighting:\n";
-		for(int level = 1; level <= logLevels.NLevels(); ++level) {
-			cout << "\t" << Format(level) << level << "\t" << logLevels.GetTags(level) << Reset() << "\n";
-		}
-		cout << Reset() << endl;
-
-		if(levelColumn >= 0)
-			cout << "Column ID containing the log level: " << levelColumn << endl;
-		else
-			cout << "Column ID containing the log level: unspecified; search on the basis of prederfined tokens." << endl;
-
-		cout << "Minimum log level for a log to be shown: " << minLevel << endl;
-
-		cout << "Log context:  width = " << context.Width()
-			 << "  minLevelForContext = " << context.MinLevelForContext()
-			 << "  minContextLevel = " << context.MinContextLevel() << endl;
-
-		if(incStrFlag) {
-			cout << "Show logs which include the string(s): ";
-			for(size_t i = 0; i < includeStrings.size(); ++i)
-				cout << "\"" << includeStrings[i] << "\" ";
-			cout << endl;
-		}
-
-		if(excStrFlag) {
-			cout << "Hide logs which include the string(s): ";
-			for(size_t i = 0; i < excludeStrings.size(); ++i)
-				cout << "\"" << excludeStrings[i] << "\" ";
-			cout << endl;
-		}
-
-		if(compare.empty() == false)
-		{
-			for(size_t i = 0; i < compare.size(); ++i) {
-				cout << "Column " << compare[i].column << " must be ";
-				if(compare[i].comparison == false)
-					cout << "less";
-				else
-					cout << "greater";
-				cout << " than " << compare[i].value << endl;
-			}
-		}
-
-		cout << "Interval between checks of the log file: " << pause.count()/1000 << " seconds" << endl;
-
-		if(nLatestChars >= 0)
-			cout << "Showing the last " << nLatestChars << " characters of the existing log file." << endl;
-		else if(nLatest >= 0)
-			cout << "Showing the last " << nLatest << " logs of the existing log file." << endl;
-		else
-			cout << "Number of past logs to be shown: all" << endl;
-
-		if(textParsing)
-			cout << "Interpreting input file as plain text, not as a log file." << endl;
-
-		cout << "Log message/text block delimiters: ";
-		cout << "\\n (new line) ";
-		for(size_t i = 0; i < delimiters.size(); ++i)
-		{
-			switch(delimiters[i]) {
-			case '\t': cout << "\\t (tab) "; break;
-			case '\n': cout << "\\n "; break;
-			default: cout << delimiters[i] << " ";
-			}
-		}
-		cout << endl;
-
-		cout << "Command line parameters: " << cmdLineParams << endl;
-
-		cout << string(100, '-') << endl;
-	}
 
 	/// Open log file
 
@@ -1017,6 +934,97 @@ int LogViewer::GenerateLogHeader()
 	return 0;
 }
 
+
+/// Print extra info
+
+int LogViewer::PrintExtraInfo()
+{
+	if(verbose == 0)
+		return 0;
+
+	if(logToFile)
+		cout << "Saving the logs on file: " << outLogFile << endl;
+	else
+		cout << "Showing the logs on the standard output." << endl;
+
+	if(newLogsOnly)
+		cout << "Not showing past logs." << endl;
+	else
+		cout << "Showing past logs." << endl;
+
+	cout << "\nLog levels highlighting:\n";
+	for(int level = 1; level <= logLevels.NLevels(); ++level) {
+		cout << "\t" << Format(level) << level << "\t" << logLevels.GetTags(level) << Reset() << "\n";
+	}
+	cout << Reset() << endl;
+
+	if(levelColumn >= 0)
+		cout << "Column ID containing the log level: " << levelColumn << endl;
+	else
+		cout << "Column ID containing the log level: unspecified; search on the basis of prederfined tokens." << endl;
+
+	cout << "Minimum log level for a log to be shown: " << minLevel << endl;
+
+	cout << "Log context:  width = " << context.Width()
+		 << "  minLevelForContext = " << context.MinLevelForContext()
+		 << "  minContextLevel = " << context.MinContextLevel() << endl;
+
+	if(incStrFlag) {
+		cout << "Show logs which include the string(s): ";
+		for(size_t i = 0; i < includeStrings.size(); ++i)
+			cout << "\"" << includeStrings[i] << "\" ";
+		cout << endl;
+	}
+
+	if(excStrFlag) {
+		cout << "Hide logs which include the string(s): ";
+		for(size_t i = 0; i < excludeStrings.size(); ++i)
+			cout << "\"" << excludeStrings[i] << "\" ";
+		cout << endl;
+	}
+
+	if(compare.empty() == false)
+	{
+		for(size_t i = 0; i < compare.size(); ++i) {
+			cout << "Column " << compare[i].column << " must be ";
+			if(compare[i].comparison == false)
+				cout << "less";
+			else
+				cout << "greater";
+			cout << " than " << compare[i].value << endl;
+		}
+	}
+
+	cout << "Interval between checks of the log file: " << pause.count()/1000 << " seconds" << endl;
+
+	if(nLatestChars >= 0)
+		cout << "Showing the last " << nLatestChars << " characters of the existing log file." << endl;
+	else if(nLatest >= 0)
+		cout << "Showing the last " << nLatest << " logs of the existing log file." << endl;
+	else
+		cout << "Number of past logs to be shown: all" << endl;
+
+	if(textParsing)
+		cout << "Interpreting input file as plain text, not as a log file." << endl;
+
+	cout << "Log message/text block delimiters: ";
+	cout << "\\n (new line) ";
+	for(size_t i = 0; i < delimiters.size(); ++i)
+	{
+		switch(delimiters[i]) {
+		case '\t': cout << "\\t (tab) "; break;
+		case '\n': cout << "\\n "; break;
+		default: cout << delimiters[i] << " ";
+		}
+	}
+	cout << endl;
+
+	cout << "Command line parameters: " << cmdLineParams << endl;
+
+	cout << string(100, '-') << endl;
+
+	return 0;
+}
 
 
 /// Platform specific code
