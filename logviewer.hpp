@@ -46,16 +46,16 @@ public:
 	int SetLogFileName(const std::string &_logFile);
 	int SetMinLogLevel(int _minLogLevel);
 
-	int Start();
-	int Pause();
-	int Stop();
+	int Start();	//+TODO
+	int Pause();	//+TODO
+	int Stop();		//+TODO
 
 	std::string GetLogDate(const std::string &_logFile);
 
 	void  PrintHelp(const Utilities::ProgArgs &_args, const char* _progName, LogLevels *_logLevels = 0);
 	void  PrintVersion(const char* _progName);
 
-	static const int  version = 5, subversion = 0, subsubversion = 0;
+	static const int  version = 5, subversion = 0, subsubversion = 1;
 	/* Versioning conventions:
 	 *	- Even subversion number: stable version.
 	 *	- Odd subversion number: unstable/development version.
@@ -70,21 +70,6 @@ private:
 	int ReadKeyboard(std::ifstream &ifs, std::streamoff &pos);
 
 private:
-
-	//+TMP - Variables to be moved/deleted
-	std::string subString;      // Print the logs which contain the specified substring
-	std::string notSubString;   // Print the logs which do not contain the specified substring
-	int lessThan;               // Print the logs whose i-th token is less than the specified i_value
-	int greaterThan;            // Print the logs whose i-th token is greater than the specified i_value
-	int contextWidth;           // Number of context logs to show if the current log is above a threshold level (default = 0)
-	int minLevelForContext;     // Minimum level a log must have to get a context (default = 5)
-	int minContextLevel;        // Minimum level a log must have to be in the context (default = 2)
-	//+? std::string logLevels;      // Load custom log levels from file (format: tag value\n)
-	int outFileFormat;          //+ Format of the output log file: plain, console, (TODO: HTML, markdown)
-	bool restore;               // Restore system in case of problems
-	int help;                   // Help
-
-///---
 
 	Utilities::ProgArgs  progArgs;		// command line arguments
 
@@ -132,8 +117,8 @@ private:
 	int           nLatest;				// number of latest logs to be printed (-1 = all)
 	int           nLatestChars;			// number of latest characters to be printed (-1 = all)
 
-	std::vector<std::string>  includeStrings,
-							  excludeStrings;	// sub strings to be included/excluded by the logs
+	std::vector<std::string>  includeStrings,	// must contain the specified substring
+							  excludeStrings;	// must not contain the specified substring
 	std::string   tempStr;
 	bool          incStrFlag,
 				  excStrFlag;			// flags to decide whether to check for substrings
