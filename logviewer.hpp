@@ -67,6 +67,7 @@ private:
 	int ReadCommandLineParams(int argc, char *argv[]);
 	int GenerateLogHeader();
 	int PrintExtraInfo();
+	int ReadKeyboard(std::ifstream &ifs, std::streamoff &pos);
 
 private:
 

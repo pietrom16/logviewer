@@ -407,69 +407,7 @@ int LogViewer::Run()
 
 		ifs.clear();		// clear the eof state to keep reading the growing log file
 
-
-		/// Read the keyboard for real time user interaction
-		{
-			key = rdKb.Get();
-
-			// Pause logs display
-			if(key == 'p' || key == 'P') {
-				cout << "Paused... " << flush;
-				getchar();
-				cout << "Resumed" << endl;
-			}
-
-			// Change minimum log level
-			if(key >= '1' && key <= '7') {
-				minLevel = key - char('0');
-				cout << "Minimum log level set to: " << minLevel << " - " << logLevels.GetTag(minLevel) << endl;
-			}
-
-			// Reload all logs
-			if(key == 'R') {
-				cout << "--- RELOAD LOG FILE ---" << endl;
-				ifs.seekg(0);
-				pos = ifs.tellg();
-			}
-
-			// Reload last n logs
-			if(key == 'r') {
-				cout << "--- RELOAD LAST " << nLogsReload << " LOGS ---" << endl;
-
-				// Start reading from the last "nLogsReload" logs
-				// Reposition the cursor at the end of the file, and go back counting the new lines
-				ifs.seekg(-1, ios::end);
-				int nLogs = 0;
-
-				while(ifs.tellg() > 0)
-				{
-					if(ifs.peek() == '\n') ++nLogs;
-					if(nLogs > nLogsReload) break;
-					ifs.seekg(-1, ios::cur);
-				}
-
-				pos = ifs.tellg();
-			}
-
-			// Set the number of logs to reload
-			if(key == 'n') {
-				int n;
-				cout << "\nCurrent number of logs to reload: " << nLogsReload << endl;
-				cout <<   "New number of logs to reload:     ";
-				rdKb.Blocking();
-				cin >> n;
-				rdKb.NonBlocking();
-				if(n > 0)
-					nLogsReload = n;
-			}
-
-			// Exit logviewer
-			if(key == 'q' || key == 'Q') {
-				cout << endl;
-				rdKb.~ReadKeyboard();
-				exit(0);
-			}
-		}
+		ReadKeyboard(ifs, pos);
 
 		// Take a break
 		if(textParsing == false)
@@ -1022,6 +960,74 @@ int LogViewer::PrintExtraInfo()
 	cout << "Command line parameters: " << cmdLineParams << endl;
 
 	cout << string(100, '-') << endl;
+
+	return 0;
+}
+
+
+/// Read the keyboard for real time user interaction
+
+int LogViewer::ReadKeyboard(ifstream &ifs, streamoff &pos)
+{
+	key = rdKb.Get();
+
+	// Pause logs display
+	if(key == 'p' || key == 'P') {
+		cout << "Paused... " << flush;
+		getchar();
+		cout << "Resumed" << endl;
+	}
+
+	// Change minimum log level
+	if(key >= '1' && key <= '7') {
+		minLevel = key - char('0');
+		cout << "Minimum log level set to: " << minLevel << " - " << logLevels.GetTag(minLevel) << endl;
+	}
+
+	// Reload all logs
+	if(key == 'R') {
+		cout << "--- RELOAD LOG FILE ---" << endl;
+		ifs.seekg(0);
+		pos = ifs.tellg();
+	}
+
+	// Reload last n logs
+	if(key == 'r') {
+		cout << "--- RELOAD LAST " << nLogsReload << " LOGS ---" << endl;
+
+		// Start reading from the last "nLogsReload" logs
+		// Reposition the cursor at the end of the file, and go back counting the new lines
+		ifs.seekg(-1, ios::end);
+		int nLogs = 0;
+
+		while(ifs.tellg() > 0)
+		{
+			if(ifs.peek() == '\n') ++nLogs;
+			if(nLogs > nLogsReload) break;
+			ifs.seekg(-1, ios::cur);
+		}
+
+		pos = ifs.tellg();
+	}
+
+	// Set the number of logs to reload
+	if(key == 'n') {
+		int n;
+		cout << "\nCurrent number of logs to reload: " << nLogsReload << endl;
+		cout <<   "New number of logs to reload:     ";
+		rdKb.Blocking();
+		cin >> n;
+		rdKb.NonBlocking();
+		if(n > 0)
+			nLogsReload = n;
+	}
+
+	// Exit logviewer
+	if(key == 'q' || key == 'Q') {
+		cout << endl;
+		rdKb.~ReadKeyboard();
+		exit(0);
+	}
 
 	return 0;
 }
