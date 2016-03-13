@@ -63,6 +63,10 @@ public:
 
 private:
 
+	int SetCommandLineParams();
+
+private:
+
 	//+TMP - Variables to be moved/deleted
 	std::string subString;      // Print the logs which contain the specified substring
 	std::string notSubString;   // Print the logs which do not contain the specified substring
@@ -77,6 +81,8 @@ private:
 	int help;                   // Help
 
 ///---
+
+	Utilities::ProgArgs  progArgs;		// command line arguments
 
 	// Files' details
 
