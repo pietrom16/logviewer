@@ -1,12 +1,12 @@
 TODO - logviewer
 
+--- Allow to control the logviewer while running through a "command file".
+
 . Allow to specify multiple sentence separators, e.g. ".;\n", or use '\n' as a default separator.
 	- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
 	- When using the '.' separator, consider that it could be a decimal point and not a full stop.
 
 -- Show multiple log files.
-
--- Allow to control the logviewer while running through a "command file".
 
 -- LogFormatter: HTML and markdown formatting.
 
