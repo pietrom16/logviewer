@@ -255,6 +255,18 @@ int LogViewer::Run()
 					if(pos_end != string::npos) {
 						log = line.substr(pos_beg, pos_end - pos_beg + 1);		//+TODO test with pos_end = npos
 						pos_beg = pos_end + 1;
+
+						{ //+T+++OK
+							std::cerr << "DEBUG: pos_end = " << pos_end << " Char = " << log[log.size() - 1] << std::endl;
+							bool ok = false;
+							for(int i = 0; i < delimiters.size(); ++i)
+								if(log[log.size() - 1] == delimiters[i]) ok = true;
+							if(ok == false) {
+								std::cerr << "Error: log does not include delimiter!" << std::endl;
+								exit(1);
+							}
+						}
+
 					}
 					else {
 						log = line.substr(pos_beg);
