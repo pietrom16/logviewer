@@ -82,6 +82,9 @@ int LogViewer::SetDefaultValues()
 	outLogFile = "";
 	outLogFileFormat = "";
 
+	externalCtrl = false;
+	cmdFile = "";
+
 	delimiters = "";
 
 	logHeader = "";
@@ -563,7 +566,7 @@ int LogViewer::SetCommandLineParams()
 	/* int Set(std::string _tag, std::string _shortTag, std::string _desc = "",
 			   bool _optional = true, bool _needed = false, std::string _default = "");
 	*/
-	arg.Set("--input", "-i", "Input log file", false, true);
+	arg.Set("--input", "-i", "Input log file name", false, true);
 	progArgs.AddArg(arg);
 	arg.Set("--levelCol", "-l", "ID of the column which contains the log level", true, true, "-1");
 	progArgs.AddArg(arg);
@@ -602,6 +605,8 @@ int LogViewer::SetCommandLineParams()
 	arg.Set("--outFile", "-o", "Redirect the output to a file (default = standard output)", true, true);
 	progArgs.AddArg(arg);
 	arg.Set("--outFileFormat", "-of", "Format of the output log file: plain, console, (TODO: HTML, markdown)", true, true);	//+TODO - Specify available formats
+	progArgs.AddArg(arg);
+	arg.Set("--cmdFile", "-cf", "Command file name, to control the program from outside", true, true);
 	progArgs.AddArg(arg);
 	arg.Set("--verbose", "-vb", "Print extra information");
 	progArgs.AddArg(arg);
@@ -814,6 +819,11 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 		}
 
 		logFormatter.SetFormat(outLogFileFormat);
+	}
+
+	if(progArgs.GetValue("--cmdFile")) {
+		progArgs.GetValue("--cmdFile", cmdFile);
+		externalCtrl = true;
 	}
 
 	if(progArgs.GetValue("--verbose")) {

@@ -81,6 +81,9 @@ private:
 	std::string   outLogFile;			// file name for the output stream to redirect the logs (default = standard output)
 	std::string   outLogFileFormat;		// OS shell highlighting, HTML, markdown, ...
 
+	bool          externalCtrl;
+	std::string   cmdFile;				// command file name, to control the program from outside
+
 	// Logs' details
 
 	std::string   delimiters;			// Specify custom delimiters for the messages (default = new line)
