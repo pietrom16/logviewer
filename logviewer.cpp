@@ -145,6 +145,7 @@ int LogViewer::Run()
 	ifstream   iLogFs;					// file stream where the logs come from
 	ifstream   iCmdFs;					// file stream for the external commands
 	string     line, log, token, contextLog;
+	string     command;
 
 	streamoff  pos = 0;					// position of the current log
 	streamoff  lastPrintedLogPos = 0;	//+? position of the last log with level above the threshold
@@ -159,6 +160,7 @@ int LogViewer::Run()
 	int  nReadLogs = 0;			// number of read logs
 	int  nPrintedLogs = 0;		// number of printed logs
 
+	// Open file for external commands
 	if(externalCtrl)
 	{
 		iCmdFs.open(cmdFile);
@@ -422,7 +424,11 @@ int LogViewer::Run()
 
 		iLogFs.clear();		// clear the eof state to keep reading the growing log file
 
+		// Get user commands
 		ReadKeyboard(iLogFs, pos);
+
+		// Get external commands
+		//+TODO
 
 		// Take a break
 		if(textParsing == false)
