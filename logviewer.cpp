@@ -18,6 +18,7 @@
 #include <cctype>
 #include <chrono>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
@@ -1065,7 +1066,36 @@ int LogViewer::ReadKeyboard(ifstream &ifs, streamoff &pos)
 
 int LogViewer::ReadExternalCommands(ifstream &ifs, streamoff &pos)
 {
-	//+TODO
+	string cmd;
+	queue<string> cmdQueue;
+
+	// Read all commands from command file
+
+	{
+		ifstream cmdStr;
+		cmdStr.open(cmdFile);
+
+		while(cmdStr.eof() == false) {
+			getline(cmdStr, cmd);
+			cmdQueue.push(cmd);
+		}
+
+		// cmdStr closed by destructor
+	}
+
+	// Erase the file ASAP
+	remove(cmdFile.c_str());
+
+	//+TODO - Execute them
+	while(cmdQueue.empty() == false)
+	{
+		cmd = cmdQueue.front();
+		cmdQueue.pop();
+
+		cerr << "Warning: command not executed: " << cmd << endl; //+T+++
+	}
+
+	return 0;
 }
 
 
