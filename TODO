@@ -25,6 +25,8 @@ TODO - logviewer
 
 -- version, subversion, subsubversion: set them in a header file, and build the string with date & copyright automatically at build time.
 
+-- rdKb: destroied, but never recreated.
+
 
 BUGS
 

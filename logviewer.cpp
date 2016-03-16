@@ -132,8 +132,8 @@ int LogViewer::SetDefaultValues()
 
 int LogViewer::Run()
 {
-	std::filebuf  fileBuffer;
-	std::ostream  logStream(&fileBuffer);	// generic output stream for the logs
+	filebuf  fileBuffer;
+	ostream  logStream(&fileBuffer);	// generic output stream for the logs
 
 	GenerateLogHeader();
 
@@ -142,7 +142,7 @@ int LogViewer::Run()
 
 	/// Open log file
 
-	ifstream   ifs;
+	ifstream   iLogFs;					// file stream where the logs come from
 	string     line, log, token, contextLog;
 
 	streamoff  pos = 0;					// position of the current log
@@ -161,9 +161,9 @@ int LogViewer::Run()
 	// Wait for the log file to be available
 	while(true)
 	{
-		ifs.open(logFile.c_str());
+		iLogFs.open(logFile.c_str());
 
-		if(ifs.is_open())
+		if(iLogFs.is_open())
 			break;
 
 		if(warning) {
@@ -200,16 +200,16 @@ int LogViewer::Run()
 		// Read only the logs generated from now on; discard the past
 
 		// Reposition the cursor at the end of the file
-		ifs.seekg(0, ios::end);
-		pos = ifs.tellg();
+		iLogFs.seekg(0, ios::end);
+		pos = iLogFs.tellg();
 	}
 	else if(nLatestChars >= 0)
 	{
 		// Start reading from the last "nChars" characters
 
 		// Reposition the cursor at the end of the file, and go back n bytes
-		ifs.seekg(-nLatestChars, ios::end);
-		pos = ifs.tellg();
+		iLogFs.seekg(-nLatestChars, ios::end);
+		pos = iLogFs.tellg();
 	}
 	else if(nLatest >= 0)
 	{
@@ -217,32 +217,32 @@ int LogViewer::Run()
 
 		// Reposition the cursor at the end of the file, and go back counting the new lines
 
-		ifs.seekg(-1, ios::end);
+		iLogFs.seekg(-1, ios::end);
 
 		int nLogs = 0;
 
-		while(ifs.tellg() > 0)
+		while(iLogFs.tellg() > 0)
 		{
-			if(ifs.peek() == '\n')
+			if(iLogFs.peek() == '\n')
 				++nLogs;
 
 			if(nLogs > nLatest)
 				break;
 
-			ifs.seekg(-1, ios::cur);
+			iLogFs.seekg(-1, ios::cur);
 		}
 
-		pos = ifs.tellg();
+		pos = iLogFs.tellg();
 	}
 
 	// Main loop
 	while(true)
 	{
-		while(!ifs.eof())
+		while(!iLogFs.eof())
 		{
-			if(ifs.tellg() != -1)
+			if(iLogFs.tellg() != -1)
 			{
-				getline(ifs, line);
+				getline(iLogFs, line);
 
 				if(line.empty())
 					break;
@@ -279,7 +279,7 @@ int LogViewer::Run()
 					   distPrevLogContext > context.Width())
 					{
 						context.StorePastLog(log, level, minLevel, logNumber);
-						pos = ifs.tellg();
+						pos = iLogFs.tellg();
 						continue;
 					}
 
@@ -404,13 +404,13 @@ int LogViewer::Run()
 				}
 
 				nextLine:
-				pos = ifs.tellg();
+				pos = iLogFs.tellg();
 			}
 		}
 
-		ifs.clear();		// clear the eof state to keep reading the growing log file
+		iLogFs.clear();		// clear the eof state to keep reading the growing log file
 
-		ReadKeyboard(ifs, pos);
+		ReadKeyboard(iLogFs, pos);
 
 		// Take a break
 		if(textParsing == false)
