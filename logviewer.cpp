@@ -428,7 +428,7 @@ int LogViewer::Run()
 		ReadKeyboard(iLogFs, pos);
 
 		// Get external commands
-		//+TODO
+		ReadExternalCommands(iLogFs, pos);
 
 		// Take a break
 		if(textParsing == false)
@@ -1058,6 +1058,14 @@ int LogViewer::ReadKeyboard(ifstream &ifs, streamoff &pos)
 	}
 
 	return 0;
+}
+
+
+/// Read commands for real time external control
+
+int LogViewer::ReadExternalCommands(ifstream &ifs, streamoff &pos)
+{
+	//+TODO
 }
 
 

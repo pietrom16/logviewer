@@ -68,6 +68,7 @@ private:
 	int GenerateLogHeader();
 	int PrintExtraInfo();
 	int ReadKeyboard(std::ifstream &ifs, std::streamoff &pos);
+	int ReadExternalCommands(std::ifstream &ifs, std::streamoff &pos);
 
 private:
 
