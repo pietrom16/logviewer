@@ -143,6 +143,7 @@ int LogViewer::Run()
 	/// Open log file
 
 	ifstream   iLogFs;					// file stream where the logs come from
+	ifstream   iCmdFs;					// file stream for the external commands
 	string     line, log, token, contextLog;
 
 	streamoff  pos = 0;					// position of the current log
@@ -158,10 +159,21 @@ int LogViewer::Run()
 	int  nReadLogs = 0;			// number of read logs
 	int  nPrintedLogs = 0;		// number of printed logs
 
+	if(externalCtrl)
+	{
+		iCmdFs.open(cmdFile);
+
+		if(iCmdFs.is_open() == false) {
+			externalCtrl = false;
+			cerr << "logviewer: warning: cannot open the command file: " << cmdFile
+				 << "\n\tExternal control will not be available." << endl;
+		}
+	}
+
 	// Wait for the log file to be available
 	while(true)
 	{
-		iLogFs.open(logFile.c_str());
+		iLogFs.open(logFile);
 
 		if(iLogFs.is_open())
 			break;
