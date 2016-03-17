@@ -1,6 +1,10 @@
 TODO - logviewer
 
---- Allow to control the logviewer while running through a "command file".
+. Allow to control the logviewer while running through a "command file".
+	. Correctly loads and executes the commands.
+	. The cmd file is deleted.
+	. BUG: console stops showing keyboard inputs.
+
 
 . Allow to specify multiple sentence separators, e.g. ".;\n", or use '\n' as a default separator.
 	- Text block: delimited by either a specific character (e.g. '.'), or by a new line.
@@ -31,5 +35,5 @@ TODO - logviewer
 BUGS
 
 - [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
-
+- Check if it is normal that destructors are not called before exit.
 

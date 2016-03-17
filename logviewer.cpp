@@ -511,6 +511,7 @@ void LogViewer::PrintHelp(const ProgArgs &_args, const char* _progName, LogLevel
 	cout << "\t- Log level based highlighting. Levels can be numeric (1-7) or strings.\n";
 	cout << "\t- Filtering capability.\n";
 	cout << "\t- Text mode, runs everywhere after recompilation.\n";
+	cout << "\t- Controllable by a human and through a command file.\n";
 	cout << "\t- Free software, GPL 3 license.\n";
 	cout << "\nParameters:\n";
 	_args.Help();
@@ -545,6 +546,14 @@ void LogViewer::PrintHelp(const ProgArgs &_args, const char* _progName, LogLevel
 	cout << "\t [r]       Reload the last " << nLogsReload << " logs and display them with the current criteria.\n";
 	cout << "\t [n]       Set the number of logs to reload (default is " << nLogsReload << ").\n";
 	cout << "\t [Q]       Exit logviewer.\n";
+
+	cout << "\nSyntax of the command file:\n";
+	cout << "\n   min_level L    Change minimum log level of displayed logs to L in [1, 7] (no effect on their generation).";
+	cout << "\n   reload_all     Move to the beginning of the log file, and reprint all the logs.";
+	cout << "\n   reload         Move N logs backwards and reprint them from there.";
+	cout << "\n   reload_n N     Set the number N of logs to reload.";
+	cout << "\n   quit           Exit the program.\n";
+	cout << "\n   Note: only one command per line.\n";
 
 	//+TEST //+TODO: Windows version
 	cout << "\n- To print multiple log files simultaneously, a script like this can be used \n"
@@ -1066,7 +1075,7 @@ int LogViewer::ReadKeyboard(ifstream &ifs, streamoff &pos)
 
 int LogViewer::ReadExternalCommands(ifstream &ifs, streamoff &pos)
 {
-	string cmd;
+	string cmd, cmd_token, arg_token;
 	queue<string> cmdQueue;
 
 	// Read all commands from command file
@@ -1074,6 +1083,11 @@ int LogViewer::ReadExternalCommands(ifstream &ifs, streamoff &pos)
 	{
 		ifstream cmdStr;
 		cmdStr.open(cmdFile);
+
+		if(cmdStr.is_open() == false) {
+			//cerr << "No external commands to execute." << endl;
+			return MSG_MISSING_COMMAND_FILE;
+		}
 
 		while(cmdStr.eof() == false) {
 			getline(cmdStr, cmd);
@@ -1086,13 +1100,67 @@ int LogViewer::ReadExternalCommands(ifstream &ifs, streamoff &pos)
 	// Erase the file ASAP
 	remove(cmdFile.c_str());
 
-	//+TODO - Execute them
+	/// Execute commands
 	while(cmdQueue.empty() == false)
 	{
 		cmd = cmdQueue.front();
 		cmdQueue.pop();
 
-		cerr << "Warning: command not executed: " << cmd << endl; //+T+++
+		stringstream ss(cmd);
+
+		ss >> cmd_token;
+
+		if(cmd_token == "quit") {
+			rdKb.~ReadKeyboard();
+			exit(0);
+		}
+		else if(cmd_token == "min_level") {
+			ss >> arg_token;
+			int mLev = arg_token[0] - char('0');
+			if(mLev >= 0 && mLev < 10) {
+				minLevel = mLev;
+				cout << "Info: minimum log level changed to: " << minLevel << endl;
+			}
+			else {
+				cerr << "Error: invalid minimum log level required: " << mLev << endl;
+			}
+		}
+		else if(cmd_token == "reload_all") {
+			// Reload all logs
+			ifs.seekg(0);
+			pos = ifs.tellg();
+			cout << "Info: log file reloaded." << endl;
+		}
+		else if(cmd_token == "reload") {
+			// Reload last n logs
+			// Reposition the cursor at the end of the file, and go back counting the new lines
+			ifs.seekg(-1, ios::end);
+			int nLogs = 0;
+
+			while(ifs.tellg() > 0)
+			{
+				if(ifs.peek() == '\n') ++nLogs;
+				if(nLogs > nLogsReload) break;
+				ifs.seekg(-1, ios::cur);
+			}
+
+			pos = ifs.tellg();
+		}
+		else if(cmd_token == "reload_n") {
+			// Set the number of logs to reload
+			int n;
+			ss >> n;
+			if(n > 0) {
+				nLogsReload = n;
+				cout << "Info: number of logs to reload = " << nLogsReload << endl;
+			}
+		}
+		//+TODO - Add commands here
+		else {
+			cerr << "Warning: command token not recognised: " << cmd_token << endl;
+			cerr << "Warning: command not executed: " << cmd << endl;
+		}
+
 	}
 
 	return 0;
