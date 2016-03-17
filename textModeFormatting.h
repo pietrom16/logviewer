@@ -103,6 +103,25 @@ namespace textModeFormatting
 
 #else // _WIN32
 
+	// Predefined text formats
+	static const int
+		d = 7,			/* detail, grey */
+		n = 7,			/* normal, white */
+		b = 7,			/* bold, white */
+		ng = 10,		/* normal, green */
+		bg = 10,		/* bold, green */
+		nc = 11,		/* normal, cyan */
+		bc = 11,		/* bold, cyan */
+		ny = 14,		/* normal, yellow */
+		by = 14,		/* bold, yellow */
+		nr = 12,		/* normal, red */
+		br = 12,		/* bold, red */
+		gb = 10,		/* green background */
+		yb = 14,		/* yellow background */
+		rb = 12,		/* red background */
+		bly = 14,		/* blinking yellow */
+		blr = 12;	/* blinking red */
+
 	static const int nLevels = 8;
 
 	// Predefined text formats as levels

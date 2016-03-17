@@ -20,8 +20,13 @@
 #include "progArgs.h"
 #include "ReadKeyboard.h"
 
+#include <chrono>
 #include <fstream>
 #include <string>
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 namespace log_viewer {
 

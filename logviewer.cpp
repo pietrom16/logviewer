@@ -40,8 +40,9 @@
 #ifdef _WIN32
 #include <tchar.h>
 #include <strsafe.h>
-#include <windows.h>
-BOOL GetLastWriteTime(HANDLE hFile, LPTSTR lpszString, DWORD dwSize);
+#include <locale>
+#include <codecvt>
+BOOL GetLastWriteTime(HANDLE hFile, TCHAR *lpszString, DWORD dwSize);
 #endif
 
 using namespace std;
@@ -255,7 +256,7 @@ int LogViewer::Run()
 	{
 		while(!iLogFs.eof())
 		{
-			if(iLogFs.tellg() != -1)
+			if(iLogFs.tellg() != std::streampos(-1))
 			{
 				getline(iLogFs, line);
 
@@ -466,16 +467,22 @@ string LogViewer::GetLogDate(const string &_logFile)
 #else // _WIN32
 	//+TEST
 	TCHAR szBuf[MAX_PATH];
-	HANDLE hFile = CreateFile(_logFile.c_str(), GENERIC_READ, FILE_SHARE_READ,
+	std::wstring logf(_logFile.begin(), _logFile.end());
+	HANDLE hFile = CreateFile(logf.c_str(), GENERIC_READ, FILE_SHARE_READ,
 		NULL, OPEN_EXISTING, 0, NULL);
 
 	if (hFile == INVALID_HANDLE_VALUE)
 		return "?\n";
 	else {
-		if (GetLastWriteTime(hFile, szBuf, MAX_PATH))
-			logDate = szBuf;
+		//+TODO
+/*		if(GetLastWriteTime(hFile, szBuf, MAX_PATH)) {
+			std::wstring wlogDate = std::wstring(szBuf);
+			typedef std::codecvt_utf8<wchar_t> convert_typeX;
+			std::wstring_convert<convert_typeX, wchar_t> converterX;
+			logDate = converterX.to_bytes(wlogDate);
+		}
 		else
-			logDate = "?\n";
+*/			logDate = "?\n";
 		CloseHandle(hFile);
 		return logDate;
 	}
@@ -1169,8 +1176,8 @@ int LogViewer::ReadExternalCommands(ifstream &ifs, streamoff &pos)
 
 /// Platform specific code
 
-#ifdef WIN32
-BOOL GetLastWriteTime(HANDLE hFile, LPTSTR lpszString, DWORD dwSize)
+#ifdef _WIN32
+BOOL GetLastWriteTime(HANDLE hFile, TCHAR *lpszString, DWORD dwSize)
 {
 	FILETIME ftCreate, ftAccess, ftWrite;
 	SYSTEMTIME stUTC, stLocal;
@@ -1192,7 +1199,8 @@ BOOL GetLastWriteTime(HANDLE hFile, LPTSTR lpszString, DWORD dwSize)
 
 	if (S_OK == dwRet)
 		return TRUE;
-	else return FALSE;
+	
+	return FALSE;
 }
 #endif //WIN32
 
