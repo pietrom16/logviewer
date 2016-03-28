@@ -581,9 +581,27 @@ void LogViewer::PrintVersion(const char* _progName)
 
 	cout << string(80, '-') << "\n";
 	string progName = _progName;
-	size_t p = progName.find_last_of(slash) + 1;
+	size_t p = progName.find_last_of(slash);
 
-	cout << "\n\t" << progName.substr(p) << " version " << version << "." << subversion << "." << subsubversion << "\n";
+	if(p == string::npos)
+		p = 0;
+	else {
+		++p;
+		progName = progName.substr(p);
+	}
+
+	// Check whether this executable name has been modified
+	string aka;
+	{
+		const string realProgName = "logviewer";
+		if(progName != realProgName) {
+			aka = " (A.K.A. ";
+			aka.append(realProgName);
+			aka.append(") ");
+		}
+	}
+
+	cout << "\n\t" << progName << aka << " version " << version << "." << subversion << "." << subsubversion << "\n";
 	cout << "\n\t" << "Copyright 2012-2016 Pietro Mele" << "\n";
 	cout << "\n\t" << "Released under a GPL 3 license." << "\n";
 	cout << "\n\t" << "pietrom16@gmail.com"
