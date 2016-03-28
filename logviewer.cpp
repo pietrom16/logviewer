@@ -582,11 +582,13 @@ void LogViewer::PrintVersion(const char* _progName)
 	cout << string(80, '-') << "\n";
 	string progName = _progName;
 	size_t p = progName.find_last_of(slash) + 1;
-	cout << "\n\t" << progName.substr(p) << " version " << version << "." << subversion << "." << subsubversion << endl;
-	cout << "\n\t" << "Copyright 2012-2016 Pietro Mele" << endl;
-	cout << "\n\t" << "Released under a GPL 3 license." << endl;
+
+	cout << "\n\t" << progName.substr(p) << " version " << version << "." << subversion << "." << subsubversion << "\n";
+	cout << "\n\t" << "Copyright 2012-2016 Pietro Mele" << "\n";
+	cout << "\n\t" << "Released under a GPL 3 license." << "\n";
 	cout << "\n\t" << "pietrom16@gmail.com"
-		 << "\n\t" << "https://sites.google.com/site/pietrom16" << endl;
+		 << "\n\t" << "https://sites.google.com/site/pietrom16" << "\n";
+	cout << "\n\t" << "Build date: " << __DATE__ << " " << __TIME__ << "\n";
 	cout << string(80, '-') << "\n";
 	cout << endl;
 }
