@@ -27,8 +27,6 @@ TODO - logviewer
 
 - Better randomize the colors in LogLevelMapping().
 
--- version, subversion, subsubversion: set them in a header file, and build the string with date & copyright automatically at build time.
-
 -- rdKb: destroied, but never recreated.
 
 
