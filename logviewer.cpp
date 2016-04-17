@@ -276,7 +276,7 @@ int LogViewer::Run()
 						if(line.size() > pos_end) {
 							if(line[pos_end + 1] >= '0' && line[pos_end + 1] <= '9') {
 								// Go to the next delimiter
-								pos_end = line.find_first_of(delimiters, pos_beg);
+								pos_end = line.find_first_of(delimiters, pos_end + 1);
 							}
 						}
 					}
