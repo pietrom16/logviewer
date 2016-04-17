@@ -339,6 +339,20 @@ void LogLevels::MakeAllUppercase()
 }
 
 
+int LogLevels::FindIndentation()
+{
+	indentation = 0;
+
+	for(size_t i = 0; i < levels.size(); ++i)
+	{
+		if(levels[i].tag.size() > indentation)
+			indentation = levels[i].tag.size();
+	}
+
+	return indentation;
+}
+
+
 std::string LogLevels::ToUppercase(const std::string &_str)
 {
 	std::string uppCase(_str);
