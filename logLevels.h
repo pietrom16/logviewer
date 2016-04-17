@@ -74,6 +74,7 @@ public:
 	}
 
 	void MakeAllUppercase();
+	int  FindIndentation();
 
 private:
 	std::vector<TagLevel> levels;
@@ -81,7 +82,6 @@ private:
 	bool warnUnknownLogLevel;
 	int  indentation;
 
-	int FindIndentation();
 	static std::string ToUppercase(const std::string &_str);
 };
 
