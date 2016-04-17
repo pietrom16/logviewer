@@ -87,7 +87,7 @@ List of refactoring techniques [edit]
 
 Here are some examples of micro-refactorings; some of these may only apply to certain
 languages or language types. A longer list can be found in Fowler's refactoring
-book[2] and website.[5] Many development environments provide automated support
+book[2.345] and website.[5] Many development environments provide automated support
 for these micro-refactorings. For instance, a programmer could click on the
 name of a variable and then select the "Encapsulate field" refactoring from a
 context menu. The IDE would then prompt for additional details, typically with

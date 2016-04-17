@@ -679,7 +679,7 @@ int LogViewer::SetCommandLineParams()
 	progArgs.AddArg(arg);
 	arg.Set("--pause", "-p", "Pause (in seconds) among a check of the log file and the next", true, true, "1.0");
 	progArgs.AddArg(arg);
-	arg.Set("--restore", "-res", "Restore system in case of problems.");
+	arg.Set("--restore", "-res", "Restore system in case of problems");
 	progArgs.AddArg(arg);
 	arg.Set("--help", "-h", "Help");
 	progArgs.AddArg(arg);
