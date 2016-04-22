@@ -1,21 +1,19 @@
 TODO - logviewer
 
--- Show multiple log files.
+-- Allow navigation/collapse/expansion in an interactive way.
 
--- LogFormatter: HTML and markdown formatting.
+-- Show multiple log files.
 
 -- Change pause functionality: stop loading new logs, but keep interacting.
 
 . ProgArgs: Check if multiple parameters with the same tag can coexist. OK.
 	-- Allow to pass multiple values for each command line parameter (especially inclusion/exclusion tokens).
 
-- Consider using: 	bool show; cout << (show?"...":"") << endl;
-
 - Add logviewer aliases with default parameters for specific uses.
 
-- Allow navigation/collapse/expansion in an interactive way.
-
 - Better randomize the colors in LogLevelMapping().
+
+- LogFormatter: HTML and markdown formatting.
 
 -- rdKb: destroied, but never recreated.
 
@@ -24,4 +22,4 @@ BUGS
 
 - [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 - Check if it is normal that destructors are not called before exit.
-
+- Check timing in text view.

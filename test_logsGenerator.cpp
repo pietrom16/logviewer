@@ -29,14 +29,15 @@ int main(int argc, char* argv[])
 {
 	bool endless = true;
 	int  gen = 0, nGen = 4;
-	int  nLogs = 0;
+	int  nLogs = 10;
+	int  pauseSec = 0;
 
 	if(argc > 1) {
 
 		const std::string arg(argv[1]);
 
 		if(arg == "-h" || arg == "--help") {
-			std::cout << argv[0] << " nLogs distribution\n"
+			std::cout << argv[0] << " [nLogs] [distribution] [pause]\n"
 					  << "distribution values:\n"
 					  << "  0. Random"
 					  << "  1. Increasing"
@@ -56,6 +57,10 @@ int main(int argc, char* argv[])
 			gen = 0;
 	}
 
+	if(argc > 3) {
+		pauseSec = atoi(argv[3]);
+	}
+
 	std::string log;
 	std::string logFile = "test.log";
 	std::ofstream ofs(logFile);
@@ -65,7 +70,7 @@ int main(int argc, char* argv[])
 	const char       logLevelTags[nLogLevels][9] { "  ----  ", "VeRbOsE ", "DETAIL  ", "Info    ", "warninG ", "error   ", "CriticaL", "fATAl   " };
 	int              level = 0;
 
-	std::chrono::milliseconds pause(50);
+	std::chrono::milliseconds pause(1000*pauseSec);
 
 	int i = 0;
 
