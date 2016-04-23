@@ -292,39 +292,55 @@ int LogLevels::FindLogLevel(const std::string &_log,
 }
 
 
-// Return the log level tag in a log message; empty string if not found
-	
+// Return the log level tag in a log message; empty string if not found.
+// In case of multiple levels, return the highest one.
+
 std::string LogLevels::FindLogLevelTag(const std::string &_log,
 									   int _column) const
 {
-	const std::string log = LogLevels::ToUppercase(_log);
+	int val = -1, newVal = -1;
+	std::string tag;
 
-	for (size_t i = 0; i < levels.size(); ++i)
-	{
-		if (log.find(levels[i].tag) != std::string::npos)
-		{
-			return levels[i].tag;
-		}
-	}
-
-	return "";
-}
-
-
-// Return the log level value in a log message; err_levelNotFound if not found
-
-int LogLevels::FindLogLevelVal(const std::string &_log,
-							   int _column) const
-{
 	const std::string log = LogLevels::ToUppercase(_log);
 
 	for(size_t i = 0; i < levels.size(); ++i)
 	{
 		if(log.find(levels[i].tag) != std::string::npos)
 		{
-			return levels[i].level;
+			newVal = levels[i].level;
+			if(newVal > val) {
+				val = newVal;
+				tag = levels[i].tag;
+			}
 		}
 	}
+
+	return tag;
+}
+
+
+// Return the log level value in a log message; err_levelNotFound if not found.
+// In case of multiple levels, return the highest one.
+
+int LogLevels::FindLogLevelVal(const std::string &_log,
+							   int _column) const
+{
+	int val = -1, newVal = -1;
+
+	const std::string log = LogLevels::ToUppercase(_log);
+
+	for(size_t i = 0; i < levels.size(); ++i)
+	{
+		if(log.find(levels[i].tag) != std::string::npos)
+		{
+			newVal = levels[i].level;
+			if(newVal > val)
+				val = newVal;
+		}
+	}
+
+	if(val >= 0)
+		return val;
 
 	return err_levelNotFound;
 }

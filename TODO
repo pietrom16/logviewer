@@ -1,7 +1,8 @@
 TODO - logviewer
 
 -- Text highlighting tests:
-	- Bug: when multiple tags are in the same sentence, pick the one with highest value.
+	. Bug: when multiple tags are in the same sentence, pick the one with highest value.
+	- Option: for log files, just pick the first level value.
 
 -- Show multiple log files.
 
