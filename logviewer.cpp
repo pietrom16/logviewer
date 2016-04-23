@@ -130,6 +130,15 @@ int LogViewer::SetDefaultValues()
 }
 
 
+int LogViewer::SetCommandFile(const string &_cmdFile)
+{
+	cmdFile = _cmdFile;
+	externalCtrl = true;
+
+	return 0;
+}
+
+
 /// Main loop
 
 int LogViewer::Run()

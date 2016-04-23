@@ -3,14 +3,6 @@ TODO - logviewer
 -- Text highlighting tests:
 	- Bug: when multiple tags are in the same sentence, pick the one with highest value.
 
--- Delete:
-		int Start();	//+TODO
-		int Pause();	//+TODO
-		int Stop();		//+TODO
-	Allow to set the command file not only in the ctor.
-	int SetCommandFile(const std::string &_cmdFile);
-
-
 -- Show multiple log files.
 
 - Change pause functionality: stop loading new logs, but keep interacting.
