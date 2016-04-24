@@ -130,6 +130,15 @@ int LogViewer::SetDefaultValues()
 }
 
 
+/// Modify input log file
+
+int LogViewer::SetLogFileName(const string &_logFile)
+{
+	logFile = _logFile;
+	return 0;
+}
+
+
 int LogViewer::SetMinLogLevel(int _minLogLevel)
 {
 	if(_minLogLevel >= 0)
