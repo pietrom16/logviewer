@@ -704,7 +704,7 @@ int LogViewer::SetCommandLineParams()
 	progArgs.AddArg(arg);
 	arg.Set("--text", "-t", "Parse the input file as a generic text, not as a log file", true, false);
 	progArgs.AddArg(arg);
-	arg.Set("--delimiters", "-d", "Specify custom delimiters for the messages (default = new line)", true, true);
+	arg.Set("--delimiters", "-d", "Specify custom delimiters for the messages (default = new line; in case a \';\' is needed, double quote it)", true, true);
 	progArgs.AddArg(arg);
 	arg.Set("--outFile", "-o", "Redirect the output to a file (default = standard output)", true, true);
 	progArgs.AddArg(arg);
