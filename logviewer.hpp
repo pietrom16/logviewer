@@ -81,6 +81,7 @@ private:
 	// Files' details
 
 	std::string   logFile;				// input log file name
+	std::ifstream iLogFs;				// file stream where the logs come from
 
 	bool          logToFile;			// (default = false)
 	std::string   outLogFile;			// file name for the output stream to redirect the logs (default = standard output)

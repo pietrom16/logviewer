@@ -174,9 +174,9 @@ int LogViewer::Run()
 
 	/// Open log file
 
-	ifstream   iLogFs;					// file stream where the logs come from
 	ifstream   iCmdFs;					// file stream for the external commands
-	string     line, log, token, contextLog;
+	string     log, contextLog;
+	string     line, token;
 	string     command;
 
 	streamoff  pos = 0;					// position of the current log
@@ -1222,6 +1222,14 @@ int LogViewer::ReadExternalCommands(ifstream &ifs, streamoff &pos)
 			if(n > 0) {
 				nLogsReload = n;
 				cout << "Info: number of logs to reload = " << nLogsReload << endl;
+			}
+		}
+		else if(cmd_token == "switch_log") {
+			ss >> arg_token;
+			if(arg_token.size() > 0) {
+				logFile = arg_token;
+				iLogFs.close();
+				iLogFs.open(logFile);
 			}
 		}
 		//+TODO - Add commands here
