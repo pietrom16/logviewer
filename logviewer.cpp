@@ -134,7 +134,16 @@ int LogViewer::SetDefaultValues()
 
 int LogViewer::SetLogFileName(const string &_logFile)
 {
-	logFile = _logFile;
+	if(_logFile.size() > 0)
+	{
+		logFile = _logFile;
+
+		if(iLogFs.is_open()) {
+			iLogFs.close();
+			iLogFs.open(logFile);
+		}
+	}
+
 	return 0;
 }
 
