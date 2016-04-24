@@ -3,7 +3,9 @@ TODO - logviewer
 -- Text highlighting tests:
 	. Bug: when multiple tags are in the same sentence, pick the one with highest value.
 	. Option: for log files, just pick the first level value.
-	- Consider ignoring \n as a terminator, since many files are done with single lines.
+	. Consider ignoring \n as a delimiter, since many files are done with single lines.
+		. logviewer.cpp:876
+	- More testing.
 
 -- Show multiple log files.
 

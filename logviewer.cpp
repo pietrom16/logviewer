@@ -873,7 +873,6 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 
 	if(progArgs.GetValue("--delimiters")) {
 		progArgs.GetValue("--delimiters", delimiters);
-		delimiters.append("\n\t");	// default delimiters
 	}
 
 	if(progArgs.GetValue("--outFile")) {
@@ -932,6 +931,9 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 		rdKb.~ReadKeyboard();
 		exit(0);
 	}
+
+	if(textParsing == false)
+		delimiters.append("\n");	// new line as default delimiter for logs
 
 	return 0;
 }
