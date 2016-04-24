@@ -130,6 +130,18 @@ int LogViewer::SetDefaultValues()
 }
 
 
+int LogViewer::SetMinLogLevel(int _minLogLevel)
+{
+	if(_minLogLevel >= 0)
+	{
+		minLevel = _minLogLevel;
+		std::cout << "New minimum log level threshold: " << minLevel << std::endl;
+	}
+
+	return minLevel;
+}
+
+
 int LogViewer::SetCommandFile(const string &_cmdFile)
 {
 	cmdFile = _cmdFile;

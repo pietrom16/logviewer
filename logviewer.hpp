@@ -49,7 +49,7 @@ public:
 
 	int SetDefaultValues();
 	int SetLogFileName(const std::string &_logFile); //+TODO
-	int SetMinLogLevel(int _minLogLevel); //+TODO
+	int SetMinLogLevel(int _minLogLevel);
 	int SetCommandFile(const std::string &_cmdFile);
 
 	std::string GetLogDate(const std::string &_logFile);
