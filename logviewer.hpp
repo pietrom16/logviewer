@@ -48,7 +48,7 @@ public:
 	int Run();
 
 	int SetDefaultValues();
-	int SetLogFileName(const std::string &_logFile); //+TODO
+	int SetLogFileName(const std::string &_logFile);
 	int SetMinLogLevel(int _minLogLevel);
 	int SetCommandFile(const std::string &_cmdFile);
 
