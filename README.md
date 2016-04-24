@@ -101,7 +101,7 @@ field       1
 
 Command:  `logviewer -i ./test/testText.txt -ll ./test/testText_logLevels.txt -m 3 --text -ln -d .`
 
-![Output:](./test/testText.png)
+![Output:](./test/logviewer_text_underline.png)
 
 
 
