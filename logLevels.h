@@ -57,17 +57,25 @@ public:
 
 	// Return log level tag and value in a log message;
 	// empty string/negative value if not found
-	int FindLogLevel(const std::string &_log, std::string &_levelTag, int _column = -1) const;
+	int FindLogLevel(const std::string &_log, std::string &_levelTag,
+					 bool _pickFirstTag = false,
+					 int _column = -1) const;
 
 	// Return log level value in a log message;
 	// negative value if not found
-	int FindLogLevel(const std::string &_log, int _column = -1) const;
+	int FindLogLevel(const std::string &_log,
+					 bool _pickFirstTag = false,
+					 int _column = -1) const;
 
 	// Return the log level tag in a log message; empty string if not found
-	std::string FindLogLevelTag(const std::string &_log, int _column = -1) const;
+	std::string FindLogLevelTag(const std::string &_log,
+								bool _pickFirstTag = false,
+								int _column = -1) const;
 
 	// Return the log level value in a log message
-	int FindLogLevelVal(const std::string &_log, int _column = -1) const;
+	int FindLogLevelVal(const std::string &_log,
+						bool _pickFirstTag = false,
+						int _column = -1) const;
 
 	void EnableWarnings(bool _enable = true) {
 		warnUnknownLogLevel = _enable;
@@ -79,6 +87,7 @@ public:
 private:
 	std::vector<TagLevel> levels;
 
+	bool pickFirstTag;			// pick the highest level tag if false
 	bool warnUnknownLogLevel;
 	int  indentation;
 

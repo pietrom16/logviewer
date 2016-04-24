@@ -301,7 +301,7 @@ int LogViewer::Run()
 
 					++logNumber;
 
-					level = logLevels.FindLogLevel(log, levelColumn);
+					level = logLevels.FindLogLevel(log, !textParsing, levelColumn);
 
 					if(level < context.MinContextLevel() &&
 					   level < minLevel)
@@ -332,7 +332,7 @@ int LogViewer::Run()
 							else
 								logNumberField = -1;
 
-							contextLevel = logLevels.FindLogLevel(contextLog, levelColumn);
+							contextLevel = logLevels.FindLogLevel(contextLog, !textParsing, levelColumn);
 
 							if(newLine) {
 								cout << endl;

@@ -42,6 +42,7 @@ int LogLevels::InitLogLevels()
 	levels.push_back(TagLevel("FATAL",     7));
 	levels.push_back(TagLevel("EMERGENCY", 7));
 
+	pickFirstTag = false;
 	warnUnknownLogLevel = false;
 
 	return levels.size();
@@ -218,6 +219,7 @@ int LogLevels::LogLevelMapping(const std::string &_tag) const
 
 int LogLevels::FindLogLevel(const std::string &_log,
 							std::string &_levelTag,
+							bool _pickFirstTag,
 							int _column) const
 {
 	int levelVal = 0;
@@ -234,7 +236,7 @@ int LogLevels::FindLogLevel(const std::string &_log,
 	}
 	else                 // tag based log level search
 	{
-		levelVal = FindLogLevelVal(_log);
+		levelVal = FindLogLevelVal(_log, _pickFirstTag);
 
 		if (levelVal < 0 && warnUnknownLogLevel && _log.size() > 0) {
 			levelVal = 4;
@@ -255,6 +257,7 @@ int LogLevels::FindLogLevel(const std::string &_log,
 // negative value if not found
 
 int LogLevels::FindLogLevel(const std::string &_log,
+							bool _pickFirstTag,
 							int _column) const
 {
 	int levelVal = 0;
@@ -270,7 +273,7 @@ int LogLevels::FindLogLevel(const std::string &_log,
 	}
 	else                 // tag based log level search
 	{
-		levelVal = FindLogLevelVal(_log);
+		levelVal = FindLogLevelVal(_log, _pickFirstTag);
 
 		if(levelVal < 0)
 		{
@@ -296,6 +299,7 @@ int LogLevels::FindLogLevel(const std::string &_log,
 // In case of multiple levels, return the highest one.
 
 std::string LogLevels::FindLogLevelTag(const std::string &_log,
+									   bool _pickFirstTag,
 									   int _column) const
 {
 	int val = -1, newVal = -1;
@@ -312,6 +316,8 @@ std::string LogLevels::FindLogLevelTag(const std::string &_log,
 				val = newVal;
 				tag = levels[i].tag;
 			}
+			if(_pickFirstTag)
+				return tag;
 		}
 	}
 
@@ -323,6 +329,7 @@ std::string LogLevels::FindLogLevelTag(const std::string &_log,
 // In case of multiple levels, return the highest one.
 
 int LogLevels::FindLogLevelVal(const std::string &_log,
+							   bool _pickFirstTag,
 							   int _column) const
 {
 	int val = -1, newVal = -1;
@@ -336,6 +343,8 @@ int LogLevels::FindLogLevelVal(const std::string &_log,
 			newVal = levels[i].level;
 			if(newVal > val)
 				val = newVal;
+			if(_pickFirstTag)
+				return val;
 		}
 	}
 
