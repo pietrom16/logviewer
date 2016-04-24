@@ -1,5 +1,8 @@
 TODO - logviewer
 
+. Bug: command line parameters wrongly read after -d ; tag/value.
+	. Not a bug: in this case, use double quotes around the delimiters.
+
 -- Text highlighting tests:
 	. Bug: when multiple tags are in the same sentence, pick the one with highest value.
 	. Option: for log files, just pick the first level value.
