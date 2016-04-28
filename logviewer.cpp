@@ -514,11 +514,9 @@ string LogViewer::GetLogDate(const string &_logFile)
 	else
 		return "?\n";
 #else // _WIN32
-	//+TEST
 	TCHAR szBuf[MAX_PATH];
-	std::wstring logf(_logFile.begin(), _logFile.end());
-	HANDLE hFile = CreateFile(logf.c_str(), GENERIC_READ, FILE_SHARE_READ,
-		NULL, OPEN_EXISTING, 0, NULL);
+	HANDLE hFile = CreateFile(_logFile.c_str(), GENERIC_READ, FILE_SHARE_READ,
+							  NULL, OPEN_EXISTING, 0, NULL);
 
 	if (hFile == INVALID_HANDLE_VALUE)
 		return "?\n";
