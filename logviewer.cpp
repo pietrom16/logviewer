@@ -319,15 +319,16 @@ int LogViewer::Run()
 				{
 					pos_end = line.find_first_of(delimiters, pos_beg);
 
-					if(line[pos_end] == '.') {
-						// Check it is not a decimal point
-						if(line.size() > pos_end) {
-							if(line[pos_end + 1] >= '0' && line[pos_end + 1] <= '9') {
-								// Go to the next delimiter
-								pos_end = line.find_first_of(delimiters, pos_end + 1);
+					if(pos_end != string::npos)
+						if(line[pos_end] == '.') {
+							// Check it is not a decimal point
+							if(line.size() > pos_end) {
+								if(line[pos_end + 1] >= '0' && line[pos_end + 1] <= '9') {
+									// Go to the next delimiter
+									pos_end = line.find_first_of(delimiters, pos_end + 1);
+								}
 							}
 						}
-					}
 
 					if(pos_end != string::npos) {
 						log = line.substr(pos_beg, pos_end - pos_beg + 1);
