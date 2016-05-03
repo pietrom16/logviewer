@@ -62,6 +62,8 @@ namespace log_viewer {
 
 LogViewer::LogViewer(int argc, char *argv[])
 {
+	rd = new ResetDefaults;
+
 	SetDefaultValues();
 	SetCommandLineParams();
 	ReadCommandLineParams(argc, argv);
@@ -71,6 +73,13 @@ LogViewer::LogViewer(int argc, char *argv[])
 		cmdLineParams += argv[i];
 		cmdLineParams += " ";
 	}
+}
+
+LogViewer::~LogViewer()
+{
+	rdKb.~ReadKeyboard();
+	rd->~ResetDefaults();
+	cout << "logviewer stopped.\n" << endl;
 }
 
 
@@ -1140,6 +1149,8 @@ int LogViewer::ReadKeyboard(ifstream &ifs, streamoff &pos)
 	if(key == 'q' || key == 'Q') {
 		cout << endl;
 		rdKb.~ReadKeyboard();
+		rd->~ResetDefaults();
+		cout << "logviewer stopped.\n" << endl;
 		exit(0);
 	}
 

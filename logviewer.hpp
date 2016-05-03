@@ -38,12 +38,16 @@ struct Compare {
 };
 
 
+struct ResetDefaults;
+
+
 class LogViewer
 {
 public:
 	LogViewer();
 	LogViewer(const std::string &_logFile, int _minLogLevel = 0);
 	LogViewer(int argc, char* argv[]);
+	~LogViewer();
 
 	int Run();
 
@@ -145,7 +149,9 @@ private:
 
 	int  nLogsReload;					// number of logs to reload when the 'r' key is pressed
 
-	std::string cmdLineParams;			// command line parameters
+	std::string  cmdLineParams;			// command line parameters
+
+	ResetDefaults  *rd;
 };
 
 
