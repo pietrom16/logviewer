@@ -113,8 +113,11 @@ std::string LogFormatter::FormatConsole(const std::string &_log,
 	if(_logNumber > 0)
 		fLog += std::to_string(_logNumber) + ": ";
 
-	fLog += std::string(Format(ny))
-			+ _tag
+#ifndef _WIN32
+	fLog += std::string(Format(ny));
+#endif
+
+	fLog +=   _tag
 			+ std::string(Format(_level))
 			+ _log
 			+ std::string(Reset());

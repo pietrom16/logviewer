@@ -165,7 +165,6 @@ namespace textModeFormatting
 
 #else // _WIN32
 
-	//+TODO
 	static const char* Format(int _formatId) {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), level[_formatId%nLevels][0]);
 		static char format[] = "";
