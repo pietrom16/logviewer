@@ -887,17 +887,17 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 
 	if(progArgs.GetValue("--logLevels"))
 	{
-		string logFileName;
-		if(progArgs.GetValue("--logLevels", logFileName) < 0) {
+		string logLevelsFileName;
+		if(progArgs.GetValue("--logLevels", logLevelsFileName) < 0) {
 			cerr << argv[0] << " - Error: log levels file not specified." << endl;
 			rdKb.~ReadKeyboard();
 			exit(LogLevels::err_fileNotFound);
 		}
 
-		cout << "Loading log levels from: " << logFileName << endl;
+		cout << "Loading log levels from: " << logLevelsFileName << endl;
 
-		if(logLevels.InitLogLevels(logFileName) == LogLevels::err_fileNotFound) {
-			cerr << argv[0] << " - Error: log levels file " << logFileName << " not found." << endl;
+		if(logLevels.InitLogLevels(logLevelsFileName) == LogLevels::err_fileNotFound) {
+			cerr << argv[0] << " - Error: log levels file " << logLevelsFileName << " not found." << endl;
 			rdKb.~ReadKeyboard();
 			exit(LogLevels::err_fileNotFound);
 		}
