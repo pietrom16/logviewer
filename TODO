@@ -1,15 +1,5 @@
 TODO - logviewer
 
-. Bug: command line parameters wrongly read after -d ; tag/value.
-	. Not a bug: in this case, use double quotes around the delimiters.
-
--- Text highlighting tests:
-	. Bug: when multiple tags are in the same sentence, pick the one with highest value.
-	. Option: for log files, just pick the first level value.
-	. Consider ignoring \n as a delimiter, since many files are done with single lines.
-		. logviewer.cpp:876
-	- More testing.
-
 -- Show multiple log files.
 
 - Change pause functionality: stop loading new logs, but keep interacting.
@@ -28,6 +18,6 @@ TODO - logviewer
 
 BUGS
 
-- [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
+. [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 - Check if it is normal that destructors are not called before exit.
 - Check timing in text view.
