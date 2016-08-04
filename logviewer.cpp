@@ -520,9 +520,22 @@ string LogViewer::GetLogDate(const string &_logFile)
 #ifdef POSIX
 	struct stat st;
 	if(stat(_logFile.c_str(), &st) == 0)
+	{
 		date = st.st_mtime;
+
+		char mbstr[100];
+		if (std::strftime(mbstr, sizeof(mbstr), "%FT%T", std::localtime(&date))) {
+			logDate = mbstr;
+		}
+		else {
+			logDate = "?\n";
+		}
+
+		return logDate;
+	}
 	else
 		return "?\n";
+
 #else // _WIN32
 	TCHAR szBuf[MAX_PATH];
 	HANDLE hFile = CreateFile(_logFile.c_str(), GENERIC_READ, FILE_SHARE_READ,
@@ -544,16 +557,6 @@ string LogViewer::GetLogDate(const string &_logFile)
 		return logDate;
 	}
 #endif
-
-	char mbstr[100];
-	if (std::strftime(mbstr, sizeof(mbstr), "%FT%T", std::localtime(&date))) {
-		logDate = mbstr;
-	}
-	else {
-		logDate = "?\n";
-	}
-
-	return logDate;
 }
 
 
