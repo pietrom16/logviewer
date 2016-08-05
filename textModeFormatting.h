@@ -41,14 +41,14 @@ namespace textModeFormatting
     static const int nHtmlLevels = 32;
 	static const char htmlLevel[][nHtmlLevels] = {
 	    "color:grey",				/* not used */
-	    "color:cyan",				/* VERBOSE_, detail, cyan */
-	    "color:white",				/* DETAIL_, normal, white */
-	    "color:green",				/* INFO_, normal, green */
-	    "color:yellow",				/* WARNING_, normal, yellow */
-	    "color:red",				/* ERROR_, bold, red */
+	    "color:cyan",				/* VERBOSE_, detail */
+	    "color:white",				/* DETAIL_, normal */
+	    "color:green",				/* INFO_, normal */
+	    "color:yellow",				/* WARNING_, normal */
+	    "color:red",				/* ERROR_, bold */
 	    "background-color:red",		/* SEVERE_, red background */
 	    "color:red",				/* FATAL_, blinking red */
-	    "background-color:grey"		/* NO_LEVEL_, normal, grey background */
+	    "background-color:grey"		/* NO_LEVEL_, normal */
 	};
 
 #ifndef _WIN32
