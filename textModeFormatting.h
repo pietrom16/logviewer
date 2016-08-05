@@ -37,6 +37,20 @@
 namespace textModeFormatting
 {
 
+    // HTML format
+    static const int nHtmlLevels = 32;
+	static const char htmlLevel[][nHtmlLevels] = {
+	    "color:grey",				/* not used */
+	    "color:cyan",				/* VERBOSE_, detail, cyan */
+	    "color:white",				/* DETAIL_, normal, white */
+	    "color:green",				/* INFO_, normal, green */
+	    "color:yellow",				/* WARNING_, normal, yellow */
+	    "color:red",				/* ERROR_, bold, red */
+	    "background-color:red",		/* SEVERE_, red background */
+	    "color:red",				/* FATAL_, blinking red */
+	    "background-color:grey"		/* NO_LEVEL_, normal, grey background */
+	};
+
 #ifndef _WIN32
 
 	// Predefined text formats
