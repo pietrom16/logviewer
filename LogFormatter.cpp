@@ -132,13 +132,16 @@ std::string LogFormatter::FormatHTML(const std::string &_log,
 									 char _tag, int _logNumber) const
 {
 	//+TODO
+	using namespace textModeFormatting;
 
 	std::string htmlLog;
 
-	htmlLog.append("<p>");
-	htmlLog.append("<span style=\"color: red;\">");
-	htmlLog.append(_log);
-	htmlLog.append("</span></p>");
+	htmlLog +=   std::string("<p>")
+	           + std::string("<span style=\"")
+	           + htmlLevel[_level]
+	           + std::string(";\">")
+	           + _log
+	           + std::string("</span></p>");
 
 	return htmlLog;
 }
