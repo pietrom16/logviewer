@@ -135,9 +135,10 @@ std::string LogFormatter::FormatHTML(const std::string &_log,
 
 	std::string htmlLog;
 
-	htmlLog.append("<\"");
+	htmlLog.append("<p>");
+	htmlLog.append("<span style=\"color: red;\">");
 	htmlLog.append(_log);
-	htmlLog.append("\"/>");
+	htmlLog.append("</span></p>");
 
 	return htmlLog;
 }
