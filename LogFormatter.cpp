@@ -132,7 +132,14 @@ std::string LogFormatter::FormatHTML(const std::string &_log,
 									 char _tag, int _logNumber) const
 {
 	//+TODO
-	return _log;
+
+	std::string htmlLog;
+
+	htmlLog.append("<\"");
+	htmlLog.append(_log);
+	htmlLog.append("\"/>");
+
+	return htmlLog;
 }
 
 
