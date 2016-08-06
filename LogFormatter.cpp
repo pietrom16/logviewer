@@ -136,12 +136,11 @@ std::string LogFormatter::FormatHTML(const std::string &_log,
 
 	std::string htmlLog;
 
-	htmlLog +=   std::string("<p>")
-	           + std::string("<span style=\"")
+	htmlLog +=   std::string("<span style=\"")
 	           + htmlLevel[_level]
 	           + std::string(";\">")
 	           + _log
-	           + std::string("</span></p>");
+	           + std::string("</span>");
 
 	return htmlLog;
 }
