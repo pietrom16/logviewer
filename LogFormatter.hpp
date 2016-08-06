@@ -31,13 +31,26 @@ public:
 	std::string DefaultFormat()    const { return defaultFormat;    }
 	bool CheckFormat(const std::string &_format) const;
 
-	// Formatters
+	// Log message formatters
 	std::string Format(const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
-
 	std::string FormatPlain   (const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
 	std::string FormatConsole (const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
 	std::string FormatHTML    (const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
 	std::string FormatMarkdown(const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
+
+	// Headers
+	std::string Header()         const;
+	std::string HeaderPlain()    const { return ""; }
+	std::string HeaderConsole()  const { return ""; }
+	std::string HeaderHTML()     const;
+	std::string HeaderMarkdown() const { return ""; }
+
+	// Footers
+	std::string Footer()         const;
+	std::string FooterPlain()    const { return ""; }
+	std::string FooterConsole()  const { return ""; }
+	std::string FooterHTML()     const;
+	std::string FooterMarkdown() const { return ""; }
 
 private:
 

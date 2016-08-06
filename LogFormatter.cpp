@@ -59,7 +59,7 @@ bool LogFormatter::CheckFormat(const std::string &_format) const
 }
 
 
-// Formatters
+// Log message formatters
 
 std::string LogFormatter::Format(const std::string &_log,
 								 int _level,
@@ -129,7 +129,8 @@ std::string LogFormatter::FormatConsole(const std::string &_log,
 std::string LogFormatter::FormatHTML(const std::string &_log,
 									 int _level,
 									 const std::string &_file,
-									 char _tag, int _logNumber) const
+                                     char _tag,
+                                     int _logNumber) const
 {
 	using namespace textModeFormatting;
 
@@ -160,6 +161,56 @@ std::string LogFormatter::FormatMarkdown(const std::string &_log,
 {
 	//+TODO
 	return _log;
+}
+
+
+// Headers
+
+std::string LogFormatter::Header() const
+{
+	if(format == "plain")         return HeaderPlain();
+	else if(format == "console")  return HeaderConsole();
+	else if(format == "HTML")     return HeaderHTML();
+	else if(format == "markdown") return HeaderMarkdown();
+
+	return HeaderPlain();
+}
+
+
+std::string LogFormatter::HeaderHTML() const
+{
+	using namespace textModeFormatting;
+
+	std::stringstream htmlHeader;
+
+	htmlHeader << "<!DOCTYPE html>"
+	           << "<html>"
+	           << ""
+	           << "<head>"
+	           << "	<meta charset=\"UTF-8\">"
+	           << "	<title>Log file</title>"
+	           << "	<style>"
+	           << "		body { background-color:black }"
+	           << "		body { font-family: \"courier new\"; }"
+	           << "	</style>"
+	           << "</head>"
+	           << ""
+	           << "<body>"
+	           << "	<span style=\"color:grey;\">"
+	           << "		<br>------------------------------------------------------------"
+	           << "		<br>LogViewer 5.4.0 - Log file: ./test.log - 2016-04-22T18:22:48"
+	           << "		<br>------------------------------------------------------------"
+	           << "	</span>";
+
+	return htmlHeader.str();
+}
+
+
+// Footers
+
+std::string LogFormatter::FooterHTML() const
+{
+	//+TODO
 }
 
 

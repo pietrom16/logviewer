@@ -257,6 +257,8 @@ int LogViewer::Run()
 		logToFile = true;
 	}
 
+	logStream << logFormatter.Header() << endl;	//+TODO - Only for a new file
+
 	logStream << logHeader << endl;
 
 	if(newLogsOnly)
