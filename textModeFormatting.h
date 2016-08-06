@@ -38,17 +38,17 @@ namespace textModeFormatting
 {
 
     // HTML format
-    static const int nHtmlLevels = 32;
+    static const int nHtmlLevels = 64;
 	static const char htmlLevel[][nHtmlLevels] = {
-	    "color:grey",				/* not used */
-	    "color:cyan",				/* VERBOSE_, detail */
-	    "color:white",				/* DETAIL_, normal */
-	    "color:green",				/* INFO_, normal */
-	    "color:yellow",				/* WARNING_, normal */
-	    "color:red",				/* ERROR_, bold */
-	    "background-color:red",		/* SEVERE_, red background */
-	    "color:red",				/* FATAL_, blinking red */
-	    "background-color:grey"		/* NO_LEVEL_, normal */
+	    "color:grey;",								/* not used */
+	    "color:cyan;",								/* VERBOSE_ */
+	    "color:white;",								/* DETAIL_ */
+	    "color:green;",								/* INFO_ */
+	    "color:yellow;",							/* WARNING_ */
+	    "color:red;",								/* ERROR_ */
+	    "background-color:yellow;color:red;",		/* SEVERE_ */
+	    "background-color:red;color:yellow;",		/* FATAL_ */
+	    "background-color:grey;"					/* NO_LEVEL_ */
 	};
 
 #ifndef _WIN32
