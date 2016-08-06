@@ -131,14 +131,20 @@ std::string LogFormatter::FormatHTML(const std::string &_log,
 									 const std::string &_file,
 									 char _tag, int _logNumber) const
 {
-	//+TODO
 	using namespace textModeFormatting;
 
 	std::string htmlLog;
 
-	htmlLog +=   std::string("<span style=\"")
+	if(!_file.empty())
+		htmlLog += _file + ": ";
+
+	if(_logNumber > 0)
+		htmlLog += std::to_string(_logNumber) + ": ";
+
+	htmlLog +=   _tag
+	           + std::string("<span style=\"")
 	           + htmlLevel[_level]
-	           + std::string(";\">")
+	           + std::string("\">")
 	           + _log
 	           + std::string("</span>");
 
