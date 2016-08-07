@@ -23,6 +23,9 @@ class LogFormatter
 public:
 	LogFormatter();
 	LogFormatter(const std::string &_format);
+	LogFormatter(const std::string &_format, const std::string &_title);
+
+	void SetTitle(const std::string &_title) { title = _title; }
 
 	int SetFormat(const std::string &_format);
 	std::string GetFormat() const { return format; }
@@ -58,6 +61,7 @@ private:
 	static const std::string defaultFormat;
 
 	std::string format;
+	std::string title;
 };
 
 

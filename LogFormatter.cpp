@@ -34,6 +34,14 @@ LogFormatter::LogFormatter(const std::string &_format)
 }
 
 
+LogFormatter::LogFormatter(const std::string &_format,
+                           const std::string &_title)
+{
+	SetFormat(_format);
+	SetTitle(_title);
+}
+
+
 int LogFormatter::SetFormat(const std::string &_format)
 {
 	int success = 0;
@@ -186,21 +194,21 @@ std::string LogFormatter::HeaderHTML() const
 	htmlHeader << "<!DOCTYPE html>\n"
 	           << "<html>\n"
 	           << "\n"
-	           << "<head>\n"
-	           << "	<meta charset=\"UTF-8\">\n"
-	           << "	<title>Log file</title>\n"
-	           << "	<style>\n"
-	           << "		body { background-color:black }\n"
-	           << "		body { font-family: \"courier new\"; }\n"
-	           << "	</style>\n"
-	           << "</head>\n"
+	           << "	<head>\n"
+	           << "		<meta charset=\"UTF-8\">\n"
+	           << "		<title>Log file</title>\n"
+	           << "		<style>\n"
+	           << "			body { background-color:black }\n"
+	           << "			body { font-family: \"courier new\"; }\n"
+	           << "		</style>\n"
+	           << "	</head>\n"
 	           << "\n"
-	           << "<body>\n"
-	           << "	<span style=\"color:grey;\">\n"
-	           << "		<br>------------------------------------------------------------\n"
-	           << "		<br>LogViewer 5.4.0 - Log file: ./test.log - 2016-04-22T18:22:48\n"
-	           << "		<br>------------------------------------------------------------\n"
-	           << "	</span>\n"
+	           << "	<body>\n"
+	           << "		<span style=\"color:grey;\">\n"
+	           << "			<br>------------------------------------------------------------\n"
+	           << "			<br>" << title << "\n"
+	           << "			<br>------------------------------------------------------------\n"
+	           << "		</span>\n"
 	           << "\n";
 
 	return htmlHeader.str();
@@ -211,7 +219,16 @@ std::string LogFormatter::HeaderHTML() const
 
 std::string LogFormatter::FooterHTML() const
 {
-	//+TODO
+	//+TODO - Delete these lines before writing new logs, then read them
+
+	std::stringstream htmlFooter;
+
+	htmlFooter << "	</body>\n"
+	           << "</html>\n"
+	           << "\n";
+
+	return htmlFooter.str();
+
 }
 
 
