@@ -183,24 +183,25 @@ std::string LogFormatter::HeaderHTML() const
 
 	std::stringstream htmlHeader;
 
-	htmlHeader << "<!DOCTYPE html>"
-	           << "<html>"
-	           << ""
-	           << "<head>"
-	           << "	<meta charset=\"UTF-8\">"
-	           << "	<title>Log file</title>"
-	           << "	<style>"
-	           << "		body { background-color:black }"
-	           << "		body { font-family: \"courier new\"; }"
-	           << "	</style>"
-	           << "</head>"
-	           << ""
-	           << "<body>"
-	           << "	<span style=\"color:grey;\">"
-	           << "		<br>------------------------------------------------------------"
-	           << "		<br>LogViewer 5.4.0 - Log file: ./test.log - 2016-04-22T18:22:48"
-	           << "		<br>------------------------------------------------------------"
-	           << "	</span>";
+	htmlHeader << "<!DOCTYPE html>\n"
+	           << "<html>\n"
+	           << "\n"
+	           << "<head>\n"
+	           << "	<meta charset=\"UTF-8\">\n"
+	           << "	<title>Log file</title>\n"
+	           << "	<style>\n"
+	           << "		body { background-color:black }\n"
+	           << "		body { font-family: \"courier new\"; }\n"
+	           << "	</style>\n"
+	           << "</head>\n"
+	           << "\n"
+	           << "<body>\n"
+	           << "	<span style=\"color:grey;\">\n"
+	           << "		<br>------------------------------------------------------------\n"
+	           << "		<br>LogViewer 5.4.0 - Log file: ./test.log - 2016-04-22T18:22:48\n"
+	           << "		<br>------------------------------------------------------------\n"
+	           << "	</span>\n"
+	           << "\n";
 
 	return htmlHeader.str();
 }
