@@ -304,6 +304,8 @@ int LogViewer::Run()
 	// Main loop
 	while(true)
 	{
+		int nNewLogs = 0;
+
 		while(!iLogFs.eof())
 		{
 			if(iLogFs.tellg() != std::streampos(-1))
@@ -314,6 +316,7 @@ int LogViewer::Run()
 					break;
 
 				++nReadLogs;
+				++nNewLogs;
 
 				string::size_type pos_beg = 0, pos_end = 0;
 
@@ -483,6 +486,10 @@ int LogViewer::Run()
 				nextLine:
 				pos = iLogFs.tellg();
 			}
+		}
+
+		if(nNewLogs > 0) {
+			logStream << logFormatter.Footer() << endl;
 		}
 
 		iLogFs.clear();		// clear the eof state to keep reading the growing log file
