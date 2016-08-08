@@ -217,6 +217,17 @@ std::string LogFormatter::HeaderHTML() const
 
 // Footers
 
+std::string LogFormatter::Footer() const
+{
+	if(format == "plain")         return FooterPlain();
+	else if(format == "console")  return FooterConsole();
+	else if(format == "HTML")     return FooterHTML();
+	else if(format == "markdown") return FooterMarkdown();
+
+	return FooterPlain();
+}
+
+
 std::string LogFormatter::FooterHTML() const
 {
 	//+TODO - Delete these lines before writing new logs, then read them
