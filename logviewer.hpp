@@ -70,10 +70,10 @@ public:
 	static const int MSG_MISSING_COMMAND_FILE = 1;
 
 private:
-
 	int SetCommandLineParams();
 	int ReadCommandLineParams(int argc, char *argv[]);
 	int GenerateLogHeader();
+	int MoveBackToEndLogsBlock();
 	int PrintExtraInfo();
 	int ReadKeyboard(std::ifstream &ifs, std::streamoff &pos);
 	int ReadExternalCommands(std::ifstream &ifs, std::streamoff &pos);

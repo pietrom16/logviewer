@@ -56,7 +56,6 @@ public:
 	std::string FooterMarkdown() const { return ""; }
 
 private:
-
 	static const std::string availableFormats;
 	static const std::string defaultFormat;
 

@@ -489,6 +489,7 @@ int LogViewer::Run()
 		}
 
 		if(nNewLogs > 0) {
+			MoveBackToEndLogsBlock();
 			logStream << logFormatter.Footer() << endl;
 		}
 
@@ -1004,6 +1005,23 @@ int LogViewer::GenerateLogHeader()
 	header << string(barLen, '-') << "\n" << tmp.str() << "\n" << string(barLen, '-');
 
 	logHeader = header.str();
+
+	return 0;
+}
+
+
+/// Log footer: move before log footer
+
+int LogViewer::MoveBackToEndLogsBlock()
+{
+	// Move to the end of the log file
+	iLogFs.seekg(0, iLogFs.end);
+
+	if(logFormatter.GetFormat() == "HTML") {
+		// Search backwards for the end of the logs block
+		//+TODO Goto "</body>" token
+
+	}
 
 	return 0;
 }
