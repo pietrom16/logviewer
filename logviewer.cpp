@@ -182,8 +182,8 @@ int LogViewer::SetCommandFile(const string &_cmdFile)
 
 int LogViewer::Run()
 {
-	filebuf  fileBuffer;
-	ostream  logStream(&fileBuffer);	// generic output stream for the logs
+	filebuf   fileBuffer;
+	iostream  logStream(&fileBuffer);	// generic output stream for the logs
 
 	GenerateLogHeader();
 
@@ -1017,14 +1017,38 @@ int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 	// Move to the end of the log file
 	_logStream.seekp(0, _logStream.end);
 
-	if(logFormatter.GetFormat() == "HTML") {
+	if(logFormatter.GetFormat() == "HTML")
+	{
 		// Search backwards for the end of the logs block
+
+		/** Assumed HTML end of file structure:
+					...logs...
+				</body>
+			</html>
+		*/
+
+		const string  token1("</body>"), token2("</html>");
+		const size_t  tokensLength = token1.length() + token2.length() + 8; // + extra margin
+		streamoff     pos1 = _logStream.tellp();
+
+		pos1 -= tokensLength;	//+TEST
+		_logStream.seekp(pos1);
+
 		string token;
-		do
+
+		while(_logStream.eof() == false)
 		{
-			_logStream >> token;	//+TODO In reverse
+			_logStream >> token;
+
+			pos1 = _logStream.tellp();
+
+			if(token.find(token1) != string::npos) {
+				pos1 -= token.size();
+				break;
+			}
 		}
-		while(token.find("</body>") != string::npos);	//+TODO OR eof
+
+		//+TODO - Check for the following </html> token
 	}
 
 	return 0;
