@@ -310,6 +310,8 @@ int LogViewer::Run()
 		{
 			if(iLogFs.tellg() != std::streampos(-1))
 			{
+				MoveBackToEndLogsBlock(logStream); //+H+++
+
 				getline(iLogFs, line);
 
 				if(line.empty())
@@ -488,8 +490,9 @@ int LogViewer::Run()
 			}
 		}
 
+		cerr << "nNewLogs = " << nNewLogs << endl; //+T+
 		if(nNewLogs > 0) {
-			MoveBackToEndLogsBlock(logStream);
+			//+? MoveBackToEndLogsBlock(logStream);
 			logStream << logFormatter.Footer() << endl;
 		}
 
@@ -1014,6 +1017,14 @@ int LogViewer::GenerateLogHeader()
 
 int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 {
+	{ /*TEST*/
+		cerr << "LogViewer::MoveBackToEndLogsBlock()" << endl;
+//		streamoff pos0 = _logStream.tellp();
+//		string str; _logStream >> str;
+//		cerr << "_logStream = " << str << endl; //+T+
+//		_logStream.seekp(pos0);
+	}
+
 	// Move to the end of the log file
 	_logStream.seekp(0, _logStream.end);
 
