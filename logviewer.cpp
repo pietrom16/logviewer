@@ -1021,7 +1021,7 @@ int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 	{
 		// Search backwards for the end of the logs block
 
-		/** Assumed HTML end of file structure:
+		/** Assumed end of HTML file structure:
 					...logs...
 				</body>
 			</html>
@@ -1077,7 +1077,7 @@ int LogViewer::PrintExtraInfo()
 		cout << "Showing past logs." << endl;
 
 	cout << "\nLog levels highlighting:\n";
-	for(int level = 1; level <= logLevels.NLevels(); ++level) {
+	for(int level = 1; level <= int(logLevels.NLevels()); ++level) {
 		cout << "\t" << Format(level) << level << "\t" << logLevels.GetTags(level) << Reset() << "\n";
 	}
 	cout << Reset() << endl;
