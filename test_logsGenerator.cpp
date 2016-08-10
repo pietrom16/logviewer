@@ -72,6 +72,8 @@ int main(int argc, char* argv[])
 
 	std::chrono::milliseconds pause(1000*pauseSec);
 
+	std::cout << "Writing test logs in file: " << logFile << " ..." << std::endl;
+
 	int i = 0;
 
 	while (endless || i < nLogs)
