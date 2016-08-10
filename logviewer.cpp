@@ -1003,6 +1003,8 @@ int LogViewer::GenerateLogHeader()
 	tmp << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
 		<< "Log file: " << logFile << " - " << logDate;
 
+	logFormatter.SetTitle(tmp.str());
+
 	const size_t barLen = tmp.str().length();
 
 	header << string(barLen, '-') << "\n" << tmp.str() << "\n" << string(barLen, '-');
