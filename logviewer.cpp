@@ -994,13 +994,13 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 
 int LogViewer::GenerateLogHeader()
 {
-	string logDate = GetLogDate(logFile);		// time the log was generated
+	const string logDate = GetLogDate(logFile);		// time the log was generated
 
 	stringstream header, tmp;
 	tmp << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
 		<< "Log file: " << logFile << " - " << logDate;
 
-	int barLen = tmp.str().length();
+	const size_t barLen = tmp.str().length();
 
 	header << string(barLen, '-') << "\n" << tmp.str() << "\n" << string(barLen, '-');
 
