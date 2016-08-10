@@ -1059,6 +1059,10 @@ int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 
 int LogViewer::PrintExtraInfo()
 {
+	if(logFormatter.GetFormat() == "HTML") {
+		cout << "With a browser, open: " << outLogFile << endl;
+	}
+
 	if(verbose == 0)
 		return 0;
 
