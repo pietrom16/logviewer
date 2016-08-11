@@ -1000,8 +1000,8 @@ int LogViewer::GenerateLogHeader()
 	const string logDate = GetLogDate(logFile);		// time the log was generated
 
 	stringstream header, tmp;
-	tmp << "LogViewer " << version << "." << subversion <<  "." << subsubversion << " - "
-		<< "Log file: " << logFile << " - " << logDate;
+	tmp << "Log file: " << logFile << " - " << logDate << " - "
+	    << "LogViewer " << version << "." << subversion <<  "." << subsubversion;
 
 	logFormatter.SetTitle(tmp.str());
 
