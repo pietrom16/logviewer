@@ -43,10 +43,10 @@ public:
 
 	// Headers
 	std::string Header()         const;
-	std::string HeaderPlain()    const { return ""; }
-	std::string HeaderConsole()  const { return ""; }
+	std::string HeaderPlain()    const { return title; }
+	std::string HeaderConsole()  const { return title; }
 	std::string HeaderHTML()     const;
-	std::string HeaderMarkdown() const { return ""; }
+	std::string HeaderMarkdown() const { return title; }
 
 	// Footers
 	std::string Footer()         const;

@@ -259,8 +259,6 @@ int LogViewer::Run()
 
 	logStream << logFormatter.Header() << endl;	//+TODO - Only for a new file
 
-	logStream << logHeader << endl;
-
 	if(newLogsOnly)
 	{
 		// Read only the logs generated from now on; discard the past
