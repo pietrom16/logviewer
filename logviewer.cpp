@@ -147,9 +147,9 @@ int LogViewer::SetLogFileName(const string &_logFile)
 	{
 		logFile = _logFile;
 
-		if(iLogFs.is_open()) {
-			iLogFs.close();
-			iLogFs.open(logFile);
+		if(inLogFs.is_open()) {
+			inLogFs.close();
+			inLogFs.open(logFile);
 		}
 	}
 
@@ -183,7 +183,7 @@ int LogViewer::SetCommandFile(const string &_cmdFile)
 int LogViewer::Run()
 {
 	filebuf   fileBuffer;
-	iostream  logStream(&fileBuffer);	// generic output stream for the logs
+	iostream  logOutStream(&fileBuffer);	// generic output stream for the logs
 
 	GenerateLogHeader();
 
@@ -225,9 +225,9 @@ int LogViewer::Run()
 	// Wait for the log file to be available
 	while(true)
 	{
-		iLogFs.open(logFile);
+		inLogFs.open(logFile);
 
-		if(iLogFs.is_open())
+		if(inLogFs.is_open())
 			break;
 
 		if(warning) {
@@ -248,32 +248,32 @@ int LogViewer::Run()
 
 	// Send the output either to cout or to a file
 	if(outLogFile.empty()) {
-		logStream.rdbuf(std::cout.rdbuf());
+		logOutStream.rdbuf(std::cout.rdbuf());
 		logToFile = false;
 	}
 	else {
 		fileBuffer.open(outLogFile.c_str(), std::ios_base::out | std::ofstream::app);
-		logStream.rdbuf(&fileBuffer);
+		logOutStream.rdbuf(&fileBuffer);
 		logToFile = true;
 	}
 
-	logStream << logFormatter.Header() << endl;	//+TODO - Only for a new file
+	logOutStream << logFormatter.Header() << endl;	//+TODO - Only for a new file
 
 	if(newLogsOnly)
 	{
 		// Read only the logs generated from now on; discard the past
 
 		// Reposition the cursor at the end of the file
-		iLogFs.seekg(0, ios::end);
-		pos = iLogFs.tellg();
+		inLogFs.seekg(0, ios::end);
+		pos = inLogFs.tellg();
 	}
 	else if(nLatestChars >= 0)
 	{
 		// Start reading from the last "nChars" characters
 
 		// Reposition the cursor at the end of the file, and go back n bytes
-		iLogFs.seekg(-nLatestChars, ios::end);
-		pos = iLogFs.tellg();
+		inLogFs.seekg(-nLatestChars, ios::end);
+		pos = inLogFs.tellg();
 	}
 	else if(nLatest >= 0)
 	{
@@ -281,22 +281,22 @@ int LogViewer::Run()
 
 		// Reposition the cursor at the end of the file, and go back counting the new lines
 
-		iLogFs.seekg(-1, ios::end);
+		inLogFs.seekg(-1, ios::end);
 
 		int nLogs = 0;
 
-		while(iLogFs.tellg() > 0)
+		while(inLogFs.tellg() > 0)
 		{
-			if(iLogFs.peek() == '\n')
+			if(inLogFs.peek() == '\n')
 				++nLogs;
 
 			if(nLogs > nLatest)
 				break;
 
-			iLogFs.seekg(-1, ios::cur);
+			inLogFs.seekg(-1, ios::cur);
 		}
 
-		pos = iLogFs.tellg();
+		pos = inLogFs.tellg();
 	}
 
 	// Main loop
@@ -304,13 +304,13 @@ int LogViewer::Run()
 	{
 		int nNewLogs = 0;
 
-		while(!iLogFs.eof())
+		while(!inLogFs.eof())
 		{
-			if(iLogFs.tellg() != std::streampos(-1))
+			if(inLogFs.tellg() != std::streampos(-1))
 			{
-				MoveBackToEndLogsBlock(logStream); //+H+++
+				MoveBackToEndLogsBlock(logOutStream); //+H+++
 
-				getline(iLogFs, line);
+				getline(inLogFs, line);
 
 				if(line.empty())
 					break;
@@ -359,7 +359,7 @@ int LogViewer::Run()
 					   distPrevLogContext > context.Width())
 					{
 						context.StorePastLog(log, level, minLevel, logNumber);
-						pos = iLogFs.tellg();
+						pos = inLogFs.tellg();
 						continue;
 					}
 
@@ -384,7 +384,7 @@ int LogViewer::Run()
 								newLine = false;
 							}
 
-							logStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberField) << endl;
+							logOutStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberField) << endl;
 
 							++nPrintedLogs;
 						}
@@ -470,7 +470,7 @@ int LogViewer::Run()
 								newLine = false;
 							}
 
-							logStream << logFormatter.Format(log, level, logFileField, contextSign, logNumberField) << endl;
+							logOutStream << logFormatter.Format(log, level, logFileField, contextSign, logNumberField) << endl;
 
 							++nPrintedLogs;
 
@@ -484,23 +484,24 @@ int LogViewer::Run()
 				}
 
 				nextLine:
-				pos = iLogFs.tellg();
+				pos = inLogFs.tellg();
 			}
 		}
 
 		cerr << "nNewLogs = " << nNewLogs << endl; //+T+
 		if(nNewLogs > 0) {
 			//+? MoveBackToEndLogsBlock(logStream);
-			logStream << logFormatter.Footer() << endl;
+			logOutStream << logFormatter.Footer() << endl;
+			//break; //+T+++
 		}
 
-		iLogFs.clear();		// clear the eof state to keep reading the growing log file
+		inLogFs.clear();		// clear the eof state to keep reading the growing log file
 
 		// Get user commands
-		ReadKeyboard(iLogFs, pos);
+		ReadKeyboard(inLogFs, pos);
 
 		// Get external commands
-		ReadExternalCommands(iLogFs, pos);
+		ReadExternalCommands(inLogFs, pos);
 
 		// Take a break
 		if(textParsing == false)
@@ -514,7 +515,7 @@ int LogViewer::Run()
 
 	rdKb.~ReadKeyboard();
 
-	logStream << "\nTotal number of logs so far: " << logNumber << std::endl;
+	logOutStream << "\nTotal number of logs so far: " << logNumber << std::endl;
 
 	return 0;
 }
@@ -1017,6 +1018,7 @@ int LogViewer::GenerateLogHeader()
 
 int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 {
+	//return 0; //+T++
 	{ /*TEST*/
 		cerr << "LogViewer::MoveBackToEndLogsBlock()" << endl;
 //		streamoff pos0 = _logStream.tellp();
@@ -1320,8 +1322,8 @@ int LogViewer::ReadExternalCommands(ifstream &ifs, streamoff &pos)
 			ss >> arg_token;
 			if(arg_token.size() > 0) {
 				logFile = arg_token;
-				iLogFs.close();
-				iLogFs.open(logFile);
+				inLogFs.close();
+				inLogFs.open(logFile);
 			}
 		}
 		//+TODO - Add commands here
