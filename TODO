@@ -18,6 +18,15 @@ TODO - logviewer
 
 BUGS
 
+-- HTML files not closed properly.
 . [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 - Check if it is normal that destructors are not called before exit.
 - Check timing in text view.
+
+
+TESTING
+
+--input "/Users/pietro/myProgs/logger/logviewer/test/testText.txt" --logLevels "/Users/pietro/myProgs/logger/logviewer/test/testText_logLevels.txt" -ln --text -d ".;" -m 0
+--input ./test.log -of HTML
+--input ./test.log -of HTML -o /Volumes/Phoenix_test/test_log.html
+
