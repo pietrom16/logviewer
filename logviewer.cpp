@@ -15,6 +15,7 @@
 
 #include "textModeFormatting.h"
 
+#include <cassert>
 #include <cctype>
 #include <chrono>
 #include <cmath>
@@ -1018,17 +1019,10 @@ int LogViewer::GenerateLogHeader()
 
 int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 {
-	//return 0; //+T++
-	{ /*TEST*/
-		cerr << "LogViewer::MoveBackToEndLogsBlock()" << endl;
-//		streamoff pos0 = _logStream.tellp();
-//		string str; _logStream >> str;
-//		cerr << "_logStream = " << str << endl; //+T+
-//		_logStream.seekp(pos0);
-	}
-
 	// Move to the end of the log file
-	_logStream.seekp(0, _logStream.end);
+	_logStream.seekg(0, std::ios_base::end);
+	_logStream.seekp(0, std::ios_base::end);
+
 
 	if(logFormatter.GetFormat() == "HTML")
 	{
@@ -1040,20 +1034,56 @@ int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 			</html>
 		*/
 
+		const std::streampos size = _logStream.tellg();
 		const string  logsEndToken("</body>");
 		streamoff     pos = _logStream.tellp();
 		string        token;
+		char          c = '\0';
+		int           prBegin = 0, prEnd = 0;	// position from the end
 
-		/* //+TODO:
-		 - Search backwards for logsEndToken:
-			1- Search backwards for '<' character. Set pos.
-			2- Read token forward up to '>' character.
-			3- Move cursor to pos.
-			4- Is token == </body>?
-				- Yes: return.
-				- No: Goto 1.
-		*/
+		//+TODO: Use a relative position, and put the code in a loop.
 
+		// Search backwards for '<' character
+		for(prBegin = 1; prBegin <= size; ++prBegin)
+		{
+			_logStream.seekg(-prBegin, std::ios_base::end);
+			_logStream.get(c);
+			if(c == '<') break;
+		}
+
+		// Read token forward up to '>' character
+		for(prEnd = prBegin; prEnd > 1; --prEnd)
+		{
+			_logStream.seekg(-prEnd, std::ios_base::end);
+			_logStream.get(c);
+			if(c == '>') break;
+		}
+
+		// Extract the token
+		_logStream.seekg(-prBegin, std::ios_base::end);
+
+		assert((prBegin - prEnd) > 0);
+
+		token.resize(size_t(prBegin - prEnd));
+		_logStream.read(&token[0], int(token.size()));
+
+		// Check the token
+		if(token == logsEndToken)
+		{
+			// Move write position to current read position
+			pos = _logStream.tellg();
+			_logStream.seekp(pos);
+			return pos;
+		}
+
+
+		//...
+
+		// Point not found; move back to the end of the log file
+		_logStream.seekg(0, std::ios_base::end);
+		_logStream.seekp(0, std::ios_base::end);
+
+		return -1;
 	}
 
 	if(logFormatter.GetFormat() == "HTML" && 0)
