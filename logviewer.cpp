@@ -1040,6 +1040,32 @@ int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 			</html>
 		*/
 
+		const string  logsEndToken("</body>");
+		streamoff     pos = _logStream.tellp();
+		string        token;
+
+		/* //+TODO:
+		 - Search backwards for logsEndToken:
+			1- Search backwards for '<' character. Set pos.
+			2- Read token forward up to '>' character.
+			3- Move cursor to pos.
+			4- Is token == </body>?
+				- Yes: return.
+				- No: Goto 1.
+		*/
+
+	}
+
+	if(logFormatter.GetFormat() == "HTML" && 0)
+	{
+		// Search backwards for the end of the logs block
+
+		/** Assumed end of HTML file structure:
+					...logs...
+				</body>
+			</html>
+		*/
+
 		const string  token1("</body>"), token2("</html>");
 		const size_t  tokensLength = token1.length() + token2.length() + 8; // + extra margin
 		streamoff     pos1 = _logStream.tellp();
