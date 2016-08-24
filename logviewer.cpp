@@ -1039,85 +1039,57 @@ int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 		streamoff     pos = _logStream.tellp();
 		string        token;
 		char          c = '\0';
-		int           prBegin = 0, prEnd = 0;	// position from the end
+		int           prStart = 1, prBegin = 0, prEnd = 0;	// position from the end
 
-		//+TODO: Use a relative position, and put the code in a loop.
+		//+TEST
 
-		// Search backwards for '<' character
-		for(prBegin = 1; prBegin <= size; ++prBegin)
+		while(prStart < size)
 		{
+
+			// Search backwards for '<' character
+			for(prBegin = prStart; prBegin <= size; ++prBegin)
+			{
+				_logStream.seekg(-prBegin, std::ios_base::end);
+				_logStream.get(c);
+				if(c == '<') break;
+			}
+
+			if(prBegin == size) break;
+
+			// Read token forward up to '>' character
+			for(prEnd = prBegin; prEnd > prStart; --prEnd)
+			{
+				_logStream.seekg(-prEnd, std::ios_base::end);
+				_logStream.get(c);
+				if(c == '>') break;
+			}
+
+			// Extract the token
 			_logStream.seekg(-prBegin, std::ios_base::end);
-			_logStream.get(c);
-			if(c == '<') break;
+
+			assert((prBegin - prEnd) > 0);
+
+			token.resize(size_t(prBegin - prEnd));
+			_logStream.read(&token[0], int(token.size()));
+
+			// Check the token
+			if(token == logsEndToken)
+			{
+				// Move write position to current read position
+				pos = _logStream.tellg();
+				_logStream.seekp(pos);
+				return pos;
+			}
+
+			prStart = prBegin;
+
 		}
-
-		// Read token forward up to '>' character
-		for(prEnd = prBegin; prEnd > 1; --prEnd)
-		{
-			_logStream.seekg(-prEnd, std::ios_base::end);
-			_logStream.get(c);
-			if(c == '>') break;
-		}
-
-		// Extract the token
-		_logStream.seekg(-prBegin, std::ios_base::end);
-
-		assert((prBegin - prEnd) > 0);
-
-		token.resize(size_t(prBegin - prEnd));
-		_logStream.read(&token[0], int(token.size()));
-
-		// Check the token
-		if(token == logsEndToken)
-		{
-			// Move write position to current read position
-			pos = _logStream.tellg();
-			_logStream.seekp(pos);
-			return pos;
-		}
-
-
-		//...
 
 		// Point not found; move back to the end of the log file
 		_logStream.seekg(0, std::ios_base::end);
 		_logStream.seekp(0, std::ios_base::end);
 
 		return -1;
-	}
-
-	if(logFormatter.GetFormat() == "HTML" && 0)
-	{
-		// Search backwards for the end of the logs block
-
-		/** Assumed end of HTML file structure:
-					...logs...
-				</body>
-			</html>
-		*/
-
-		const string  token1("</body>"), token2("</html>");
-		const size_t  tokensLength = token1.length() + token2.length() + 8; // + extra margin
-		streamoff     pos1 = _logStream.tellp();
-
-		pos1 -= tokensLength;	//+TEST
-		_logStream.seekp(pos1);
-
-		string token;
-
-		while(_logStream.eof() == false)
-		{
-			_logStream >> token;
-
-			pos1 = _logStream.tellp();
-
-			if(token.find(token1) != string::npos) {
-				pos1 -= token.size();
-				break;
-			}
-		}
-
-		//+TODO - Check for the following </html> token
 	}
 
 	return 0;
