@@ -259,6 +259,7 @@ int LogViewer::Run()
 	}
 
 	logOutStream << logFormatter.Header() << endl;	//+TODO - Only for a new file
+	logOutStream << logFormatter.Footer() << endl;	// add footer now, so the file is readable
 
 	if(newLogsOnly)
 	{
