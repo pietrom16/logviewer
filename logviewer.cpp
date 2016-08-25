@@ -46,9 +46,11 @@
 BOOL GetLastWriteTime(HANDLE hFile, TCHAR *lpszString, DWORD dwSize);
 #endif
 
-using namespace std;
 using namespace textModeFormatting;
 using namespace Utilities;
+using std::cin;
+using std::cout;
+using std::endl;
 
 #ifndef _WIN32
 	static const char slash = '/';
@@ -142,7 +144,7 @@ int LogViewer::SetDefaultValues()
 
 /// Modify input log file
 
-int LogViewer::SetLogFileName(const string &_logFile)
+int LogViewer::SetLogFileName(const std::string &_logFile)
 {
 	if(_logFile.size() > 0)
 	{
@@ -170,7 +172,7 @@ int LogViewer::SetMinLogLevel(int _minLogLevel)
 }
 
 
-int LogViewer::SetCommandFile(const string &_cmdFile)
+int LogViewer::SetCommandFile(const std::string &_cmdFile)
 {
 	cmdFile = _cmdFile;
 	externalCtrl = true;
@@ -183,6 +185,8 @@ int LogViewer::SetCommandFile(const string &_cmdFile)
 
 int LogViewer::Run()
 {
+	using namespace std;
+
 	filebuf   fileBuffer;
 	iostream  logOutStream(&fileBuffer);	// generic output stream for the logs
 
@@ -308,7 +312,7 @@ int LogViewer::Run()
 
 		while(!inLogFs.eof())
 		{
-			if(inLogFs.tellg() != std::streampos(-1))
+			if(inLogFs.tellg() != streampos(-1))
 			{
 				MoveBackToEndLogsBlock(logOutStream); //+H+++
 
@@ -524,11 +528,11 @@ int LogViewer::Run()
 
 
 
-string LogViewer::GetLogDate(const string &_logFile)
+std::string LogViewer::GetLogDate(const std::string &_logFile)
 {
 	// Return the time the log was generated
 
-	string logDate;
+	std::string logDate;
 	time_t date;
 
 #ifdef POSIX
@@ -578,6 +582,7 @@ void LogViewer::PrintHelp(const ProgArgs &_args, const char* _progName, LogLevel
 {
 	using std::cout;
 	using std::endl;
+	using std::string;
 
 	string progName = _progName;
 
@@ -652,6 +657,7 @@ void LogViewer::PrintVersion(const char* _progName)
 {
 	using std::cout;
 	using std::endl;
+	using std::string;
 
 	cout << string(80, '-') << "\n";
 	string progName = _progName;
@@ -758,6 +764,10 @@ int LogViewer::SetCommandLineParams()
 
 int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 {
+	using std::cerr;
+	using std::endl;
+	using std::string;
+
 	int nUnknown = progArgs.Parse(argc, argv);
 
 	if(nUnknown > 0) {
@@ -998,9 +1008,9 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 
 int LogViewer::GenerateLogHeader()
 {
-	const string logDate = GetLogDate(logFile);		// time the log was generated
+	const std::string logDate = GetLogDate(logFile);		// time the log was generated
 
-	stringstream header, tmp;
+	std::stringstream header, tmp;
 	tmp << "Log file: " << logFile << " - " << logDate << " - "
 	    << "LogViewer " << version << "." << subversion <<  "." << subsubversion;
 
@@ -1008,7 +1018,7 @@ int LogViewer::GenerateLogHeader()
 
 	const size_t barLen = tmp.str().length();
 
-	header << string(barLen, '-') << "\n" << tmp.str() << "\n" << string(barLen, '-');
+	header << std::string(barLen, '-') << "\n" << tmp.str() << "\n" << std::string(barLen, '-');
 
 	logHeader = header.str();
 
@@ -1018,11 +1028,13 @@ int LogViewer::GenerateLogHeader()
 
 /// Log footer: move before output file's log footer
 
-int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
+int LogViewer::MoveBackToEndLogsBlock(std::iostream &_logStream)
 {
+	using namespace std;
+
 	// Move to the end of the log file
-	_logStream.seekg(0, std::ios_base::end);
-	_logStream.seekp(0, std::ios_base::end);
+	_logStream.seekg(0, ios_base::end);
+	_logStream.seekp(0, ios_base::end);
 
 
 	if(logFormatter.GetFormat() == "HTML")
@@ -1035,12 +1047,12 @@ int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 			</html>
 		*/
 
-		const std::streampos size = _logStream.tellg();
-		const string  logsEndToken("</body>");
-		streamoff     pos = _logStream.tellp();
-		string        token;
-		char          c = '\0';
-		int           prStart = 1, prBegin = 0, prEnd = 0;	// position from the end
+		const streampos size = _logStream.tellg();
+		const string    logsEndToken("</body>");
+		streamoff       pos = _logStream.tellp();
+		string          token;
+		char            c = '\0';
+		int             prStart = 1, prBegin = 0, prEnd = 0;	// position from the end
 
 		//+TEST
 
@@ -1050,7 +1062,7 @@ int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 			// Search backwards for '<' character
 			for(prBegin = prStart; prBegin <= size; ++prBegin)
 			{
-				_logStream.seekg(-prBegin, std::ios_base::end);
+				_logStream.seekg(-prBegin, ios_base::end);
 				_logStream.get(c);
 				if(c == '<') break;
 			}
@@ -1060,13 +1072,13 @@ int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 			// Read token forward up to '>' character
 			for(prEnd = prBegin; prEnd > prStart; --prEnd)
 			{
-				_logStream.seekg(-prEnd, std::ios_base::end);
+				_logStream.seekg(-prEnd, ios_base::end);
 				_logStream.get(c);
 				if(c == '>') break;
 			}
 
 			// Extract the token
-			_logStream.seekg(-prBegin, std::ios_base::end);
+			_logStream.seekg(-prBegin, ios_base::end);
 
 			assert((prBegin - prEnd) > 0);
 
@@ -1087,8 +1099,8 @@ int LogViewer::MoveBackToEndLogsBlock(iostream &_logStream)
 		}
 
 		// Point not found; move back to the end of the log file
-		_logStream.seekg(0, std::ios_base::end);
-		_logStream.seekp(0, std::ios_base::end);
+		_logStream.seekg(0, ios_base::end);
+		_logStream.seekp(0, ios_base::end);
 
 		return -1;
 	}
@@ -1187,7 +1199,7 @@ int LogViewer::PrintExtraInfo()
 
 	cout << "Command line parameters: " << cmdLineParams << endl;
 
-	cout << string(100, '-') << endl;
+	cout << std::string(100, '-') << endl;
 
 	return 0;
 }
@@ -1195,13 +1207,13 @@ int LogViewer::PrintExtraInfo()
 
 /// Read the keyboard for real time user interaction
 
-int LogViewer::ReadKeyboard(ifstream &ifs, streamoff &pos)
+int LogViewer::ReadKeyboard(std::ifstream &ifs, std::streamoff &pos)
 {
 	key = rdKb.Get();
 
 	// Pause logs display
 	if(key == 'p' || key == 'P') {
-		cout << "Paused... " << flush;
+		cout << "Paused... " << std::flush;
 		getchar();
 		cout << "Resumed" << endl;
 	}
@@ -1225,14 +1237,14 @@ int LogViewer::ReadKeyboard(ifstream &ifs, streamoff &pos)
 
 		// Start reading from the last "nLogsReload" logs
 		// Reposition the cursor at the end of the file, and go back counting the new lines
-		ifs.seekg(-1, ios::end);
+		ifs.seekg(-1, std::ios::end);
 		int nLogs = 0;
 
 		while(ifs.tellg() > 0)
 		{
 			if(ifs.peek() == '\n') ++nLogs;
 			if(nLogs > nLogsReload) break;
-			ifs.seekg(-1, ios::cur);
+			ifs.seekg(-1, std::ios::cur);
 		}
 
 		pos = ifs.tellg();
@@ -1265,8 +1277,10 @@ int LogViewer::ReadKeyboard(ifstream &ifs, streamoff &pos)
 
 /// Read commands for real time external control
 
-int LogViewer::ReadExternalCommands(ifstream &ifs, streamoff &pos)
+int LogViewer::ReadExternalCommands(std::ifstream &ifs, std::streamoff &pos)
 {
+	using namespace std;
+
 	string cmd, cmd_token, arg_token;
 	queue<string> cmdQueue;
 
