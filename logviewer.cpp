@@ -1047,7 +1047,7 @@ int LogViewer::MoveBackToEndLogsBlock(std::iostream &_logStream)
 			</html>
 		*/
 
-		const streamsize size = _logStream.tellg();	//+B Wrong type?
+		const streamsize size = _logStream.tellg();
 		const string     logsEndToken("</body>");
 		streamoff        pos = _logStream.tellp();
 		string           token;
@@ -1063,7 +1063,7 @@ int LogViewer::MoveBackToEndLogsBlock(std::iostream &_logStream)
 			for(prBegin = prStart; prBegin <= size; ++prBegin)
 			{
 				_logStream.seekg(-prBegin, ios_base::end);
-				_logStream.get(c);
+				_logStream.get(c);	//+B  c is always '\0'!
 				if(c == '<')
 					break;
 			}
