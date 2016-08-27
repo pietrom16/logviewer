@@ -20,23 +20,9 @@
  */
 
 #include "logviewer.hpp"
-#include <iostream> //+T+
 
 int main(int argc, char* argv[])
 {
-
-	if(1) { //+T+++OK
-		std::ifstream ifs("./test.log");
-
-		for(int i = 1; i < 20; ++i) {
-			ifs.seekg(-i, std::ios_base::end);
-			char c = char(ifs.get());
-			std::cerr << c;
-		}
-
-		exit(0);
-	}
-
 	using namespace log_viewer;
 
 	ResetDefaults rd;

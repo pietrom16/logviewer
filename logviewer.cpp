@@ -50,6 +50,7 @@ using namespace textModeFormatting;
 using namespace Utilities;
 using std::cin;
 using std::cout;
+using std::cerr;
 using std::endl;
 
 #ifndef _WIN32
@@ -1056,17 +1057,35 @@ int LogViewer::MoveBackToEndLogsBlock(std::iostream &_logStream)
 
 		//+TEST
 
+		if(1) { //+T+++OK
+			cerr << "Test: ";
+			std::ifstream ifs("./test.log");
+
+			for(int i = 1; i < 20; ++i) {
+				ifs.seekg(-i, std::ios_base::end);
+				char c = char(ifs.get());
+				cerr << c;
+			}
+
+			cerr << endl;
+			//exit(0);
+		}
+
 		while(prStart < size)
 		{
 
+			cerr << "Code: "; //+T+
 			// Search backwards for '<' character
 			for(prBegin = prStart; prBegin <= size; ++prBegin)
 			{
 				_logStream.seekg(-prBegin, ios_base::end);
-				_logStream.get(c);	//+B  c is always '\0'!
+				//_logStream.get(c);	//+B  c is always '\0'!
+				char c = char(_logStream.get());	//+?
+				cerr << c; //+T+
 				if(c == '<')
 					break;
 			}
+			cerr << endl; //+T+
 
 			if(prBegin == size) break;
 
