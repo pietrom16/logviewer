@@ -1059,7 +1059,7 @@ int LogViewer::MoveBackToEndLogsBlock(std::iostream &_logStream)
 
 		if(1) { //+T+++OK
 			cerr << "Test: ";
-			std::ifstream ifs("./test.log");
+			std::ifstream ifs("./test.html");
 
 			for(int i = 1; i < 20; ++i) {
 				ifs.seekg(-i, std::ios_base::end);
