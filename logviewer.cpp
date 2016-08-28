@@ -1057,7 +1057,7 @@ int LogViewer::MoveBackToEndLogsBlock(std::iostream &_logStream)
 
 		//+TEST
 
-		if(1) { //+T+++OK
+		if(0) { //+T+++OK
 			cerr << "Test: ";
 			std::ifstream ifs("./test.html");
 
@@ -1071,10 +1071,27 @@ int LogViewer::MoveBackToEndLogsBlock(std::iostream &_logStream)
 			//exit(0);
 		}
 
+		//+T+OK std::ifstream ifs("./test.html");
+
 		while(prStart < size)
 		{
-
 			cerr << "Code: "; //+T+
+
+			//+T+OK
+			/*for(int i = 1; i < 20; ++i) {
+				ifs.seekg(-i, std::ios_base::end);
+				char c = char(ifs.get());
+				cerr << c;
+			}*/
+
+			for(int i = 1; i < 20; ++i) {
+				_logStream.seekg(-i, std::ios_base::end);
+				char c = char(_logStream.get());
+				cerr << c;
+			}
+
+
+/*
 			// Search backwards for '<' character
 			for(prBegin = prStart; prBegin <= size; ++prBegin)
 			{
@@ -1085,6 +1102,9 @@ int LogViewer::MoveBackToEndLogsBlock(std::iostream &_logStream)
 				if(c == '<')
 					break;
 			}
+*/
+
+
 			cerr << endl; //+T+
 
 			if(prBegin == size) break;
