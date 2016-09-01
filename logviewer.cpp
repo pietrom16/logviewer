@@ -188,8 +188,7 @@ int LogViewer::Run()
 {
 	using namespace std;
 
-	filebuf   fileBuffer;
-	iostream  logOutStream(&fileBuffer);	// generic output stream for the logs
+	fstream  logOutStream;	// generic log output stream (can be redirected to stdout)
 
 	GenerateLogHeader();
 
@@ -252,14 +251,15 @@ int LogViewer::Run()
 	bool printLog = false;
 	bool newLine = false;
 
+	///+TODO: use fstream only; eventually redirect it to cout; do not use base classes.
+
 	// Send the output either to cout or to a file
 	if(outLogFile.empty()) {
 		logOutStream.rdbuf(std::cout.rdbuf());
 		logToFile = false;
 	}
 	else {
-		fileBuffer.open(outLogFile.c_str(), std::ios_base::out | std::ofstream::app);
-		logOutStream.rdbuf(&fileBuffer);
+		logOutStream.open(outLogFile, ios_base::in | ios_base::out | ios_base::app);
 		logToFile = true;
 	}
 
@@ -1029,7 +1029,7 @@ int LogViewer::GenerateLogHeader()
 
 /// Log footer: move before output file's log footer
 
-int LogViewer::MoveBackToEndLogsBlock(std::iostream &_logStream)
+int LogViewer::MoveBackToEndLogsBlock(std::fstream &_logStream)
 {
 	using namespace std;
 
