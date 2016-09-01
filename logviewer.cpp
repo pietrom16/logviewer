@@ -192,8 +192,6 @@ int LogViewer::Run()
 {
 	using namespace std;
 
-	fstream  logOutStream;	// generic log output stream (can be redirected to stdout)
-
 	GenerateLogHeader();
 
 	PrintExtraInfo();
