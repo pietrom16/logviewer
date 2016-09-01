@@ -393,7 +393,7 @@ int LogViewer::Run()
 								newLine = false;
 							}
 
-							logOutStream << logFormatter.Format(contextLog, contextLevel, logFileField, '-', logNumberField) << endl;
+							WriteLog(contextLog, contextLevel, logFileField, '-', logNumberField);
 
 							++nPrintedLogs;
 						}
