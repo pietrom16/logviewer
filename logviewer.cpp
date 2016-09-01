@@ -122,6 +122,10 @@ int LogViewer::SetDefaultValues()
 
 	logLevels.EnableWarnings(warnUnknownLogLevel);
 
+	consoleOutput = true;
+	textFileOutput = false;
+	htmlOutput = false;
+
 	logFormatter.SetFormat("console");
 
 	newLogsOnly = false;

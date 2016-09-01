@@ -124,6 +124,7 @@ private:
 	LogFormatter  logFormatter;
 
 	bool          consoleOutput,
+	              textFileOutput,
 	              htmlOutput;
 
 	// Filter details
