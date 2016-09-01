@@ -123,6 +123,9 @@ private:
 
 	LogFormatter  logFormatter;
 
+	bool          consoleOutput,
+	              htmlOutput;
+
 	// Filter details
 
 	const int     printAll = -1;
