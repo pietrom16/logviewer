@@ -479,7 +479,7 @@ int LogViewer::Run()
 								newLine = false;
 							}
 
-							logOutStream << logFormatter.Format(log, level, logFileField, contextSign, logNumberField) << endl;
+							WriteLog(log, level, logFileField, contextSign, logNumberField);
 
 							++nPrintedLogs;
 
@@ -1004,6 +1004,31 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 		delimiters.append("\n");	// new line as default delimiter for logs
 
 	return 0;
+}
+
+
+/// Write the log to a set of destinations (console, HTML file, ...)
+
+int LogViewer::WriteLog(const std::string &_log, int _level, const std::string &_file, char _tag, int _logNumber)
+{
+	int n = 0;
+
+	if(consoleOutput) {
+		cout << logFormatter.FormatConsole(_log, _level, _file, _tag, _logNumber) << endl;
+		++n;
+	}
+
+	if(textFileOutput) {
+		textOutStream << logFormatter.FormatPlain(_log, _level, _file, _tag, _logNumber) << endl;
+		++n;
+	}
+
+	if(htmlOutput) {
+		htmlOutStream << logFormatter.FormatHTML(_log, _level, _file, _tag, _logNumber) << endl;
+		++n;
+	}
+
+	return n;
 }
 
 
