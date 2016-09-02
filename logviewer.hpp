@@ -74,7 +74,7 @@ private:
 	int ReadCommandLineParams(int argc, char *argv[]);
 	int WriteLog(const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1);
 	int GenerateLogHeader();
-	int MoveBackToEndLogsBlock(std::fstream &_logStream);
+	int MoveBackToEndLogsBlock();
 	int PrintExtraInfo();
 	int ReadKeyboard(std::ifstream &ifs, std::streamoff &pos);
 	int ReadExternalCommands(std::ifstream &ifs, std::streamoff &pos);

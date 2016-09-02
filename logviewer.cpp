@@ -317,7 +317,7 @@ int LogViewer::Run()
 		{
 			if(inLogFs.tellg() != streampos(-1))
 			{
-				MoveBackToEndLogsBlock(logOutStream); //+H+++
+				MoveBackToEndLogsBlock(); //+H+++
 
 				getline(inLogFs, line);
 
@@ -1056,14 +1056,9 @@ int LogViewer::GenerateLogHeader()
 
 /// Log footer: move before output file's log footer
 
-int LogViewer::MoveBackToEndLogsBlock(std::fstream &_logStream)
+int LogViewer::MoveBackToEndLogsBlock()
 {
 	using namespace std;
-
-	// Move to the end of the log file
-	_logStream.seekg(0, ios_base::end);
-	_logStream.seekp(0, ios_base::end);
-
 
 	if(logFormatter.GetFormat() == "HTML")
 	{
@@ -1075,9 +1070,13 @@ int LogViewer::MoveBackToEndLogsBlock(std::fstream &_logStream)
 			</html>
 		*/
 
-		const streamsize size = _logStream.tellg();
+		// Move to the end of the log file
+		htmlOutStream.seekg(0, ios_base::end);
+		htmlOutStream.seekp(0, ios_base::end);
+
+		const streamsize size = htmlOutStream.tellg();
 		const string     logsEndToken("</body>");
-		streamoff        pos = _logStream.tellp();
+		streamoff        pos = htmlOutStream.tellp();
 		string           token;
 		char             c = '\0';
 		int              prStart = 1, prBegin = 0, prEnd = 0;	// position from the end
@@ -1112,8 +1111,8 @@ int LogViewer::MoveBackToEndLogsBlock(std::fstream &_logStream)
 			}*/
 
 			for(int i = 1; i < 20; ++i) {
-				_logStream.seekg(-i, std::ios_base::end);
-				char c = char(_logStream.get());
+				htmlOutStream.seekg(-i, std::ios_base::end);
+				char c = char(htmlOutStream.get());
 				cerr << c;
 			}
 
@@ -1122,9 +1121,9 @@ int LogViewer::MoveBackToEndLogsBlock(std::fstream &_logStream)
 			// Search backwards for '<' character
 			for(prBegin = prStart; prBegin <= size; ++prBegin)
 			{
-				_logStream.seekg(-prBegin, ios_base::end);
-				//_logStream.get(c);	//+B  c is always '\0'!
-				char c = char(_logStream.get());	//+?
+				htmlOutStream.seekg(-prBegin, ios_base::end);
+				//htmlOutStream.get(c);	//+B  c is always '\0'!
+				char c = char(htmlOutStream.get());	//+?
 				cerr << c; //+T+
 				if(c == '<')
 					break;
@@ -1139,25 +1138,25 @@ int LogViewer::MoveBackToEndLogsBlock(std::fstream &_logStream)
 			// Read token forward up to '>' character
 			for(prEnd = prBegin; prEnd > prStart; --prEnd)
 			{
-				_logStream.seekg(-prEnd, ios_base::end);
-				_logStream.get(c);
+				htmlOutStream.seekg(-prEnd, ios_base::end);
+				htmlOutStream.get(c);
 				if(c == '>') break;
 			}
 
 			// Extract the token
-			_logStream.seekg(-prBegin, ios_base::end);
+			htmlOutStream.seekg(-prBegin, ios_base::end);
 
 			assert((prBegin - prEnd) > 0);
 
 			token.resize(size_t(prBegin - prEnd));
-			_logStream.read(&token[0], int(token.size()));
+			htmlOutStream.read(&token[0], int(token.size()));
 
 			// Check the token
 			if(token == logsEndToken)
 			{
 				// Move write position to current read position
-				pos = _logStream.tellg();
-				_logStream.seekp(pos);
+				pos = htmlOutStream.tellg();
+				htmlOutStream.seekp(pos);
 				return pos;
 			}
 
@@ -1166,8 +1165,8 @@ int LogViewer::MoveBackToEndLogsBlock(std::fstream &_logStream)
 		}
 
 		// Point not found; move back to the end of the log file
-		_logStream.seekg(0, ios_base::end);
-		_logStream.seekp(0, ios_base::end);
+		htmlOutStream.seekg(0, ios_base::end);
+		htmlOutStream.seekp(0, ios_base::end);
 
 		return -1;
 	}
