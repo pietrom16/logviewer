@@ -309,6 +309,7 @@ int LogViewer::Run()
 	}
 
 	// Main loop
+
 	while(true)
 	{
 		int nNewLogs = 0;
@@ -524,7 +525,9 @@ int LogViewer::Run()
 
 	rdKb.~ReadKeyboard();
 
-	logOutStream << "\nTotal number of logs so far: " << logNumber << std::endl;
+	stringstream report("\nTotal number of logs so far: ");
+	report << logNumber;
+	WriteLog(report.str(), 1, logFileField);
 
 	return 0;
 }
