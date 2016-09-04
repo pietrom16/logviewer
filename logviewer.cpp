@@ -253,16 +253,14 @@ int LogViewer::Run()
 	bool printLog = false;
 	bool newLine = false;
 
-	///+TODO: use fstream only; eventually redirect it to cout; do not use base classes.
 
-	// Send the output either to cout or to a file
-	if(outLogFile.empty()) {
-		logOutStream.rdbuf(std::cout.rdbuf());
-		logToFile = false;
+	//+TODO - Multiple outLogFile for text and HTML
+	if(textFileOutput) {
+		textOutStream.open(outLogFile, ios_base::out | ios_base::app);
 	}
-	else {
-		logOutStream.open(outLogFile, ios_base::in | ios_base::out | ios_base::app);
-		logToFile = true;
+
+	if(htmlOutput) {
+		htmlOutStream.open(outLogFile, ios_base::in | ios_base::out | ios_base::app);
 	}
 
 	WriteHeader();	//+TODO - Only for a new file
