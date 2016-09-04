@@ -230,8 +230,6 @@ std::string LogFormatter::Footer() const
 
 std::string LogFormatter::FooterHTML() const
 {
-	//+TODO - Delete these lines before writing new logs, then read them
-
 	std::stringstream htmlFooter;
 
 	htmlFooter << "	</body>\n"

@@ -500,9 +500,7 @@ int LogViewer::Run()
 
 		cerr << "nNewLogs = " << nNewLogs << endl; //+T+
 		if(nNewLogs > 0) {
-			//+? MoveBackToEndLogsBlock(logStream);
-			logOutStream << logFormatter.Footer() << endl;
-			//break; //+T+++
+			WriteFooter();
 		}
 
 		inLogFs.clear();		// clear the eof state to keep reading the growing log file
@@ -528,6 +526,7 @@ int LogViewer::Run()
 	stringstream report("\nTotal number of logs so far: ");
 	report << logNumber;
 	WriteLog(report.str(), 1, logFileField);
+	WriteFooter();
 
 	return 0;
 }
@@ -1033,6 +1032,30 @@ int LogViewer::WriteLog(const std::string &_log, int _level, const std::string &
 
 	return n;
 }
+
+
+int LogViewer::WriteFooter()
+{
+	int n = 0;
+
+	if(consoleOutput) {
+		cout << logFormatter.FooterConsole() << endl;
+		++n;
+	}
+
+	if(textFileOutput) {
+		textOutStream << logFormatter.FooterPlain() << endl;
+		++n;
+	}
+
+	if(htmlOutput) {
+		htmlOutStream << logFormatter.FooterHTML() << endl;
+		++n;
+	}
+
+	return n;
+}
+
 
 
 /// Logs header
