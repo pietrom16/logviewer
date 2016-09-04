@@ -28,7 +28,7 @@ public:
 	void SetTitle(const std::string &_title) { title = _title; }
 
 	int SetFormat(const std::string &_format);
-	std::string GetFormat() const { return format; }
+	std::string GetFormat() const { return formats; }
 
 	std::string AvailableFormats() const { return availableFormats; }
 	std::string DefaultFormat()    const { return defaultFormat;    }
@@ -59,7 +59,7 @@ private:
 	static const std::string availableFormats;
 	static const std::string defaultFormat;
 
-	std::string format;
+	std::string formats;
 	std::string title;
 };
 

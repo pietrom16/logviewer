@@ -47,10 +47,10 @@ int LogFormatter::SetFormat(const std::string &_format)
 	int success = 0;
 
 	if(CheckFormat(_format))
-		format = _format;
+		formats = _format;
 	else
 	{
-		format = defaultFormat;
+		formats = defaultFormat;
 		success = -1;
 	}
 
@@ -75,10 +75,10 @@ std::string LogFormatter::Format(const std::string &_log,
 								 char _tag,
 								 int _logNumber) const
 {
-	if(format == "plain")         return FormatPlain(_log, _level, _file, _tag, _logNumber);
-	else if(format == "console")  return FormatConsole(_log, _level, _file, _tag, _logNumber);
-	else if(format == "HTML")     return FormatHTML(_log, _level, _file, _tag, _logNumber);
-	else if(format == "markdown") return FormatMarkdown(_log, _level, _file, _tag, _logNumber);
+	if(formats == "plain")         return FormatPlain(_log, _level, _file, _tag, _logNumber);
+	else if(formats == "console")  return FormatConsole(_log, _level, _file, _tag, _logNumber);
+	else if(formats == "HTML")     return FormatHTML(_log, _level, _file, _tag, _logNumber);
+	else if(formats == "markdown") return FormatMarkdown(_log, _level, _file, _tag, _logNumber);
 
 	return FormatPlain(_log, _level, _file, _tag, _logNumber);
 }
@@ -176,10 +176,10 @@ std::string LogFormatter::FormatMarkdown(const std::string &_log,
 
 std::string LogFormatter::Header() const
 {
-	if(format == "plain")         return HeaderPlain();
-	else if(format == "console")  return HeaderConsole();
-	else if(format == "HTML")     return HeaderHTML();
-	else if(format == "markdown") return HeaderMarkdown();
+	if(formats == "plain")         return HeaderPlain();
+	else if(formats == "console")  return HeaderConsole();
+	else if(formats == "HTML")     return HeaderHTML();
+	else if(formats == "markdown") return HeaderMarkdown();
 
 	return HeaderPlain();
 }
@@ -219,10 +219,10 @@ std::string LogFormatter::HeaderHTML() const
 
 std::string LogFormatter::Footer() const
 {
-	if(format == "plain")         return FooterPlain();
-	else if(format == "console")  return FooterConsole();
-	else if(format == "HTML")     return FooterHTML();
-	else if(format == "markdown") return FooterMarkdown();
+	if(formats == "plain")         return FooterPlain();
+	else if(formats == "console")  return FooterConsole();
+	else if(formats == "HTML")     return FooterHTML();
+	else if(formats == "markdown") return FooterMarkdown();
 
 	return FooterPlain();
 }
