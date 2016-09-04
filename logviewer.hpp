@@ -72,6 +72,7 @@ public:
 private:
 	int SetCommandLineParams();
 	int ReadCommandLineParams(int argc, char *argv[]);
+	int WriteHeader();
 	int WriteLog(const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1);
 	int WriteFooter();
 	int GenerateLogHeader();

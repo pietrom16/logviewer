@@ -265,8 +265,8 @@ int LogViewer::Run()
 		logToFile = true;
 	}
 
-	logOutStream << logFormatter.Header() << endl;	//+TODO - Only for a new file
-	logOutStream << logFormatter.Footer() << endl;	// add footer now, so the file is readable
+	WriteHeader();	//+TODO - Only for a new file
+	WriteFooter();	// add footer now, so the file is readable
 
 	if(newLogsOnly)
 	{
@@ -1006,6 +1006,29 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 		delimiters.append("\n");	// new line as default delimiter for logs
 
 	return 0;
+}
+
+
+int LogViewer::WriteHeader()
+{
+	int n = 0;
+
+	if(consoleOutput) {
+		cout << logFormatter.HeaderConsole() << endl;
+		++n;
+	}
+
+	if(textFileOutput) {
+		textOutStream << logFormatter.HeaderPlain() << endl;
+		++n;
+	}
+
+	if(htmlOutput) {
+		htmlOutStream << logFormatter.HeaderHTML() << endl;
+		++n;
+	}
+
+	return n;
 }
 
 
