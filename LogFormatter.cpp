@@ -42,34 +42,44 @@ LogFormatter::LogFormatter(const std::string &_formats,
 }
 
 
-int LogFormatter::SetFormats(const std::string &_formats)
+int LogFormatter::SetFormats(std::string &_formats)
 {
-	int success = 0;
+	int nValidFormats = CheckFormats(_formats);
 
-	if(CheckFormats(_formats))
+	if(nValidFormats > 0)
 		formats = _formats;
 	else
 	{
 		formats = defaultFormats;
-		success = -1;
+		nValidFormats = -1;
 	}
 
-	return success;
+	return nValidFormats;
 }
 
 
-bool LogFormatter::CheckFormats(const std::string &_formats) const
+// Filter invalid formats; return number of valid formats
+
+int LogFormatter::CheckFormats(std::string &_formats) const
 {
+	int          nValidFormats = 0;
+	std::string  validFormats;
+
 	std::stringstream formats(_formats);
 	std::string format;
 
 	while(formats >> format)
 	{
-		if(availableFormats.find(format) == std::string::npos)
-			return false;
+		if(availableFormats.find(format) != std::string::npos) {
+			++nValidFormats;
+			validFormats.append(format);
+			validFormats.append(" ");
+		}
 	}
 
-	return true;
+	_formats = validFormats;
+
+	return nValidFormats;
 }
 
 

@@ -30,12 +30,14 @@ public:
 
 	void SetTitle(const std::string &_title) { title = _title; }
 
-	int SetFormats(const std::string &_formats);
+	int SetFormats(std::string &_formats);
 	std::string GetFormats() const { return formats; }
 
 	std::string AvailableFormats() const { return availableFormats; }
 	std::string DefaultFormats()   const { return defaultFormats;   }
-	bool CheckFormats(const std::string &_formats) const;
+
+	// Filter invalid formats; return number of valid formats
+	int CheckFormats(std::string &_formats) const;
 
 	// Log message formatters
 	std::string Format(const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
