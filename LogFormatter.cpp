@@ -106,10 +106,10 @@ std::string LogFormatter::Format(const std::string &_log,
 								 char _tag,
 								 int _logNumber) const
 {
-	if(formats == "plain")         return FormatPlain(_log, _level, _file, _tag, _logNumber);
-	else if(formats == "console")  return FormatConsole(_log, _level, _file, _tag, _logNumber);
-	else if(formats == "HTML")     return FormatHTML(_log, _level, _file, _tag, _logNumber);
-	else if(formats == "markdown") return FormatMarkdown(_log, _level, _file, _tag, _logNumber);
+	if(formatPlain)         return FormatPlain(_log, _level, _file, _tag, _logNumber);
+	else if(formatConsole)  return FormatConsole(_log, _level, _file, _tag, _logNumber);
+	else if(formatHtml)     return FormatHTML(_log, _level, _file, _tag, _logNumber);
+	else if(formatMarkdown) return FormatMarkdown(_log, _level, _file, _tag, _logNumber);
 
 	return FormatPlain(_log, _level, _file, _tag, _logNumber);
 }
