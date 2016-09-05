@@ -73,6 +73,13 @@ int LogFormatter::SetFormats(std::string &_formats)
 }
 
 
+int LogFormatter::SetFormats(const char *_formats)
+{
+	std::string f(_formats);
+	return SetFormats(f);
+}
+
+
 // Filter invalid formats; return number of valid formats
 
 int LogFormatter::CheckFormats(std::string &_formats) const

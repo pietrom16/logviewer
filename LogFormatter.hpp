@@ -31,6 +31,7 @@ public:
 	void SetTitle(const std::string &_title) { title = _title; }
 
 	int SetFormats(std::string &_formats);
+	int SetFormats(const char *_formats);
 	std::string GetFormats() const { return formats; }
 
 	std::string AvailableFormats() const { return availableFormats; }
