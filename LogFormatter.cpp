@@ -60,8 +60,14 @@ int LogFormatter::SetFormats(const std::string &_formats)
 
 bool LogFormatter::CheckFormats(const std::string &_formats) const
 {
-	if(availableFormats.find(_format) == std::string::npos)
-		return false;
+	std::stringstream formats(_formats);
+	std::string format;
+
+	while(formats >> format)
+	{
+		if(availableFormats.find(format) == std::string::npos)
+			return false;
+	}
 
 	return true;
 }
