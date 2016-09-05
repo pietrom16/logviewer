@@ -45,7 +45,7 @@ int LogLevels::InitLogLevels()
 	pickFirstTag = false;
 	warnUnknownLogLevel = false;
 
-	return levels.size();
+	return int(levels.size());
 }
 
 
@@ -55,7 +55,7 @@ int LogLevels::InitLogLevels(const std::vector<TagLevel> &_levels)
 	MakeAllUppercase();
 
 	warnUnknownLogLevel = false;
-	return levels.size();
+	return int(levels.size());
 }
 
 
@@ -68,7 +68,7 @@ int LogLevels::AddLogLevels(const std::vector<TagLevel> &_levels)
 
 	MakeAllUppercase();
 
-	return levels.size();
+	return int(levels.size());
 }
 
 
@@ -77,7 +77,7 @@ int LogLevels::AddLogLevel(const TagLevel &_level)
 	levels.push_back(_level);
 	levels.back().tag = LogLevels::ToUppercase(levels.back().tag);
 
-	return levels.size();
+	return int(levels.size());
 }
 
 
@@ -111,14 +111,14 @@ int LogLevels::AddLogLevels(const std::string &_levelsFName)
 		levels.back().tag = LogLevels::ToUppercase(levels.back().tag);
 	}
 
-	return levels.size();
+	return int(levels.size());
 }
 
 
 int LogLevels::ClearLogLevels()
 {
 	levels.clear();
-	return levels.size();
+	return int(levels.size());
 }
 
 
@@ -370,8 +370,8 @@ int LogLevels::FindIndentation()
 
 	for(size_t i = 0; i < levels.size(); ++i)
 	{
-		if(levels[i].tag.size() > indentation)
-			indentation = levels[i].tag.size();
+		if(int(levels[i].tag.size()) > indentation)
+			indentation = int(levels[i].tag.size());
 	}
 
 	return indentation;
