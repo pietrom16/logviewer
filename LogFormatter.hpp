@@ -31,7 +31,7 @@ public:
 	std::string GetFormat() const { return formats; }
 
 	std::string AvailableFormats() const { return availableFormats; }
-	std::string DefaultFormat()    const { return defaultFormat;    }
+	std::string DefaultFormat()    const { return defaultFormats;    }
 	bool CheckFormat(const std::string &_format) const;
 
 	// Log message formatters
@@ -57,7 +57,7 @@ public:
 
 private:
 	static const std::string availableFormats;
-	static const std::string defaultFormat;
+	static const std::string defaultFormats;
 
 	std::string formats;
 	std::string title;
