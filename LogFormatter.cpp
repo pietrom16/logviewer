@@ -19,23 +19,26 @@ namespace log_viewer {
 
 
 const std::string LogFormatter::availableFormats = "plain console HTML markdown";
-const std::string LogFormatter::defaultFormats = "console";
+std::string LogFormatter::defaultFormats = "console";
 
 
 LogFormatter::LogFormatter()
+    : formatPlain(false), formatConsole(false), formatHtml(false), formatMarkdown(false)
 {
 	SetFormats(defaultFormats);
 }
 
 
-LogFormatter::LogFormatter(const std::string &_formats)
+LogFormatter::LogFormatter(std::string &_formats)
+    : formatPlain(false), formatConsole(false), formatHtml(false), formatMarkdown(false)
 {
 	SetFormats(_formats);
 }
 
 
-LogFormatter::LogFormatter(const std::string &_formats,
+LogFormatter::LogFormatter(std::string &_formats,
                            const std::string &_title)
+    : formatPlain(false), formatConsole(false), formatHtml(false), formatMarkdown(false)
 {
 	SetFormats(_formats);
 	SetTitle(_title);
@@ -53,6 +56,18 @@ int LogFormatter::SetFormats(std::string &_formats)
 		formats = defaultFormats;
 		nValidFormats = -1;
 	}
+
+	if(formats.find("plain") != std::string::npos)  formatPlain = true;
+	else                                            formatPlain = false;
+
+	if(formats.find("console") != std::string::npos)  formatConsole = true;
+	else                                              formatConsole = false;
+
+	if(formats.find("HTML") != std::string::npos)  formatHtml = true;
+	else                                           formatHtml = false;
+
+	if(formats.find("markdown") != std::string::npos)  formatMarkdown = true;
+	else                                               formatMarkdown = false;
 
 	return nValidFormats;
 }
