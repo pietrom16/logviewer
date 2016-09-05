@@ -126,7 +126,7 @@ int LogViewer::SetDefaultValues()
 	textFileOutput = false;
 	htmlOutput = false;
 
-	logFormatter.SetFormat("console");
+	logFormatter.SetFormats("console");
 
 	newLogsOnly = false;
 	nLatest = printAll;
@@ -952,14 +952,14 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 	{
 		progArgs.GetValue("--outFileFormat", outLogFileFormat);
 
-		if(logFormatter.CheckFormat(outLogFileFormat) == false)
+		if(logFormatter.CheckFormats(outLogFileFormat) == false)
 		{
 			std::cerr << "Warning: " << outLogFileFormat << " is an invalid output file format.\n"
-					  << "              The default " << logFormatter.DefaultFormat() << " format will be used." << std::endl;
-			outLogFileFormat = logFormatter.DefaultFormat();
+			          << "              The default " << logFormatter.DefaultFormats() << " format will be used." << std::endl;
+			outLogFileFormat = logFormatter.DefaultFormats();
 		}
 
-		logFormatter.SetFormat(outLogFileFormat);
+		logFormatter.SetFormats(outLogFileFormat);
 	}
 
 	if(progArgs.GetValue("--cmdFile")) {
@@ -1107,7 +1107,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 {
 	using namespace std;
 
-	if(logFormatter.GetFormat() == "HTML")
+	if(logFormatter.GetFormats() == "HTML")
 	{
 		// Search backwards for the end of the logs block
 
@@ -1226,7 +1226,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 int LogViewer::PrintExtraInfo()
 {
-	if(logFormatter.GetFormat() == "HTML") {
+	if(logFormatter.GetFormats() == "HTML") {
 		cout << "With a browser, open: " << outLogFile << endl;
 	}
 

@@ -24,30 +24,30 @@ const std::string LogFormatter::defaultFormats = "plain";
 
 LogFormatter::LogFormatter()
 {
-	SetFormat(defaultFormats);
+	SetFormats(defaultFormats);
 }
 
 
-LogFormatter::LogFormatter(const std::string &_format)
+LogFormatter::LogFormatter(const std::string &_formats)
 {
-	SetFormat(_format);
+	SetFormats(_formats);
 }
 
 
-LogFormatter::LogFormatter(const std::string &_format,
+LogFormatter::LogFormatter(const std::string &_formats,
                            const std::string &_title)
 {
-	SetFormat(_format);
+	SetFormats(_formats);
 	SetTitle(_title);
 }
 
 
-int LogFormatter::SetFormat(const std::string &_format)
+int LogFormatter::SetFormats(const std::string &_formats)
 {
 	int success = 0;
 
-	if(CheckFormat(_format))
-		formats = _format;
+	if(CheckFormats(_formats))
+		formats = _formats;
 	else
 	{
 		formats = defaultFormats;
@@ -58,7 +58,7 @@ int LogFormatter::SetFormat(const std::string &_format)
 }
 
 
-bool LogFormatter::CheckFormat(const std::string &_format) const
+bool LogFormatter::CheckFormats(const std::string &_formats) const
 {
 	if(availableFormats.find(_format) == std::string::npos)
 		return false;

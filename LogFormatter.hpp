@@ -20,19 +20,22 @@ namespace log_viewer {
 
 class LogFormatter
 {
+	/** _formats: a space separated list of file formats (console, text, html, ...)
+	 */
+
 public:
 	LogFormatter();
-	LogFormatter(const std::string &_format);
-	LogFormatter(const std::string &_format, const std::string &_title);
+	LogFormatter(const std::string &_formats);
+	LogFormatter(const std::string &_formats, const std::string &_title);
 
 	void SetTitle(const std::string &_title) { title = _title; }
 
-	int SetFormat(const std::string &_format);
-	std::string GetFormat() const { return formats; }
+	int SetFormats(const std::string &_formats);
+	std::string GetFormats() const { return formats; }
 
 	std::string AvailableFormats() const { return availableFormats; }
-	std::string DefaultFormat()    const { return defaultFormats;    }
-	bool CheckFormat(const std::string &_format) const;
+	std::string DefaultFormats()   const { return defaultFormats;   }
+	bool CheckFormats(const std::string &_formats) const;
 
 	// Log message formatters
 	std::string Format(const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1) const;
