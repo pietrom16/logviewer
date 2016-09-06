@@ -248,7 +248,7 @@ std::string LogFormatter::HeaderHTML() const
 	           << "\n"
 	           << "	<head>\n"
 	           << "		<meta charset=\"UTF-8\">\n"
-	           << "		<title>Log file</title>\n"
+	           << "		<title>" << title << "</title>\n"
 	           << "		<style>\n"
 	           << "			body { background-color:black }\n"
 	           << "			body { font-family: \"courier new\"; }\n"
