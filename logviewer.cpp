@@ -958,7 +958,7 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 			outLogFileFormat = logFormatter.DefaultFormats();
 		}
 
-		logFormatter.SetFormats(outLogFileFormat);
+		logFormatter.SetFormats(outLogFileFormat, consoleOutput, textFileOutput, htmlOutput, markdownOutput);
 	}
 
 	if(progArgs.GetValue("--cmdFile")) {

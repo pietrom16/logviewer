@@ -73,6 +73,19 @@ int LogFormatter::SetFormats(std::string &_formats)
 }
 
 
+int LogFormatter::SetFormats(std::string &_formats, bool &_consoleOutput, bool &_textFileOutput, bool &_htmlOutput, bool &_markdownOutput)
+{
+	int r = SetFormats(_formats);
+
+	_consoleOutput = formatConsole;
+	_textFileOutput = formatPlain;
+	_htmlOutput = formatHtml;
+	_markdownOutput = formatMarkdown;
+
+	return r;
+}
+
+
 int LogFormatter::SetFormats(const char *_formats)
 {
 	std::string f(_formats);
