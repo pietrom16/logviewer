@@ -1138,13 +1138,72 @@ int LogViewer::MoveBackToEndLogsBlock()
 	//+H+++
 	if(htmlOutput)
 	{
-		// Start from the end of the log file.
+		// Search backwards for the end of the logs block </body>
+
+		string        token;
+		const string  logsEndToken("</body>");
+		char          c = 0;
+
+		/** Assumed end of HTML file structure:
+					...logs...
+				</body>
+			</html>
+		*/
+
+		// Start from the end of the log file
 		htmlOutStream.seekg(0, ios_base::end);
 		htmlOutStream.seekp(0, ios_base::end);
 
-		// Search backwards for a space/NL/CR, set pos.
-		// Read the next token.
+		// Length of the current log file
+		const streamsize size = htmlOutStream.tellg();
+
+		streamoff pos0;	// position of '<'
+		streamoff pos1;	// position of '>'
+
+		// Search backwards for a '<' character, set pos
+		for(pos0 = size; pos0 >= 0; --pos0)		//+TODO Check size - 1
+		{
+			htmlOutStream.seekg(pos0, ios_base::beg);
+			c = char(htmlOutStream.get());
+
+			cerr << c;	//+T+++
+
+			if(c == '<')
+				break;
+		}
+
+		if(c != '<') {
+			// Character not found, move to the end of file not to erase what logged so far
+			htmlOutStream.seekg(0, ios_base::end);
+			htmlOutStream.seekp(0, ios_base::end);
+			return -1;
+		}
+
+		// Search forward for a '>' character, set pos
+		for(pos1 = pos0 + 1; pos1 <= size; ++pos1)		//+TODO Check size - 1
+		{
+			htmlOutStream.seekg(pos1, ios_base::beg);
+			c = char(htmlOutStream.get());
+
+			cerr << c;	//+T+++
+
+			if(c == '>')
+				break;
+		}
+
+		if(c != '>') {
+			// Character not found, move to the end of file not to erase what logged so far
+			htmlOutStream.seekg(0, ios_base::end);
+			htmlOutStream.seekp(0, ios_base::end);
+			return -2;
+		}
+
+		// Read the token between < and >
+
 		// If equal to </body>, start writing from pos.
+
+
+		exit(0); //+T+++
 	}
 
 	//+H+++
