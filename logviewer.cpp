@@ -1199,9 +1199,15 @@ int LogViewer::MoveBackToEndLogsBlock()
 		}
 
 		// Read the token between < and >
+		//+TODO
 
 		// If equal to </body>, start writing from pos.
-
+		if(token == logsEndToken)
+		{
+			htmlOutStream.seekg(pos0, ios_base::beg);
+			htmlOutStream.seekp(pos0, ios_base::beg);
+			return 0;
+		}
 
 		exit(0); //+T+++
 	}
