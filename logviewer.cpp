@@ -950,6 +950,10 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 	if(progArgs.GetValue("--outFile")) {
 		progArgs.GetValue("--outFile", outLogFile);
 		logToFile = true;
+		size_t extPos = outLogFile.find(".log");
+		if(extPos != std::string::npos) {
+			outLogFile.erase(extPos);
+		}
 	}
 
 	if(progArgs.GetValue("--outFileFormat"))
@@ -1242,9 +1246,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 int LogViewer::PrintExtraInfo()
 {
-	if(logFormatter.GetFormats() == "HTML") {
+	if(htmlOutput)
 		cout << "With a browser, open: " << outLogFile << endl;
-	}
 
 	if(verbose == 0)
 		return 0;
@@ -1253,10 +1256,13 @@ int LogViewer::PrintExtraInfo()
 		cout << "Showing the logs on the console." << endl;
 
 	if(textFileOutput)
-		cout << "Copying the logs in: " << outLogFile << ".log" << endl;
+		cout << "Copying the text logs in: " << outLogFile << ".log" << endl;
 
 	if(htmlOutput)
-		cout << "Copying the logs in: " << outLogFile << ".log.html" << endl;
+		cout << "Copying the HTML logs in: " << outLogFile << ".log.html" << endl;
+
+	if(markdownOutput)
+		; //+TODO
 
 	if(newLogsOnly)
 		cout << "Not showing past logs." << endl;
