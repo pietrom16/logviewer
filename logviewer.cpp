@@ -1030,8 +1030,16 @@ int LogViewer::WriteHeader()
 	}
 
 	if(htmlOutput) {
-		htmlOutStream << logFormatter.HeaderHTML() << endl;
-		++n;
+		// Write the header only if the HTML file is empty
+		std::streampos pos = htmlOutStream.tellg();
+		htmlOutStream.seekg(0, std::ios_base::end);
+		bool empty = !htmlOutStream.tellg();
+		htmlOutStream.seekg(pos, std::ios_base::beg);
+
+		if(empty) {
+			htmlOutStream << logFormatter.HeaderHTML() << endl;
+			++n;
+		}
 	}
 
 	if(markdownOutput) {
