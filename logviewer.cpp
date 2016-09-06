@@ -1247,7 +1247,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 int LogViewer::PrintExtraInfo()
 {
 	if(htmlOutput)
-		cout << "With a browser, open: " << outLogFile << endl;
+		cout << "With a browser, open: " << outLogFile << ".log.html" << endl;
 
 	if(verbose == 0)
 		return 0;
