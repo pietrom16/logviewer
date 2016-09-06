@@ -194,9 +194,6 @@ int LogViewer::Run()
 
 	GenerateLogHeader();
 
-	PrintExtraInfo();
-
-
 	/// Open log file
 
 	ifstream   iCmdFs;					// file stream for the external commands
@@ -229,23 +226,6 @@ int LogViewer::Run()
 		}
 	}
 
-	// Wait for the log file to be available
-	while(true)
-	{
-		inLogFs.open(logFile);
-
-		if(inLogFs.is_open())
-			break;
-
-		if(warning) {
-			cerr << "logviewer: warning: cannot open the log file: " << logFile
-				 << "\nWaiting..." << endl;
-			warning = false;
-		}
-
-		this_thread::sleep_for(pause);
-	}
-
 	/// Print log file
 
 	int  level = 0, contextLevel = 0;
@@ -256,11 +236,30 @@ int LogViewer::Run()
 
 	//+TODO - Multiple outLogFile for text and HTML
 	if(textFileOutput) {
-		textOutStream.open(outLogFile, ios_base::out | ios_base::app);
+		textOutStream.open(outLogFile + ".log", ios_base::out | ios_base::app);
 	}
 
 	if(htmlOutput) {
-		htmlOutStream.open(outLogFile, ios_base::in | ios_base::out | ios_base::app);
+		htmlOutStream.open(outLogFile + ".log.html", ios_base::in | ios_base::out | ios_base::app);
+	}
+
+	PrintExtraInfo();
+
+	// Wait for the log file to be available
+	while(true)
+	{
+		inLogFs.open(logFile);
+
+		if(inLogFs.is_open())
+			break;
+
+		if(warning) {
+			cerr << "logviewer: warning: cannot open the log file: " << logFile
+			     << "\nWaiting..." << endl;
+			warning = false;
+		}
+
+		this_thread::sleep_for(pause);
 	}
 
 	WriteHeader();	//+TODO - Only for a new file
@@ -952,7 +951,7 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 	{
 		progArgs.GetValue("--outFileFormat", outLogFileFormat);
 
-		if(logFormatter.CheckFormats(outLogFileFormat) == false)
+		if(logFormatter.CheckFormats(outLogFileFormat) == 0)
 		{
 			std::cerr << "Warning: " << outLogFileFormat << " is an invalid output file format.\n"
 			          << "              The default " << logFormatter.DefaultFormats() << " format will be used." << std::endl;

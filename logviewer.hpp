@@ -91,7 +91,7 @@ private:
 	std::ifstream inLogFs;				// input file stream where the logs come from
 
 	bool          logToFile;			// (default = false)
-	std::string   outLogFile;			// file name for the output stream to redirect the logs (default = standard output)
+	std::string   outLogFile;			// file name for the output stream to redirect the logs (extensions added by logviewer)
 	std::string   outLogFileFormat;		// OS shell highlighting, HTML, markdown, ...
 
 	std::fstream  textOutStream;		// text output stream
