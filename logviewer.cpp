@@ -1232,10 +1232,14 @@ int LogViewer::PrintExtraInfo()
 	if(verbose == 0)
 		return 0;
 
-	if(logToFile)
-		cout << "Saving the logs on file: " << outLogFile << endl;
-	else
-		cout << "Showing the logs on the standard output." << endl;
+	if(consoleOutput)
+		cout << "Showing the logs on the console." << endl;
+
+	if(textFileOutput)
+		cout << "Copying the logs in: " << outLogFile << ".log" << endl;
+
+	if(htmlOutput)
+		cout << "Copying the logs in: " << outLogFile << ".log.html" << endl;
 
 	if(newLogsOnly)
 		cout << "Not showing past logs." << endl;
