@@ -131,7 +131,8 @@ private:
 
 	bool          consoleOutput,
 	              textFileOutput,
-	              htmlOutput;
+	              htmlOutput,
+	              markdownOutput;
 
 	// Filter details
 

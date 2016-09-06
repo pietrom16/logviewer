@@ -125,6 +125,7 @@ int LogViewer::SetDefaultValues()
 	consoleOutput = true;
 	textFileOutput = false;
 	htmlOutput = false;
+	markdownOutput = false;
 
 	logFormatter.SetFormats("console");
 
@@ -241,6 +242,10 @@ int LogViewer::Run()
 
 	if(htmlOutput) {
 		htmlOutStream.open(outLogFile + ".log.html", ios_base::in | ios_base::out | ios_base::app);
+	}
+
+	if(markdownOutput) {
+		//+TODO
 	}
 
 	PrintExtraInfo();
@@ -1025,6 +1030,10 @@ int LogViewer::WriteHeader()
 		++n;
 	}
 
+	if(markdownOutput) {
+		//+TODO
+	}
+
 	return n;
 }
 
@@ -1050,6 +1059,10 @@ int LogViewer::WriteLog(const std::string &_log, int _level, const std::string &
 		++n;
 	}
 
+	if(markdownOutput) {
+		//+TODO
+	}
+
 	return n;
 }
 
@@ -1071,6 +1084,10 @@ int LogViewer::WriteFooter()
 	if(htmlOutput) {
 		htmlOutStream << logFormatter.FooterHTML() << endl;
 		++n;
+	}
+
+	if(markdownOutput) {
+		//+TODO
 	}
 
 	return n;
