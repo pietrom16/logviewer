@@ -1135,7 +1135,17 @@ int LogViewer::MoveBackToEndLogsBlock()
 {
 	using namespace std;
 
+	//+H+++
 	if(htmlOutput)
+	{
+		// Start from the end of the file.
+		// Search backwards for a space/NL/CR, set pos.
+		// Read the next token.
+		// If equal to </body>, start writing from pos.
+	}
+
+	//+H+++
+	if(htmlOutput && 0)
 	{
 		// Search backwards for the end of the logs block
 
