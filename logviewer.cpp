@@ -1138,7 +1138,10 @@ int LogViewer::MoveBackToEndLogsBlock()
 	//+H+++
 	if(htmlOutput)
 	{
-		// Start from the end of the file.
+		// Start from the end of the log file.
+		htmlOutStream.seekg(0, ios_base::end);
+		htmlOutStream.seekp(0, ios_base::end);
+
 		// Search backwards for a space/NL/CR, set pos.
 		// Read the next token.
 		// If equal to </body>, start writing from pos.
