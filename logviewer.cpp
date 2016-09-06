@@ -742,7 +742,7 @@ int LogViewer::SetCommandLineParams()
 	progArgs.AddArg(arg);
 	arg.Set("--outFile", "-o", "Redirect the output to a file (default = standard output)", true, true);
 	progArgs.AddArg(arg);
-	arg.Set("--outFileFormat", "-of", "Format of the output log file: plain, console, (TODO: HTML, markdown)", true, true);	//+TODO - Specify available formats
+	arg.Set("--outFileFormat", "-of", "Format of the output log file: console, plain, HTML (TODO: markdown)", true, true);
 	progArgs.AddArg(arg);
 	arg.Set("--cmdFile", "-cf", "Command file name, to control the program from outside", true, true);
 	progArgs.AddArg(arg);
