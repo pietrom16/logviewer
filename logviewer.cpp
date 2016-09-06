@@ -1135,7 +1135,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 {
 	using namespace std;
 
-	if(logFormatter.GetFormats() == "HTML")
+	if(htmlOutput)
 	{
 		// Search backwards for the end of the logs block
 
