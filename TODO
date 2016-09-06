@@ -11,15 +11,15 @@ TODO - logviewer
 
 - Better randomize the colors in LogLevelMapping().
 
-- LogFormatter: HTML and markdown formatting.
+- LogFormatter: markdown formatting.
 
 -- rdKb: destroied, but never recreated.
 
 
 BUGS
 
--- HTML output not generated; cmd line parameter not detected.
 -- HTML files not closed properly.
+. HTML output not generated; cmd line parameter not detected.
 . [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
 - Check if it is normal that destructors are not called before exit.
 - Check timing in text view.

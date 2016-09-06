@@ -63,8 +63,9 @@ int LogFormatter::SetFormats(std::string &_formats)
 	if(formats.find("console") != std::string::npos)  formatConsole = true;
 	else                                              formatConsole = false;
 
-	if(formats.find("HTML") != std::string::npos)  formatHtml = true;
-	else                                           formatHtml = false;
+	if(formats.find("HTML") != std::string::npos ||
+	   formats.find("html") != std::string::npos)     formatHtml = true;
+	else                                              formatHtml = false;
 
 	if(formats.find("markdown") != std::string::npos)  formatMarkdown = true;
 	else                                               formatMarkdown = false;
