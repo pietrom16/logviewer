@@ -1199,9 +1199,15 @@ int LogViewer::MoveBackToEndLogsBlock()
 		}
 
 		// Read the token between < and >
-		//+TODO
+		//+TODO - Extract token from fstream
+		size_t tokenSize = size_t(pos1 - pos0 + 1);
+		htmlOutStream.seekg(pos0, ios_base::beg);
+		token.resize(tokenSize, '\0');
+		htmlOutStream.read(&token[0], streamsize(tokenSize));
 
-		// If equal to </body>, start writing from pos.
+		cerr << "token = " << token << endl; //+T+++
+
+		// If equal to </body>, start writing from here
 		if(token == logsEndToken)
 		{
 			htmlOutStream.seekg(pos0, ios_base::beg);
