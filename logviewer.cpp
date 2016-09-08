@@ -1164,9 +1164,9 @@ int LogViewer::MoveBackToEndLogsBlock()
 		for(pos0 = size; pos0 >= 0; --pos0)		//+TODO Check size - 1
 		{
 			htmlOutStream.seekg(pos0, ios_base::beg);
-			c = char(htmlOutStream.get());
+			c = char(htmlOutStream.peek());
 
-			cerr << c;	//+T+++
+			cerr << pos0 << ": " << c << " = " << int(c) << endl;	//+T+++
 
 			if(c == '<')
 				break;
@@ -1185,7 +1185,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			htmlOutStream.seekg(pos1, ios_base::beg);
 			c = char(htmlOutStream.get());
 
-			cerr << c;	//+T+++
+			cerr << pos0 << ": " << c << " = " << int(c) << endl;	//+T+++
 
 			if(c == '>')
 				break;
