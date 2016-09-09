@@ -1164,7 +1164,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		while(true)
 		{
 			// Search backwards for a '<' character, set pos
-			pos_begin = pos0;
+			pos_begin = pos0 + 1;
 			for(pos0 = pos_begin; pos0 <= size; ++pos0)
 			{
 				htmlOutStream.seekg(-pos0, ios_base::end);
