@@ -1201,8 +1201,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 			// If equal to </body>, start writing from here
 			if(token == logsEndToken)
 			{
-				htmlOutStream.seekg(pos0, ios_base::beg);
-				htmlOutStream.seekp(pos0, ios_base::beg);
+				htmlOutStream.seekg(-pos0, ios_base::end);
+				htmlOutStream.seekp(-pos0, ios_base::end);
 				return 0;
 			}
 		}
