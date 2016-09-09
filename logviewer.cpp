@@ -1161,55 +1161,57 @@ int LogViewer::MoveBackToEndLogsBlock()
 		streamoff pos1;	    // position of '>'
 		streamoff pos_begin;
 
-		// Search backwards for a '<' character, set pos
-		pos_begin = pos0;
-		for(pos0 = pos_begin; pos0 <= size; ++pos0)
 		{
+			// Search backwards for a '<' character, set pos
+			pos_begin = pos0;
+			for(pos0 = pos_begin; pos0 <= size; ++pos0)
+			{
+				htmlOutStream.seekg(-pos0, ios_base::end);
+				c = char(htmlOutStream.peek());
+
+				if(c == '<')
+					break;
+			}
+
+			if(c != '<') {
+				// Character not found, move to the end of file not to erase what logged so far
+				htmlOutStream.seekg(0, ios_base::end);
+				htmlOutStream.seekp(0, ios_base::end);
+				return -1;
+			}
+
+			// Search forward for a '>' character, set pos
+			for(pos1 = pos0; pos1 > 0; --pos1)
+			{
+				htmlOutStream.seekg(-pos1, ios_base::end);
+				c = char(htmlOutStream.peek());
+
+				if(c == '>')
+					break;
+			}
+
+			if(c != '>') {
+				// Character not found, move to the end of file not to erase what logged so far
+				htmlOutStream.seekg(0, ios_base::end);
+				htmlOutStream.seekp(0, ios_base::end);
+				return -2;
+			}
+
+			// Read the token between < and >
+			size_t tokenSize = size_t(pos0 - pos1 + 1);
 			htmlOutStream.seekg(-pos0, ios_base::end);
-			c = char(htmlOutStream.peek());
+			token.resize(tokenSize, '\0');
+			htmlOutStream.read(&token[0], streamsize(tokenSize));
 
-			if(c == '<')
-				break;
-		}
+			cerr << "token = " << token << endl; //+T+++
 
-		if(c != '<') {
-			// Character not found, move to the end of file not to erase what logged so far
-			htmlOutStream.seekg(0, ios_base::end);
-			htmlOutStream.seekp(0, ios_base::end);
-			return -1;
-		}
-
-		// Search forward for a '>' character, set pos
-		for(pos1 = pos0; pos1 > 0; --pos1)
-		{
-			htmlOutStream.seekg(-pos1, ios_base::end);
-			c = char(htmlOutStream.peek());
-
-			if(c == '>')
-				break;
-		}
-
-		if(c != '>') {
-			// Character not found, move to the end of file not to erase what logged so far
-			htmlOutStream.seekg(0, ios_base::end);
-			htmlOutStream.seekp(0, ios_base::end);
-			return -2;
-		}
-
-		// Read the token between < and >
-		size_t tokenSize = size_t(pos0 - pos1 + 1);
-		htmlOutStream.seekg(-pos0, ios_base::end);
-		token.resize(tokenSize, '\0');
-		htmlOutStream.read(&token[0], streamsize(tokenSize));
-
-		cerr << "token = " << token << endl; //+T+++
-
-		// If equal to </body>, start writing from here
-		if(token == logsEndToken)
-		{
-			htmlOutStream.seekg(pos0, ios_base::beg);
-			htmlOutStream.seekp(pos0, ios_base::beg);
-			return 0;
+			// If equal to </body>, start writing from here
+			if(token == logsEndToken)
+			{
+				htmlOutStream.seekg(pos0, ios_base::beg);
+				htmlOutStream.seekp(pos0, ios_base::beg);
+				return 0;
+			}
 		}
 
 		// Token not found; go to the end of the log file and just keep
