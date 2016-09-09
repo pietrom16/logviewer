@@ -1161,7 +1161,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		streamoff pos1;	// position of '>'
 
 		// Search backwards for a '<' character, set pos
-		for(pos0 = 1; pos0 <= size; ++pos0)		//+TODO Check size - 1
+		for(pos0 = 1; pos0 <= size; ++pos0)
 		{
 			htmlOutStream.seekg(-pos0, ios_base::end);
 			c = char(htmlOutStream.peek());
@@ -1180,12 +1180,12 @@ int LogViewer::MoveBackToEndLogsBlock()
 		}
 
 		// Search forward for a '>' character, set pos
-		for(pos1 = pos0 + 1; pos1 <= size; ++pos1)		//+TODO Check size - 1
+		for(pos1 = pos0; pos1 > 0; --pos1)
 		{
-			htmlOutStream.seekg(pos1, ios_base::beg);
-			c = char(htmlOutStream.get());
+			htmlOutStream.seekg(-pos1, ios_base::end);
+			c = char(htmlOutStream.peek());
 
-			cerr << "> " << pos0 << ": " << c << " = " << int(c) << endl;	//+T+++
+			cerr << "> " << pos1 << ": " << c << " = " << int(c) << endl;	//+T+++
 
 			if(c == '>')
 				break;
@@ -1197,6 +1197,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 			htmlOutStream.seekp(0, ios_base::end);
 			return -2;
 		}
+
+		exit(0); //+T+
 
 		// Read the token between < and >
 		//+TODO - Extract token from fstream
