@@ -1212,7 +1212,12 @@ int LogViewer::MoveBackToEndLogsBlock()
 			return 0;
 		}
 
-		exit(0); //+T+++
+		// Token not found; go to the end of the log file and just keep
+		// appending from there
+		htmlOutStream.seekg(0, ios_base::end);
+		htmlOutStream.seekp(0, ios_base::end);
+
+		return WRN_HTML_OUTPUT_CORRUPTED;
 	}
 
 	//+H+++

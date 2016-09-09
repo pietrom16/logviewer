@@ -67,7 +67,8 @@ public:
 	 *	- Odd subversion number: unstable/development version.
 	 */
 
-	static const int MSG_MISSING_COMMAND_FILE = 1;
+	static const int MSG_MISSING_COMMAND_FILE = 1,
+	                 WRN_HTML_OUTPUT_CORRUPTED = -5;
 
 private:
 	int SetCommandLineParams();
