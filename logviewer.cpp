@@ -1161,12 +1161,12 @@ int LogViewer::MoveBackToEndLogsBlock()
 		streamoff pos1;	// position of '>'
 
 		// Search backwards for a '<' character, set pos
-		for(pos0 = size; pos0 >= 0; --pos0)		//+TODO Check size - 1
+		for(pos0 = 1; pos0 <= size; ++pos0)		//+TODO Check size - 1
 		{
-			htmlOutStream.seekg(pos0, ios_base::beg);
+			htmlOutStream.seekg(-pos0, ios_base::end);
 			c = char(htmlOutStream.peek());
 
-			cerr << pos0 << ": " << c << " = " << int(c) << endl;	//+T+++
+			cerr << "< " << pos0 << ": " << c << " = " << int(c) << endl;	//+T+++
 
 			if(c == '<')
 				break;
@@ -1185,7 +1185,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			htmlOutStream.seekg(pos1, ios_base::beg);
 			c = char(htmlOutStream.get());
 
-			cerr << pos0 << ": " << c << " = " << int(c) << endl;	//+T+++
+			cerr << "> " << pos0 << ": " << c << " = " << int(c) << endl;	//+T+++
 
 			if(c == '>')
 				break;
