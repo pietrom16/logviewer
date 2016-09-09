@@ -1161,6 +1161,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		streamoff pos1;	    // position of '>'
 		streamoff pos_begin;
 
+		while(true)
 		{
 			// Search backwards for a '<' character, set pos
 			pos_begin = pos0;
