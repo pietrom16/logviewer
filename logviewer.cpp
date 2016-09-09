@@ -1174,12 +1174,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 					break;
 			}
 
-			if(c != '<') {
-				// Character not found, move to the end of file not to erase what logged so far
-				htmlOutStream.seekg(0, ios_base::end);
-				htmlOutStream.seekp(0, ios_base::end);
-				return -1;
-			}
+			if(c != '<')
+				break;
 
 			// Search forward for a '>' character, set pos
 			for(pos1 = pos0; pos1 > 0; --pos1)
@@ -1191,12 +1187,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 					break;
 			}
 
-			if(c != '>') {
-				// Character not found, move to the end of file not to erase what logged so far
-				htmlOutStream.seekg(0, ios_base::end);
-				htmlOutStream.seekp(0, ios_base::end);
-				return -2;
-			}
+			if(c != '>')
+				break;
 
 			// Read the token between < and >
 			size_t tokenSize = size_t(pos0 - pos1 + 1);
