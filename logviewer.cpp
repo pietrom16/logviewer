@@ -1198,12 +1198,9 @@ int LogViewer::MoveBackToEndLogsBlock()
 			return -2;
 		}
 
-		exit(0); //+T+
-
 		// Read the token between < and >
-		//+TODO - Extract token from fstream
-		size_t tokenSize = size_t(pos1 - pos0 + 1);
-		htmlOutStream.seekg(pos0, ios_base::beg);
+		size_t tokenSize = size_t(pos0 - pos1 + 1);
+		htmlOutStream.seekg(-pos0, ios_base::end);
 		token.resize(tokenSize, '\0');
 		htmlOutStream.read(&token[0], streamsize(tokenSize));
 
