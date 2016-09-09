@@ -1157,11 +1157,13 @@ int LogViewer::MoveBackToEndLogsBlock()
 		// Length of the current log file
 		const streamsize size = htmlOutStream.tellg();
 
-		streamoff pos0;	// position of '<'
-		streamoff pos1;	// position of '>'
+		streamoff pos0 = 1;	// position of '<'
+		streamoff pos1;	    // position of '>'
+		streamoff pos_begin;
 
 		// Search backwards for a '<' character, set pos
-		for(pos0 = 1; pos0 <= size; ++pos0)
+		pos_begin = pos0;
+		for(pos0 = pos_begin; pos0 <= size; ++pos0)
 		{
 			htmlOutStream.seekg(-pos0, ios_base::end);
 			c = char(htmlOutStream.peek());
