@@ -6,6 +6,10 @@ cmake_minimum_required(VERSION 3.0)
 
 set(PRJ logviewer)
 
+message("==============================================")
+message("Building project: ${PRJ}")
+message("==============================================")
+
 project(${PRJ})
 
 # Specify the build type on the command line: Release, Debug, RelWithDebInfo, MinSizeRel
@@ -19,7 +23,7 @@ set(CMAKE_C_COMPILER /opt/local/bin/clang-mp-3.7)
 set(CMAKE_CXX_COMPILER /opt/local/bin/clang++-mp-3.7)
 
 # Specify C++ standard version
-set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
+set(CMAKE_CXX_FLAGS "-std=c++14 -stdlib=libc++")
 
 # Extra code in debug mode
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -32,10 +36,7 @@ endif()
 #add_definitions(-DLOGCONTEXT_TEST)
 #add_definitions(-DREAD_KEYBOARD_TEST)
 
-
-message("==============================================")
-message("Building project: ${PRJ}")
-message("==============================================")
+message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS} " " ${CMAKE_BUILD_TYPE})
 
 set(SRC
 	entrypoint.cpp
