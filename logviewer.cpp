@@ -1148,7 +1148,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			</html>
 		*/
 
-		const int assumedFooterLength = 20;		// approximation in excess
+		const int assumedFooterLength = 100;		// approximation in excess
 
 		// Start from the end of the log file
 		htmlOutStream.seekg(0, ios_base::end);
@@ -1164,20 +1164,31 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 		while(!htmlOutStream.eof())
 		{
-			pos_beginFooter = htmlOutStream.tellp();
+			pos_beginFooter = htmlOutStream.tellg();
 
 			getline(htmlOutStream, line);
+
+			cerr << "Debug:MoveBackToEndLogsBlock: pos = " << pos_beginFooter << ": " << line << endl; //+T+
 
 			if(line.find(logsEndToken) != string::npos)
 			{
 				// Assume the line only contains </body>
-				break;
+				htmlOutStream.seekg(pos_beginFooter, ios_base::end);
+				htmlOutStream.seekp(pos_beginFooter, ios_base::end);
+
+				cerr << "Debug:MoveBackToEndLogsBlock: pos = " << pos_beginFooter << ": " << line << " - Return" << endl; //+T+
+
+				return 0;
 			}
 		}
 
-		//+TODO - seekp = current get position
-		//htmlOutStream.seekp(-assumedFooterLength, ios_base::end);
+		// End of the logs block not found
+		htmlOutStream.seekg(0, ios_base::end);
+		htmlOutStream.seekp(0, ios_base::end);
 
+		cerr << "Debug:MoveBackToEndLogsBlock: pos = " << pos_beginFooter << ": " << line << " - Not found" << endl; //+T+
+
+		return 1;
 	}
 
 	//+H+++
