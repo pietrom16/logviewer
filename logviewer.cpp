@@ -1135,8 +1135,53 @@ int LogViewer::MoveBackToEndLogsBlock()
 {
 	using namespace std;
 
-	//+H+++
 	if(htmlOutput)
+	{
+		// Search backwards for the end of the logs block </body>
+
+		string        token, line;
+		const string  logsEndToken("</body>");
+
+		/** Assumed end of HTML file structure:
+					...logs...
+				</body>
+			</html>
+		*/
+
+		const int assumedFooterLength = 20;		// approximation in excess
+
+		// Start from the end of the log file
+		htmlOutStream.seekg(0, ios_base::end);
+		htmlOutStream.seekp(0, ios_base::end);
+
+		// Length of the current log file
+		const streamsize size = htmlOutStream.tellg();
+
+		streamoff pos_beginFooter = 0;
+
+		// Go back a fixed number of characters
+		htmlOutStream.seekg(-assumedFooterLength, ios_base::end);
+
+		while(!htmlOutStream.eof())
+		{
+			pos_beginFooter = htmlOutStream.tellp();
+
+			getline(htmlOutStream, line);
+
+			if(line.find(logsEndToken) != string::npos)
+			{
+				// Assume the line only contains </body>
+				break;
+			}
+		}
+
+		//+TODO - seekp = current get position
+		//htmlOutStream.seekp(-assumedFooterLength, ios_base::end);
+
+	}
+
+	//+H+++
+	if(htmlOutput && 0)
 	{
 		// Search backwards for the end of the logs block </body>
 
