@@ -196,6 +196,8 @@ std::string LogFormatter::FormatHTML(const std::string &_log,
 
 	std::string htmlLog;
 
+	htmlLog += "\t\t";		// indent with the <body> block
+
 	htmlLog += "<br>";
 
 	if(!_file.empty())
