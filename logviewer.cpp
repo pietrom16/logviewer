@@ -322,6 +322,9 @@ int LogViewer::Run()
 			{
 				MoveBackToEndLogsBlock(); //+H+++
 
+				cerr << "Debug:main loop: tellg = " << htmlOutStream.tellg() << endl; //+T+
+				cerr << "Debug:main loop: tellp = " << htmlOutStream.tellp() << endl; //+T+
+				
 				getline(inLogFs, line);
 
 				if(line.empty())
@@ -1067,6 +1070,9 @@ int LogViewer::WriteLog(const std::string &_log, int _level, const std::string &
 	}
 
 	if(htmlOutput) {
+		cerr << "Debug:WriteLog: tellg = " << htmlOutStream.tellg() << endl; //+T+
+		cerr << "Debug:WriteLog: tellp = " << htmlOutStream.tellp() << endl; //+T+
+
 		htmlOutStream << logFormatter.FormatHTML(_log, _level, _file, _tag, _logNumber) << endl;
 		++n;
 	}
@@ -1176,6 +1182,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 				htmlOutStream.seekg(pos_beginFooter, ios_base::end);
 				htmlOutStream.seekp(pos_beginFooter, ios_base::end);
 
+				cerr << "Debug:MoveBackToEndLogsBlock: tellg = " << htmlOutStream.tellg() << endl; //+T+
+				cerr << "Debug:MoveBackToEndLogsBlock: tellp = " << htmlOutStream.tellp() << endl; //+T+
 				cerr << "Debug:MoveBackToEndLogsBlock: pos = " << pos_beginFooter << ": " << line << " - Return" << endl; //+T+
 
 				return 0;
