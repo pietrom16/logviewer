@@ -322,9 +322,6 @@ int LogViewer::Run()
 			{
 				MoveBackToEndLogsBlock();
 
-				cerr << "Debug:main loop: tellg = " << htmlOutStream.tellg() << endl; //+T+
-				cerr << "Debug:main loop: tellp = " << htmlOutStream.tellp() << endl; //+T+
-				
 				getline(inLogFs, line);
 
 				if(line.empty())
@@ -503,7 +500,6 @@ int LogViewer::Run()
 			}
 		}
 
-		cerr << "nNewLogs = " << nNewLogs << endl; //+T+
 		if(nNewLogs > 0) {
 			WriteFooter();
 		}
@@ -1070,9 +1066,6 @@ int LogViewer::WriteLog(const std::string &_log, int _level, const std::string &
 	}
 
 	if(htmlOutput) {
-		cerr << "Debug:WriteLog: tellg = " << htmlOutStream.tellg() << endl; //+T+
-		cerr << "Debug:WriteLog: tellp = " << htmlOutStream.tellp() << endl; //+T+
-
 		htmlOutStream << logFormatter.FormatHTML(_log, _level, _file, _tag, _logNumber) << endl;
 		++n;
 	}
@@ -1176,17 +1169,11 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 			getline(htmlOutStream, line);
 
-			cerr << "Debug:MoveBackToEndLogsBlock: pos = " << pos_beginFooter << ": " << line << endl; //+T+
-
 			if(line.find(logsEndToken) != string::npos)
 			{
 				// Assume the line only contains </body>
 				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
 				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
-
-				cerr << "Debug:MoveBackToEndLogsBlock: tellg = " << htmlOutStream.tellg() << endl; //+T+
-				cerr << "Debug:MoveBackToEndLogsBlock: tellp = " << htmlOutStream.tellp() << endl; //+T+
-				cerr << "Debug:MoveBackToEndLogsBlock: pos = " << pos_beginFooter << ": " << line << " - Return" << endl; //+T+
 
 				return 0;
 			}
@@ -1195,8 +1182,6 @@ int LogViewer::MoveBackToEndLogsBlock()
 		// End of the logs block not found
 		htmlOutStream.seekg(0, ios_base::end);
 		htmlOutStream.seekp(0, ios_base::end);
-
-		cerr << "Debug:MoveBackToEndLogsBlock: pos = " << pos_beginFooter << ": " << line << " - Not found" << endl; //+T+
 
 		return 1;
 	}
@@ -1261,8 +1246,6 @@ int LogViewer::MoveBackToEndLogsBlock()
 			htmlOutStream.seekg(-pos0, ios_base::end);
 			token.resize(tokenSize, '\0');
 			htmlOutStream.read(&token[0], streamsize(tokenSize));
-
-			cerr << "token = " << token << endl; //+T+++
 
 			// If equal to </body>, start writing from here
 			if(token == logsEndToken)
