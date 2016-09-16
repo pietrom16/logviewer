@@ -241,7 +241,7 @@ int LogViewer::Run()
 	}
 
 	if(htmlOutput) {
-		htmlOutStream.open(outLogFile + ".log.html", ios_base::in | ios_base::out | ios_base::app);
+		htmlOutStream.open(outLogFile + ".log.html", ios_base::in | ios_base::out);
 	}
 
 	if(markdownOutput) {
