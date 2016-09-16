@@ -267,7 +267,7 @@ int LogViewer::Run()
 		this_thread::sleep_for(pause);
 	}
 
-	WriteHeader();	//+TODO - Only for a new file
+	WriteHeader();
 	WriteFooter();	// add footer now, so the file is readable
 
 	if(newLogsOnly)
@@ -1033,7 +1033,6 @@ int LogViewer::WriteHeader()
 		std::streampos pos = htmlOutStream.tellg();
 		htmlOutStream.seekg(0, std::ios_base::end);
 		bool empty = !htmlOutStream.tellg();
-		htmlOutStream.seekg(pos, std::ios_base::beg);
 
 		if(empty) {
 			htmlOutStream << logFormatter.HeaderHTML() << endl;
