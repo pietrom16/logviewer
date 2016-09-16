@@ -234,8 +234,8 @@ int LogViewer::Run()
 	bool printLog = false;
 	bool newLine = false;
 
+	// Multiple output log streams for text and HTML
 
-	//+TODO - Multiple outLogFile for text and HTML
 	if(textFileOutput) {
 		textOutStream.open(outLogFile + ".log", ios_base::out | ios_base::app);
 	}
@@ -320,7 +320,7 @@ int LogViewer::Run()
 		{
 			if(inLogFs.tellg() != streampos(-1))
 			{
-				MoveBackToEndLogsBlock(); //+H+++
+				MoveBackToEndLogsBlock();
 
 				cerr << "Debug:main loop: tellg = " << htmlOutStream.tellg() << endl; //+T+
 				cerr << "Debug:main loop: tellp = " << htmlOutStream.tellp() << endl; //+T+
@@ -1080,6 +1080,8 @@ int LogViewer::WriteLog(const std::string &_log, int _level, const std::string &
 	if(markdownOutput) {
 		//+TODO
 	}
+
+	WriteFooter();
 
 	return n;
 }
