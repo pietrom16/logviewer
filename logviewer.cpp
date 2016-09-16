@@ -1149,7 +1149,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			</html>
 		*/
 
-		const int assumedFooterLength = 100;		// approximation in excess
+		long assumedFooterLength = 100;		// approximation in excess
 
 		// Start from the end of the log file
 		htmlOutStream.seekg(0, ios_base::end);
@@ -1157,6 +1157,9 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 		// Length of the current log file
 		const streamsize size = htmlOutStream.tellg();
+
+		if(size < assumedFooterLength)
+			assumedFooterLength = size;
 
 		streamoff pos_beginFooter = 0;
 
