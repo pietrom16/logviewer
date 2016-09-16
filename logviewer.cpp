@@ -1179,8 +1179,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 			if(line.find(logsEndToken) != string::npos)
 			{
 				// Assume the line only contains </body>
-				htmlOutStream.seekg(pos_beginFooter, ios_base::end);
-				htmlOutStream.seekp(pos_beginFooter, ios_base::end);
+				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
+				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
 
 				cerr << "Debug:MoveBackToEndLogsBlock: tellg = " << htmlOutStream.tellg() << endl; //+T+
 				cerr << "Debug:MoveBackToEndLogsBlock: tellp = " << htmlOutStream.tellp() << endl; //+T+
