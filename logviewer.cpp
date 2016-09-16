@@ -1030,9 +1030,8 @@ int LogViewer::WriteHeader()
 
 	if(htmlOutput) {
 		// Write the header only if the HTML file is empty
-		std::streampos pos = htmlOutStream.tellg();
-		htmlOutStream.seekg(0, std::ios_base::end);
-		bool empty = !htmlOutStream.tellg();
+		htmlOutStream.seekg(0, std::ios_base::beg);
+		const bool empty = htmlOutStream.peek() == std::ifstream::traits_type::eof();
 
 		if(empty) {
 			htmlOutStream << logFormatter.HeaderHTML() << endl;
