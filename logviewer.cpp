@@ -1036,7 +1036,7 @@ int LogViewer::WriteHeader()
 		if(empty) {
 			htmlOutStream << logFormatter.HeaderHTML() << endl;
 			AddHtmlControls();
-			++n;
+			n += 2;
 		}
 	}
 
@@ -1096,7 +1096,7 @@ int LogViewer::WriteFooter()
 	if(htmlOutput) {
 		AddHtmlControls();
 		htmlOutStream << logFormatter.FooterHTML() << endl;
-		++n;
+		n += 2;
 	}
 
 	if(markdownOutput) {
