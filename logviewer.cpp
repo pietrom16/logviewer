@@ -1084,12 +1084,12 @@ int LogViewer::WriteFooter()
 	int n = 0;
 
 	if(consoleOutput) {
-		cout << logFormatter.FooterConsole() << endl;
+		cout << logFormatter.FooterConsole();
 		++n;
 	}
 
 	if(textFileOutput) {
-		textOutStream << logFormatter.FooterPlain() << endl;
+		textOutStream << logFormatter.FooterPlain();
 		++n;
 	}
 
