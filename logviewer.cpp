@@ -1476,6 +1476,25 @@ int LogViewer::ReadExternalCommands(std::ifstream &ifs, std::streamoff &pos)
 int LogViewer::AddHtmlControls()
 {
 	//+TODO
+
+	htmlOutStream
+	   << "<table> style=\"width:100%\""
+	   << "	<tr>"
+	   << "		<th>Min log level = </th>"
+	   << "		<th>Number</th>"
+	   << "		<th>Verbose</th>"
+	   << "		<th>Show file name</th>"
+	   << "		<th>Include</th>"
+	   << "		<th>Exclude</th>"
+	   << "		<th>Context</th>"
+	   << "		<th>Width</th>"
+	   << "		<th>Min level for context</th>"
+	   << "		<th>Min context level</th>"
+	   << "		<th></th>"
+	   << "	</tr>"
+	   << "</table>"
+	   << endl;
+
 	return -1;
 }
 
