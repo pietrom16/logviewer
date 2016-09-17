@@ -1035,6 +1035,7 @@ int LogViewer::WriteHeader()
 
 		if(empty) {
 			htmlOutStream << logFormatter.HeaderHTML() << endl;
+			AddHtmlControls();
 			++n;
 		}
 	}
@@ -1093,6 +1094,7 @@ int LogViewer::WriteFooter()
 	}
 
 	if(htmlOutput) {
+		AddHtmlControls();
 		htmlOutStream << logFormatter.FooterHTML() << endl;
 		++n;
 	}
@@ -1466,6 +1468,15 @@ int LogViewer::ReadExternalCommands(std::ifstream &ifs, std::streamoff &pos)
 	}
 
 	return 0;
+}
+
+
+/// Add widgets to control/filter the HTML output
+
+int LogViewer::AddHtmlControls()
+{
+	//+TODO
+	return -1;
 }
 
 
