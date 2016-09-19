@@ -254,6 +254,7 @@ int LogViewer::Run()
 			if(check.good() == false) {
 				// The file must exist to open it in read mode
 				htmlOutStream.open(outLogFilename, ios_base::out);
+				htmlOutStream << endl;
 				htmlOutStream.close();
 			}
 		}
