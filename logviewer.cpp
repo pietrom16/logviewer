@@ -1076,10 +1076,7 @@ int LogViewer::WriteHeader()
 		htmlOutStream.seekg(0, std::ios_base::end);
 		const std::streamoff size = htmlOutStream.tellg();
 
-		cerr << "File size = " << size << endl; //+T+
-
 		if(size < 10) {
-			cerr << "Adding HTML header." << endl; //+T+
 			htmlOutStream.seekp(0, std::ios_base::beg);
 			htmlOutStream << logFormatter.HeaderHTML() << endl;
 			++n;
