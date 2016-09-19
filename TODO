@@ -1,5 +1,9 @@
 TODO - logviewer
 
+--- HTML output
+    - Fix HTML format.
+	- Add controls.
+
 -- Show multiple log files.
 
 - Change pause functionality: stop loading new logs, but keep interacting.
@@ -18,7 +22,8 @@ TODO - logviewer
 
 BUGS
 
--- HTML output file no longer generated. Program hangs.
+- Fix HTML file closing tag when adding more logs.
+. HTML output file no longer generated. Program hangs.
 . HTML files not closed properly.
 . HTML output not generated; cmd line parameter not detected.
 . [Windows]: when the log grows, the new logs are not printed automatically (ENTER must be pressed).
