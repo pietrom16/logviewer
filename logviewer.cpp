@@ -236,12 +236,32 @@ int LogViewer::Run()
 
 	// Multiple output log streams for text and HTML
 
-	if(textFileOutput) {
+	if(textFileOutput)
+	{
 		textOutStream.open(outLogFile + ".log", ios_base::out | ios_base::app);
+
+		if(textOutStream.is_open() == false) {
+			cerr << "logviewer: warning: cannot open the output log file: " << outLogFile + ".log" << endl;
+		}
 	}
 
-	if(htmlOutput) {
-		htmlOutStream.open(outLogFile + ".log.html", ios_base::in | ios_base::out);
+	if(htmlOutput)
+	{
+		const string outLogFilename = outLogFile + ".log.html";
+
+		{
+			ifstream check(outLogFilename);
+			if(check.good() == false) {
+				// The file must exist to open it in read mode
+				htmlOutStream.open(outLogFilename, ios_base::out);
+			}
+		}
+
+		htmlOutStream.open(outLogFilename, ios_base::in | ios_base::out);
+
+		if(htmlOutStream.is_open() == false) {
+			cerr << "logviewer: warning: cannot open the output log file: " << outLogFilename << endl;
+		}
 	}
 
 	if(markdownOutput) {
