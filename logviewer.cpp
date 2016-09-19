@@ -24,6 +24,7 @@
 #include <ctime>
 #include <fstream>
 #include <iomanip>
+#include <ios>
 #include <iostream>
 #include <queue>
 #include <sstream>
@@ -1050,16 +1051,52 @@ int LogViewer::WriteHeader()
 		++n;
 	}
 
-	if(htmlOutput) {
-		// Write the header only if the HTML file is empty
-		htmlOutStream.seekg(0, std::ios_base::beg);
-		const bool empty = htmlOutStream.peek() == std::ifstream::traits_type::eof();
+	if(htmlOutput)
+	{
+		/* //+B+
+		// Write the header only if the HTML file does not start with "<!DOCTYPE"
 
-		if(empty) {
+		htmlOutStream.seekg(0, std::ios_base::beg);
+		std::string token;
+		htmlOutStream >> token;
+
+		cerr << "Token = " << token << endl; //+T+ok
+
+		if(token != "<!DOCTYPE") {
+			cerr << logFormatter.HeaderHTML() << endl; //+T+ok
+			htmlOutStream.seekp(0, std::ios_base::beg);
 			htmlOutStream << logFormatter.HeaderHTML() << endl;
 			AddHtmlControls();
 			++n;
 		}
+		*/
+
+
+		// Write the header only if the HTML file is shorter than a fixed size
+		htmlOutStream.seekg(0, std::ios_base::end);
+		const std::streamoff size = htmlOutStream.tellg();
+
+		cerr << "File size = " << size << endl; //+T+
+
+		if(size < 10) {
+			cerr << "Adding HTML header." << endl; //+T+
+			htmlOutStream.seekp(0, std::ios_base::beg);
+			htmlOutStream << logFormatter.HeaderHTML() << endl;
+			++n;
+		}
+
+
+		/* //+B+
+		// Write the header only if the HTML file is empty
+		htmlOutStream.seekg(0, std::ios_base::beg);
+		const bool empty = htmlOutStream.peek() == std::ifstream::traits_type::eof();
+		if(empty) {
+			cerr << "Adding HTML header." << endl; //+T+
+			htmlOutStream << logFormatter.HeaderHTML() << endl;
+			++n;
+		}
+		*/
+
 	}
 
 	if(markdownOutput) {
