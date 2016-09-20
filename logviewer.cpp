@@ -1071,7 +1071,6 @@ int LogViewer::WriteHeader()
 		}
 		*/
 
-
 		// Write the header only if the HTML file is shorter than a fixed size
 		htmlOutStream.seekg(0, std::ios_base::end);
 		const std::streamoff size = htmlOutStream.tellg();
@@ -1081,7 +1080,6 @@ int LogViewer::WriteHeader()
 			htmlOutStream << logFormatter.HeaderHTML() << endl;
 			++n;
 		}
-
 
 		/* //+B+
 		// Write the header only if the HTML file is empty
@@ -1233,6 +1231,11 @@ int LogViewer::MoveBackToEndLogsBlock()
 				// Assume the line only contains </body>
 				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
 				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
+
+				//+H+++ Check why this is run so many times
+				//+H+++ Check why this position is not used subsequently
+				cerr << "MoveBackToEndLogsBlock: line = \"" << line << "\"" << endl; //+T+++
+				cerr << htmlOutStream.tellg() << endl; //+T+++
 
 				return 0;
 			}
