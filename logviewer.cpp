@@ -264,6 +264,8 @@ int LogViewer::Run()
 
 		if(htmlOutStream.is_open() == false) {
 			cerr << "logviewer: warning: cannot open the output log file: " << outLogFilename << endl;
+			htmlOutput = false;
+			cerr << "logviewer: warning: HTML output disabled." << endl;
 		}
 
 		//MoveBackToEndLogsBlock();	//+T+++ //+?+ Why no output with this?
