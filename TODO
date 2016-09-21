@@ -4,6 +4,8 @@ TODO - logviewer
     - Fix HTML format.
 	- Add controls.
 
+- Add option to delete existing output file before adding new logs.
+
 -- Show multiple log files.
 
 - Change pause functionality: stop loading new logs, but keep interacting.
