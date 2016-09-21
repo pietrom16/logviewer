@@ -265,6 +265,8 @@ int LogViewer::Run()
 		if(htmlOutStream.is_open() == false) {
 			cerr << "logviewer: warning: cannot open the output log file: " << outLogFilename << endl;
 		}
+
+		//MoveBackToEndLogsBlock();	//+T+++ //+?+ Why no output with this?
 	}
 
 	if(markdownOutput) {
@@ -1232,10 +1234,21 @@ int LogViewer::MoveBackToEndLogsBlock()
 				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
 				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
 
-				//+H+++ Check why this is run so many times
-				//+H+++ Check why this position is not used subsequently
-				cerr << "MoveBackToEndLogsBlock: line = \"" << line << "\"" << endl; //+T+++
-				cerr << htmlOutStream.tellg() << endl; //+T+++
+				if(0){ //+T+++
+					//+H+++ Check why this is run so many times
+					//+H+++ Check why this position is not used subsequently
+					cerr << "MoveBackToEndLogsBlock: line = \"" << line << "\"" << endl; //+T+++
+					cerr << htmlOutStream.tellg() << endl; //+T+++
+					assert(pos_beginFooter == htmlOutStream.tellg()); //+T+++
+
+					htmlOutStream << "***" << flush;
+					htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
+					htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
+					getline(htmlOutStream, line);
+					cerr << "MoveBackToEndLogsBlock: new line = \"" << line << "\"" << endl; //+T+++
+					htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
+					htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
+				}
 
 				return 0;
 			}

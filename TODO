@@ -22,7 +22,8 @@ TODO - logviewer
 
 BUGS
 
-- Fix HTML file closing tag when adding more logs.
+- Fix HTML file closing tag when using an existing file.
+. Fix HTML file closing tag when adding more logs.
 . HTML output file no longer generated. Program hangs.
 . HTML files not closed properly.
 . HTML output not generated; cmd line parameter not detected.
