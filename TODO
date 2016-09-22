@@ -6,6 +6,8 @@ TODO - logviewer
 
 - Add option to delete existing output file before adding new logs.
 
+- Use set of conditions to pick logs even if below the threshold when other logs are met (i.e. extend the context feature).
+
 -- Show multiple log files.
 
 - Change pause functionality: stop loading new logs, but keep interacting.
