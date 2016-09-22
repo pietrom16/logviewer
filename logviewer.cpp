@@ -347,7 +347,7 @@ int LogViewer::Run()
 		{
 			if(inLogFs.tellg() != streampos(-1))
 			{
-				MoveBackToEndLogsBlock();
+				MoveBackToEndLogsBlock(); //+D+++? Move it deeper in the loop?
 
 				getline(inLogFs, line);
 
@@ -401,6 +401,8 @@ int LogViewer::Run()
 						pos = inLogFs.tellg();
 						continue;
 					}
+
+					//MoveBackToEndLogsBlock();	//+?+++ Move it here?
 
 					// Check if this log's level is high enough to log the pre-context
 					if(level >= context.MinLevelForContext())
