@@ -1162,33 +1162,13 @@ int LogViewer::WriteFooter()
 	}
 
 	if(htmlOutput) {
-		{ //+T+++
-			cout << "Pre MoveBackToEndLogsBlock() call:   ";
-			cout << " is_open: " << htmlOutStream.is_open();
-			cout << " fail: " << htmlOutStream.fail();
-			cout << " bad: " << htmlOutStream.bad();
-			cout << " eof: " << htmlOutStream.eof();
-			cout << " good: " << htmlOutStream.good() << endl;
-		}
+		PrintLogFilesDiagnostic("Pre MoveBackToEndLogsBlock()"); //+T+++
 
 		MoveBackToEndLogsBlock();
 		//+TODO AddHtmlControls();
 		//+TODO - Check stream status - Maybe MoveBackToEndLogsBlock() goes to EOF if it cannot find the footer.
 
-		{ //+T+++
-			cout << "Post MoveBackToEndLogsBlock() call:  ";
-			cout << " is_open: " << htmlOutStream.is_open();
-			cout << " fail: " << htmlOutStream.fail();
-			cout << " bad: " << htmlOutStream.bad();
-			cout << " eof: " << htmlOutStream.eof();
-			cout << " good: " << htmlOutStream.good() << endl;
-
-			//assert(htmlOutStream.is_open());
-			//assert(htmlOutStream.fail() == false);
-			//assert(htmlOutStream.bad() == false);
-			//assert(htmlOutStream.eof() == false);
-			//assert(htmlOutStream.good());
-		}
+		PrintLogFilesDiagnostic("Post MoveBackToEndLogsBlock()"); //+T+++
 
 		htmlOutStream << logFormatter.FooterHTML() << endl;		//+B+ footer not written on file - first loop
 		++n;
