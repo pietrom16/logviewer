@@ -1243,12 +1243,18 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 		while(!htmlOutStream.eof())
 		{
+			cerr << "'" << htmlOutStream.peek() << "'" << " G=" << htmlOutStream.tellg() << " P=" << htmlOutStream.tellp() << endl; //+T+
+
 			pos_beginFooter = htmlOutStream.tellg();
 
 			getline(htmlOutStream, line);
 
+			cerr << "Line: " << line << endl; //+T+
+
 			if(line.find(logsEndToken) != string::npos)
 			{
+				cerr << "FOUND!" << endl; //+T+
+
 				// Assume the line only contains </body>
 				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
 				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
