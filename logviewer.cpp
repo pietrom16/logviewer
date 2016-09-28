@@ -1142,8 +1142,35 @@ int LogViewer::WriteFooter()
 	}
 
 	if(htmlOutput) {
-		AddHtmlControls();
-		htmlOutStream << logFormatter.FooterHTML() << endl;
+		{ //+T+++
+			cout << "Pre MoveBackToEndLogsBlock() call:   ";
+			cout << " is_open: " << htmlOutStream.is_open();
+			cout << " fail: " << htmlOutStream.fail();
+			cout << " bad: " << htmlOutStream.bad();
+			cout << " eof: " << htmlOutStream.eof();
+			cout << " good: " << htmlOutStream.good() << endl;
+		}
+
+		MoveBackToEndLogsBlock();
+		//+TODO AddHtmlControls();
+		//+TODO - Check stream status - Maybe MoveBackToEndLogsBlock() goes to EOF if it cannot find the footer.
+
+		{ //+T+++
+			cout << "Post MoveBackToEndLogsBlock() call:  ";
+			cout << " is_open: " << htmlOutStream.is_open();
+			cout << " fail: " << htmlOutStream.fail();
+			cout << " bad: " << htmlOutStream.bad();
+			cout << " eof: " << htmlOutStream.eof();
+			cout << " good: " << htmlOutStream.good() << endl;
+
+			//assert(htmlOutStream.is_open());
+			//assert(htmlOutStream.fail() == false);
+			//assert(htmlOutStream.bad() == false);
+			//assert(htmlOutStream.eof() == false);
+			//assert(htmlOutStream.good());
+		}
+
+		htmlOutStream << logFormatter.FooterHTML() << endl;		//+B+ footer not written on file - first loop
 		++n;
 	}
 
@@ -1247,8 +1274,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 		}
 
 		// End of the logs block not found
-		htmlOutStream.seekg(0, ios_base::end);
-		htmlOutStream.seekp(0, ios_base::end);
+		htmlOutStream.seekg(-1, ios_base::end);
+		htmlOutStream.seekp(-1, ios_base::end);
 
 		return 1;
 	}
