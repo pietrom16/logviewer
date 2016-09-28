@@ -58,8 +58,11 @@ public:
 
 	std::string GetLogDate(const std::string &_logFile);
 
+	int CheckLogFilesDiagnostic() const;
+
 	void  PrintHelp(const Utilities::ProgArgs &_args, const char* _progName, LogLevels *_logLevels = 0);
 	void  PrintVersion(const char* _progName);
+	void  PrintLogFilesDiagnostic() const;
 
 	static const int  version = 6, subversion = 0, subsubversion = 0;
 	/* Versioning conventions:

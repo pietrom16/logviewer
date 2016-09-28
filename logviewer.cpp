@@ -613,6 +613,20 @@ std::string LogViewer::GetLogDate(const std::string &_logFile)
 }
 
 
+int LogViewer::CheckLogFilesDiagnostic() const
+{
+	int status = 0;
+
+	if(htmlOutStream.good() == true)       status = 0;
+	if(htmlOutStream.is_open() == false) --status;
+	if(htmlOutStream.fail() == true)     --status;
+	if(htmlOutStream.bad()  == true)     --status;
+	if(htmlOutStream.eof()  == true)     --status;
+
+	return status;
+}
+
+
 void LogViewer::PrintHelp(const ProgArgs &_args, const char* _progName, LogLevels *_logLevels)
 {
 	using std::cout;
@@ -724,6 +738,12 @@ void LogViewer::PrintVersion(const char* _progName)
 	cout << "\n\t" << "Build date: " << __DATE__ << " " << __TIME__ << "\n";
 	cout << string(80, '-') << "\n";
 	cout << endl;
+}
+
+
+void LogViewer::PrintLogFilesDiagnostic() const
+{
+	cerr << "Log files diagnostic = " << CheckLogFilesDiagnostic() << endl;
 }
 
 
