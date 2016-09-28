@@ -62,7 +62,7 @@ public:
 
 	void  PrintHelp(const Utilities::ProgArgs &_args, const char* _progName, LogLevels *_logLevels = 0);
 	void  PrintVersion(const char* _progName);
-	void  PrintLogFilesDiagnostic() const;
+	void  PrintLogFilesDiagnostic(const std::string &_msg) const;
 
 	static const int  version = 6, subversion = 0, subsubversion = 0;
 	/* Versioning conventions:

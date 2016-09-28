@@ -741,9 +741,9 @@ void LogViewer::PrintVersion(const char* _progName)
 }
 
 
-void LogViewer::PrintLogFilesDiagnostic() const
+void LogViewer::PrintLogFilesDiagnostic(const std::string &_msg) const
 {
-	cerr << "Log files diagnostic = " << CheckLogFilesDiagnostic() << endl;
+	cerr << "Log files diagnostic: " << _msg << " = " << CheckLogFilesDiagnostic() << endl;
 }
 
 
