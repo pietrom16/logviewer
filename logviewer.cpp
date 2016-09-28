@@ -1259,6 +1259,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
 				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
 
+				cerr << "Set to: '" << htmlOutStream.peek() << "'" << " G=" << htmlOutStream.tellg() << " P=" << htmlOutStream.tellp() << endl; //+T+
+
 				if(0){ //+T+++
 					//+H+++ Check why this is run so many times
 					//+H+++ Check why this position is not used subsequently
@@ -1282,6 +1284,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 		// End of the logs block not found
 		htmlOutStream.seekg(-1, ios_base::end);
 		htmlOutStream.seekp(-1, ios_base::end);
+
+		cerr << "NOT FOUND!" << endl; //+T+
 
 		return 1;
 	}
