@@ -1,8 +1,24 @@
 TODO - logviewer
 
 --- HTML output
-    - Fix HTML format.
-	- Add controls.
+    . Fix HTML format.
+	-- Add controls:
+	    - Reload.
+		- Minimum level: [1]-[7], up and down.
+		- Input log file name.
+		- Print the log file name for each message (useful if multiple log files are shown simultaneously).
+		- Print the log/line numbers.
+		- Print the logs which contain the specified substring.
+		- Number of context logs to show if the current log is above a threshold level (default = 0).
+		- Minimum level a log must have to get a context (default = 5).
+		- Minimum level a log must have to be in the context (default = 2).
+		- Load custom log levels from file (format: tag value\n).
+		- Parse the input file as a generic text, not as a log file.
+		- Level above which an audio signal is produced (default = -1).
+
+
+    -- Write commands from HTML into the command file.
+	-- Read commands from the app.
 
 - Add option to delete existing output file before adding new logs.
 
@@ -26,7 +42,7 @@ TODO - logviewer
 
 BUGS
 
-- Fix HTML file closing tag when using an existing file.
+. Fix HTML file closing tag when using an existing file.
 . Fix HTML file closing tag when adding more logs.
 . HTML output file no longer generated. Program hangs.
 . HTML files not closed properly.
