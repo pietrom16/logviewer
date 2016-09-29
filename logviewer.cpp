@@ -1162,13 +1162,13 @@ int LogViewer::WriteFooter()
 	}
 
 	if(htmlOutput) {
-		PrintLogFilesDiagnostic("Pre MoveBackToEndLogsBlock()"); //+T+++
+		PrintLogFilesDiagnostic("WriteFooter: Pre MoveBackToEndLogsBlock()"); //+T+++
 
 		MoveBackToEndLogsBlock();
 		//+TODO AddHtmlControls();
 		//+TODO - Check stream status - Maybe MoveBackToEndLogsBlock() goes to EOF if it cannot find the footer.
 
-		PrintLogFilesDiagnostic("Post MoveBackToEndLogsBlock()"); //+T+++
+		PrintLogFilesDiagnostic("WriteFooter: Post MoveBackToEndLogsBlock()"); //+T+++
 
 		htmlOutStream << logFormatter.FooterHTML() << endl;		//+B+ footer not written on file - first loop
 		++n;
