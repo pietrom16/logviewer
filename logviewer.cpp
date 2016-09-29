@@ -1159,8 +1159,7 @@ int LogViewer::WriteFooter()
 
 	if(htmlOutput) {
 		MoveBackToEndLogsBlock();
-		//+TODO AddHtmlControls();
-
+		AddHtmlControls();
 		htmlOutStream << logFormatter.FooterHTML() << endl;
 		++n;
 	}
@@ -1549,6 +1548,7 @@ int LogViewer::AddHtmlControls()
 	htmlOutStream
 	   << "<table> style=\"width:100%\""
 	   << "	<tr>"
+	   << "		<th>Reload</th>"
 	   << "		<th>Min log level = </th>"
 	   << "		<th>Number</th>"
 	   << "		<th>Verbose</th>"
