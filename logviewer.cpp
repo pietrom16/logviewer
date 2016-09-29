@@ -1285,7 +1285,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 		htmlOutStream.seekg(-1, ios_base::end);
 		htmlOutStream.seekp(-1, ios_base::end);
 
-		//+TODO: Reset htmlOutStream flags
+		// Reset htmlOutStream error state flags
+		htmlOutStream.clear();
 
 		cerr << "NOT FOUND!" << endl; //+T+
 
