@@ -267,8 +267,6 @@ int LogViewer::Run()
 			htmlOutput = false;
 			cerr << "logviewer: warning: HTML output disabled." << endl;
 		}
-
-		//MoveBackToEndLogsBlock();	//+T+++ //+?+ Why no output with this?
 	}
 
 	if(markdownOutput) {
@@ -347,7 +345,7 @@ int LogViewer::Run()
 		{
 			if(inLogFs.tellg() != streampos(-1))
 			{
-				MoveBackToEndLogsBlock(); //+D+++? Move it deeper in the loop?
+				MoveBackToEndLogsBlock();
 
 				getline(inLogFs, line);
 
@@ -401,8 +399,6 @@ int LogViewer::Run()
 						pos = inLogFs.tellg();
 						continue;
 					}
-
-					//MoveBackToEndLogsBlock();	//+?+++ Move it here?
 
 					// Check if this log's level is high enough to log the pre-context
 					if(level >= context.MinLevelForContext())
@@ -1162,15 +1158,10 @@ int LogViewer::WriteFooter()
 	}
 
 	if(htmlOutput) {
-		PrintLogFilesDiagnostic("WriteFooter: Pre MoveBackToEndLogsBlock()"); //+T+++
-
 		MoveBackToEndLogsBlock();
 		//+TODO AddHtmlControls();
-		//+TODO - Check stream status - Maybe MoveBackToEndLogsBlock() goes to EOF if it cannot find the footer.
 
-		PrintLogFilesDiagnostic("WriteFooter: Post MoveBackToEndLogsBlock()"); //+T+++
-
-		htmlOutStream << logFormatter.FooterHTML() << endl;		//+B+ footer not written on file - first loop
+		htmlOutStream << logFormatter.FooterHTML() << endl;
 		++n;
 	}
 
@@ -1243,39 +1234,15 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 		while(!htmlOutStream.eof())
 		{
-			cerr << "'" << htmlOutStream.peek() << "'" << " G=" << htmlOutStream.tellg() << " P=" << htmlOutStream.tellp() << endl; //+T+
-
 			pos_beginFooter = htmlOutStream.tellg();
 
 			getline(htmlOutStream, line);
 
-			cerr << "Line: " << line << endl; //+T+
-
 			if(line.find(logsEndToken) != string::npos)
 			{
-				cerr << "FOUND!" << endl; //+T+
-
 				// Assume the line only contains </body>
 				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
 				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
-
-				cerr << "Set to: '" << htmlOutStream.peek() << "'" << " G=" << htmlOutStream.tellg() << " P=" << htmlOutStream.tellp() << endl; //+T+
-
-				if(0){ //+T+++
-					//+H+++ Check why this is run so many times
-					//+H+++ Check why this position is not used subsequently
-					cerr << "MoveBackToEndLogsBlock: line = \"" << line << "\"" << endl; //+T+++
-					cerr << htmlOutStream.tellg() << endl; //+T+++
-					assert(pos_beginFooter == htmlOutStream.tellg()); //+T+++
-
-					htmlOutStream << "***" << flush;
-					htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
-					htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
-					getline(htmlOutStream, line);
-					cerr << "MoveBackToEndLogsBlock: new line = \"" << line << "\"" << endl; //+T+++
-					htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
-					htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
-				}
 
 				return 0;
 			}
@@ -1287,8 +1254,6 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 		// Reset htmlOutStream error state flags
 		htmlOutStream.clear();
-
-		cerr << "NOT FOUND!" << endl; //+T+
 
 		return 1;
 	}
