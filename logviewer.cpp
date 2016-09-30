@@ -349,6 +349,8 @@ int LogViewer::Run()
 
 				getline(inLogFs, line);
 
+				cerr << "line: " << line << endl; //+T+OK
+
 				if(line.empty())
 					break;
 
@@ -1248,6 +1250,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 				pos_beginFooter = htmlOutStream.tellg();
 				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
 				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
+
+				htmlOutStream << "xxx" << flush; //+T+ OK
 
 				return 0;
 			}
