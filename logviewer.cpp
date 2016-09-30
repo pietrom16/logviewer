@@ -1203,13 +1203,16 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 	if(htmlOutput)
 	{
-		// Search backwards for the end of the logs block </body>
+		// Search backwards for the end of the logs block
+		// Look for the last log message
 
 		string        token, line;
-		const string  logsEndToken("</body>");
+		const string  logsEndToken("</span>");
 
 		/** Assumed end of HTML file structure:
 					...logs...
+					<br> <span style="color:red;">Log message</span>
+					<table> ... </table>
 				</body>
 			</html>
 		*/
@@ -1237,9 +1240,12 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 			getline(htmlOutStream, line);
 
+			cerr << "log: " << line << endl; //+T+
+
 			if(line.find(logsEndToken) != string::npos)
 			{
-				// Assume the line only contains </body>
+				// Move at the beginning of the next line
+				pos_beginFooter = htmlOutStream.tellg();
 				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
 				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
 
@@ -1253,6 +1259,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 		// Reset htmlOutStream error state flags
 		htmlOutStream.clear();
+
+		cerr << "</span> not found" << endl; //+T+
 
 		return 1;
 	}
@@ -1543,7 +1551,7 @@ int LogViewer::ReadExternalCommands(std::ifstream &ifs, std::streamoff &pos)
 
 int LogViewer::AddHtmlControls()
 {
-	//+TODO
+	//+TODO - CSS settings
 
 	htmlOutStream
 	   << "<table> style=\"width:100%\""
