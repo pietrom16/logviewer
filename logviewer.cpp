@@ -1217,7 +1217,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			</html>
 		*/
 
-		long assumedFooterLength = 100;		// approximation in excess
+		long assumedFooterLength = 400;		// approximation in excess
 
 		// Start from the end of the log file
 		htmlOutStream.seekg(0, ios_base::end);
