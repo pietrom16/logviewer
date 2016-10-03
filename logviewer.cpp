@@ -1209,7 +1209,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		// Look for the last log message
 
 		string        token, line;
-		const string  logsEndToken("</span>");
+		const string  logsEndToken("<table>");
 
 		/** Assumed end of HTML file structure:
 					...logs...
