@@ -1236,7 +1236,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 		if(size < assumedFooterLength)
 			assumedFooterLength = size;
 
-		streamoff pos_beginFooter = 0, pos_beginLineFooter = 0, pos_end_body = 0;
+		streamoff pos_beginFooter = 0, pos_beginLineFooter = 0,
+		          pos_end_body = 0,    pos_beg_table = 0;
 
 		// Go back a fixed number of characters
 		htmlOutStream.seekg(-assumedFooterLength, ios_base::end);
@@ -1251,8 +1252,11 @@ int LogViewer::MoveBackToEndLogsBlock()
 			if(line.find(logsEndToken_body) != string::npos)
 				pos_end_body = pos_beginFooter;
 
+			if(line.find(logsEndToken_table) != string::npos)
+				pos_beg_table = pos_beginFooter;
+
 			cerr << "log: " << line << endl; //+T+
-			cerr << "pos_beginFooter: " << pos_beginFooter << ";  pos_beginLineFooter: " << pos_beginLineFooter << ";  pos_end_body = " << pos_end_body << endl; //+T+
+			cerr << "pos_beginFooter: " << pos_beginFooter << ";  pos_beginLineFooter: " << pos_beginLineFooter << ";  pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
 
 			if(line.find(logsEndToken_table) != string::npos ||
 			   line.find(logsEndToken_body) != string::npos)
