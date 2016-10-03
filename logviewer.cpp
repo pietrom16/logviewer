@@ -1208,8 +1208,13 @@ int LogViewer::MoveBackToEndLogsBlock()
 		// Search backwards for the end of the logs block
 		// Look for the last log message
 
+		/** //+TODO
+		 *	- Look for both <table> and, if missing, </body>.
+		*/
+
 		string        token, line;
-		const string  logsEndToken("<table>");
+		const string  logsEndToken1("<table>");
+		const string  logsEndToken2("</body>");
 
 		/** Assumed end of HTML file structure:
 					...logs...
