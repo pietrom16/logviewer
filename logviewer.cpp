@@ -1236,7 +1236,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		if(size < assumedFooterLength)
 			assumedFooterLength = size;
 
-		streamoff pos_beginFooter = 0;
+		streamoff pos_beginFooter = 0, pos_beginLineFooter = 0;
 
 		// Go back a fixed number of characters
 		htmlOutStream.seekg(-assumedFooterLength, ios_base::end);
@@ -1244,19 +1244,24 @@ int LogViewer::MoveBackToEndLogsBlock()
 		while(!htmlOutStream.eof())
 		{
 			pos_beginFooter = htmlOutStream.tellg();
+			pos_beginLineFooter = pos_beginFooter;
 
 			getline(htmlOutStream, line);
 
 			cerr << "log: " << line << endl; //+T+
+			cerr << "pos_beginFooter: " << pos_beginFooter << ";  pos_beginLineFooter: " << pos_beginLineFooter << endl; //+T+
 
-			if(line.find(logsEndToken) != string::npos)
+			if(line.find(logsEndToken1) != string::npos ||
+			   line.find(logsEndToken2) != string::npos)
 			{
-				// Move at the beginning of the next line
-				pos_beginFooter = htmlOutStream.tellg();
+				// Move at the beginning of this line
+				//+TODO - Look for the beginning of the current line
+				//+D? pos_beginFooter = htmlOutStream.tellg();
+				pos_beginFooter = pos_beginLineFooter;
 				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
 				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
 
-				htmlOutStream << "xxx" << flush; //+T+ OK
+				//htmlOutStream << "xxx" << flush; //+T+ OK
 
 				return 0;
 			}
