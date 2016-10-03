@@ -1237,11 +1237,13 @@ int LogViewer::MoveBackToEndLogsBlock()
 			assumedFooterLength = size;
 
 		streamoff pos_beginFooter = 0, pos_beginLineFooter = 0,
-		          pos_end_body = 0,    pos_beg_table = 0;
+		          pos_end_body = 0,    pos_beg_table = 0,
+		          pos_new_logs = 0;
 
 		// Go back a fixed number of characters
 		htmlOutStream.seekg(-assumedFooterLength, ios_base::end);
 
+		// Find the point where to start adding new logs
 		while(!htmlOutStream.eof())
 		{
 			pos_beginFooter = htmlOutStream.tellg();
@@ -1252,31 +1254,36 @@ int LogViewer::MoveBackToEndLogsBlock()
 			if(line.find(logsEndToken_body) != string::npos)
 				pos_end_body = pos_beginFooter;
 
-			if(line.find(logsEndToken_table) != string::npos)
+			if(line.find(logsEndToken_table) != string::npos) {
 				pos_beg_table = pos_beginFooter;
-
-			cerr << "log: " << line << endl; //+T+
-			cerr << "pos_beginFooter: " << pos_beginFooter << ";  pos_beginLineFooter: " << pos_beginLineFooter << ";  pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
-
-			if(line.find(logsEndToken_table) != string::npos ||
-			   line.find(logsEndToken_body) != string::npos)
-			{
-				// Move at the beginning of this line
-				//+TODO - Look for the beginning of the current line
-				//+D? pos_beginFooter = htmlOutStream.tellg();
-				pos_beginFooter = pos_beginLineFooter;
-				htmlOutStream.seekg(pos_beginFooter, ios_base::beg);
-				htmlOutStream.seekp(pos_beginFooter, ios_base::beg);
-
-				//htmlOutStream << "xxx" << flush; //+T+ OK
-
-				return 0;
+				break;
 			}
 		}
 
-		// End of the logs block not found
-		htmlOutStream.seekg(-1, ios_base::end);
-		htmlOutStream.seekp(-1, ios_base::end);
+		if(pos_beg_table)
+			pos_new_logs = pos_beg_table;
+		else
+			pos_new_logs = pos_end_body;
+
+		cerr << "log: " << line << endl; //+T+
+		cerr << "pos_beginFooter: " << pos_beginFooter << ";  pos_beginLineFooter: " << pos_beginLineFooter << ";  pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
+		cerr << "pos_new_logs = " << pos_new_logs << endl; //+T+
+
+		if(pos_new_logs != 0) {
+			htmlOutStream.seekg(pos_new_logs, ios_base::beg);
+			htmlOutStream.seekp(pos_new_logs, ios_base::beg);
+		}
+		else {
+			// End of the logs block not found
+			htmlOutStream.seekg(-1, ios_base::end);
+			htmlOutStream.seekp(-1, ios_base::end);
+		}
+
+		//htmlOutStream << "xxx" << flush; //+T+ OK
+
+		return 0;
+
+//+TODO
 
 		// Reset htmlOutStream error state flags
 		htmlOutStream.clear();
