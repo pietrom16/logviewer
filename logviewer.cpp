@@ -1213,8 +1213,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 		*/
 
 		string        token, line;
-		const string  logsEndToken1("<table>");
-		const string  logsEndToken2("</body>");
+		const string  logsEndToken_table("<table>");
+		const string  logsEndToken_body("</body>");
 
 		/** Assumed end of HTML file structure:
 					...logs...
@@ -1236,7 +1236,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		if(size < assumedFooterLength)
 			assumedFooterLength = size;
 
-		streamoff pos_beginFooter = 0, pos_beginLineFooter = 0;
+		streamoff pos_beginFooter = 0, pos_beginLineFooter = 0, pos_end_body = 0;
 
 		// Go back a fixed number of characters
 		htmlOutStream.seekg(-assumedFooterLength, ios_base::end);
@@ -1248,11 +1248,14 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 			getline(htmlOutStream, line);
 
-			cerr << "log: " << line << endl; //+T+
-			cerr << "pos_beginFooter: " << pos_beginFooter << ";  pos_beginLineFooter: " << pos_beginLineFooter << endl; //+T+
+			if(line.find(logsEndToken_body) != string::npos)
+				pos_end_body = pos_beginFooter;
 
-			if(line.find(logsEndToken1) != string::npos ||
-			   line.find(logsEndToken2) != string::npos)
+			cerr << "log: " << line << endl; //+T+
+			cerr << "pos_beginFooter: " << pos_beginFooter << ";  pos_beginLineFooter: " << pos_beginLineFooter << ";  pos_end_body = " << pos_end_body << endl; //+T+
+
+			if(line.find(logsEndToken_table) != string::npos ||
+			   line.find(logsEndToken_body) != string::npos)
 			{
 				// Move at the beginning of this line
 				//+TODO - Look for the beginning of the current line
