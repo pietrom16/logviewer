@@ -1242,6 +1242,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 		          pos_end_body = 0, pos_beg_table = 0, pos_last_span = 0,
 		          pos_new_logs = 0;
 
+		int tableId = 0; // to discriminate between the first and second table
+
 		// Go back a fixed number of characters
 		htmlOutStream.seekg(-assumedFooterLength, ios_base::end);
 
@@ -1258,23 +1260,25 @@ int LogViewer::MoveBackToEndLogsBlock()
 				pos_end_body = pos;
 
 			if(line.find(logsEndToken_table) != string::npos) {
+				++tableId;
 				pos_beg_table = pos;
-				break;
 			}
 
 			if(line.find(logsEndToken_span) != string::npos) {
 				pos_last_span = htmlOutStream.tellg();
-				break;
 			}
 		}
 
-		if(pos_last_span)
-			pos_new_logs = pos_last_span;
-		else if(pos_beg_table)
+		if(pos_beg_table && tableId == 2)
 			pos_new_logs = pos_beg_table;
-		else
+		else if(pos_end_body)
 			pos_new_logs = pos_end_body;
+		else if(pos_last_span)
+			pos_new_logs = pos_last_span;
+		else
+			pos_new_logs = 0;
 
+		//+TODO: Move where last <table> is
 		cerr << "pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
 		cerr << "pos_new_logs = " << pos_new_logs << endl; //+T+
 
