@@ -1236,7 +1236,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		if(size < assumedFooterLength)
 			assumedFooterLength = size;
 
-		streamoff pos_beginFooter = 0,
+		streamoff pos = 0,
 		          pos_end_body = 0, pos_beg_table = 0,
 		          pos_new_logs = 0;
 
@@ -1246,15 +1246,15 @@ int LogViewer::MoveBackToEndLogsBlock()
 		// Find the point where to start adding new logs
 		while(!htmlOutStream.eof())
 		{
-			pos_beginFooter = htmlOutStream.tellg();
+			pos = htmlOutStream.tellg();
 
 			getline(htmlOutStream, line);
 
 			if(line.find(logsEndToken_body) != string::npos)
-				pos_end_body = pos_beginFooter;
+				pos_end_body = pos;
 
 			if(line.find(logsEndToken_table) != string::npos) {
-				pos_beg_table = pos_beginFooter;
+				pos_beg_table = pos;
 				break;
 			}
 		}
@@ -1265,7 +1265,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			pos_new_logs = pos_end_body;
 
 		cerr << "log: " << line << endl; //+T+
-		cerr << "pos_beginFooter: " << pos_beginFooter << ";  pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
+		cerr << "pos: " << pos << ";  pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
 		cerr << "pos_new_logs = " << pos_new_logs << endl; //+T+
 
 		if(pos_new_logs != 0) {
