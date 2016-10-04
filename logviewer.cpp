@@ -1215,6 +1215,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		string        token, line;
 		const string  logsEndToken_table("<table>");
 		const string  logsEndToken_body("</body>");
+		const string  logsEndToken_span("</span>");
 
 		/** Assumed end of HTML file structure:
 					...logs...
@@ -1237,7 +1238,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			assumedFooterLength = size;
 
 		streamoff pos = 0,
-		          pos_end_body = 0, pos_beg_table = 0,
+		          pos_end_body = 0, pos_beg_table = 0, pos_last_span = 0,
 		          pos_new_logs = 0;
 
 		// Go back a fixed number of characters
@@ -1259,9 +1260,16 @@ int LogViewer::MoveBackToEndLogsBlock()
 				pos_beg_table = pos;
 				break;
 			}
+
+			if(line.find(logsEndToken_span) != string::npos) {
+				pos_last_span = pos + logsEndToken_span.length();
+				break;
+			}
 		}
 
-		if(pos_beg_table)
+		if(pos_last_span)
+			pos_new_logs = pos_last_span;
+		else if(pos_beg_table)
 			pos_new_logs = pos_beg_table;
 		else
 			pos_new_logs = pos_end_body;
