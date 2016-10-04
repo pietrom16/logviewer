@@ -1250,6 +1250,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 			getline(htmlOutStream, line);
 
+			cerr << "pos: " << pos << " log: " << line << endl; //+T+
+
 			if(line.find(logsEndToken_body) != string::npos)
 				pos_end_body = pos;
 
@@ -1264,8 +1266,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		else
 			pos_new_logs = pos_end_body;
 
-		cerr << "log: " << line << endl; //+T+
-		cerr << "pos: " << pos << ";  pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
+		cerr << "pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
 		cerr << "pos_new_logs = " << pos_new_logs << endl; //+T+
 
 		if(pos_new_logs != 0) {
@@ -1280,16 +1281,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 		//htmlOutStream << "xxx" << flush; //+T+ OK
 
-		return 0;
-
-//+TODO
-
 		// Reset htmlOutStream error state flags
 		htmlOutStream.clear();
-
-		cerr << "</span> not found" << endl; //+T+
-
-		return 1;
 	}
 
 	return 0;
