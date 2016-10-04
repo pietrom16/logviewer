@@ -1262,7 +1262,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			}
 
 			if(line.find(logsEndToken_span) != string::npos) {
-				pos_last_span = pos + logsEndToken_span.length();
+				pos_last_span = htmlOutStream.tellg();
 				break;
 			}
 		}
