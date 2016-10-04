@@ -1236,8 +1236,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 		if(size < assumedFooterLength)
 			assumedFooterLength = size;
 
-		streamoff pos_beginFooter = 0, pos_beginLineFooter = 0,
-		          pos_end_body = 0,    pos_beg_table = 0,
+		streamoff pos_beginFooter = 0,
+		          pos_end_body = 0, pos_beg_table = 0,
 		          pos_new_logs = 0;
 
 		// Go back a fixed number of characters
@@ -1247,7 +1247,6 @@ int LogViewer::MoveBackToEndLogsBlock()
 		while(!htmlOutStream.eof())
 		{
 			pos_beginFooter = htmlOutStream.tellg();
-			pos_beginLineFooter = pos_beginFooter;
 
 			getline(htmlOutStream, line);
 
@@ -1266,7 +1265,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			pos_new_logs = pos_end_body;
 
 		cerr << "log: " << line << endl; //+T+
-		cerr << "pos_beginFooter: " << pos_beginFooter << ";  pos_beginLineFooter: " << pos_beginLineFooter << ";  pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
+		cerr << "pos_beginFooter: " << pos_beginFooter << ";  pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
 		cerr << "pos_new_logs = " << pos_new_logs << endl; //+T+
 
 		if(pos_new_logs != 0) {
