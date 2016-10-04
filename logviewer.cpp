@@ -1209,7 +1209,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		// Look for the last log message
 
 		/** //+TODO
-		 *	- Look for both <table> and, if missing, </body>.
+		 *	- Look for last </span>, too.
 		*/
 
 		string        token, line;
