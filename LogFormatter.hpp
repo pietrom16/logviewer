@@ -53,6 +53,7 @@ public:
 	std::string HeaderPlain()    const { return title; }
 	std::string HeaderConsole()  const { return title; }
 	std::string HeaderHTML()     const;
+	std::string TitleHTML()      const;
 	std::string HeaderMarkdown() const { return title; }
 
 	// Footers

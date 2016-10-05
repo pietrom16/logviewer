@@ -259,15 +259,25 @@ std::string LogFormatter::HeaderHTML() const
 	           << "		</style>\n"
 	           << "	</head>\n"
 	           << "\n"
-	           << "	<body>\n"
-	           << "		<span style=\"color:grey;\">\n"
-	           << "			<br>------------------------------------------------------------\n"
-	           << "			<br>" << title << "\n"
-	           << "			<br>------------------------------------------------------------\n"
-	           << "		</span>\n"
-	           << "\n";
+	           << "	<body>\n";
 
 	return htmlHeader.str();
+}
+
+
+std::string LogFormatter::TitleHTML() const
+{
+	using namespace textModeFormatting;
+
+	std::stringstream htmlTitle;
+
+	htmlTitle << "		<span style=\"color:grey;\">\n"
+	          << "			<br>------------------------------------------------------------\n"
+	          << "			<br>" << title << "\n"
+	          << "			<br>------------------------------------------------------------\n"
+	          << "		</span>\n";
+
+	return htmlTitle.str();
 }
 
 

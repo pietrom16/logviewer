@@ -1103,6 +1103,7 @@ int LogViewer::WriteHeader()
 			htmlOutStream.seekp(0, std::ios_base::beg);
 			htmlOutStream << logFormatter.HeaderHTML() << endl;
 			AddHtmlControls();
+			htmlOutStream << logFormatter.TitleHTML() << endl;
 			++n;
 		}
 	}
