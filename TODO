@@ -4,7 +4,6 @@ TODO - logviewer
     . Fix HTML format.
 	-- Add controls:
 	    - Go back before the controls.
-
         - Minimum level: [1]-[7], up and down.
 		- Input log file name.
 		- Load custom log levels from file (format: tag value\n).
@@ -13,6 +12,10 @@ TODO - logviewer
 
     -- Write commands from HTML into the command file.
 	-- Read commands from the app.
+
+-- Split logviewer.cpp in multiple shorter files.
+
+- Check command line user interaction is complete enough.
 
 - Add option to delete existing output file before adding new logs.
 
