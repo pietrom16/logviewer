@@ -1242,7 +1242,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 		          pos_end_body = 0, pos_beg_table = 0, pos_last_span = 0,
 		          pos_new_logs = 0;
 
-		int tableId = 0; // to discriminate between the first and second table
+		bool logsShown = false;  // true when at least one log has been shown on the HTML page
+		bool lastTable = false;  // to discriminate between first and last table
 
 		// Go back a fixed number of characters
 		htmlOutStream.seekg(-assumedFooterLength, ios_base::end);
@@ -1257,19 +1258,23 @@ int LogViewer::MoveBackToEndLogsBlock()
 			cerr << "pos: " << pos << " log: " << line << endl; //+T+
 
 			if(line.find(logsEndToken_body) != string::npos)
-				pos_end_body = pos;
+				pos_end_body = pos;			// move before the element
 
-			if(line.find(logsEndToken_table) != string::npos) {
-				++tableId;
-				pos_beg_table = pos;
+			if(line.find(logsEndToken_table) != string::npos)
+			{
+				if(logsShown) {
+					lastTable = true;
+					pos_beg_table = pos;	// move before the element
+				}
 			}
 
 			if(line.find(logsEndToken_span) != string::npos) {
-				pos_last_span = htmlOutStream.tellg();
+				pos_last_span = htmlOutStream.tellg();		// move after the element
+				logsShown = true;
 			}
 		}
 
-		if(pos_beg_table && tableId == 2)
+		if(pos_beg_table && lastTable)
 			pos_new_logs = pos_beg_table;
 		else if(pos_end_body)
 			pos_new_logs = pos_end_body;
