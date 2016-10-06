@@ -1291,6 +1291,13 @@ int LogViewer::MoveBackToEndLogsBlock()
 		if(pos_new_logs != 0) {
 			htmlOutStream.seekg(pos_new_logs, ios_base::beg);
 			htmlOutStream.seekp(pos_new_logs, ios_base::beg);
+
+			//+TEST
+			const streamoff posg = htmlOutStream.tellg();
+			const streamoff posp = htmlOutStream.tellp();
+			cerr << posg << " = " << posp << " = " << pos_new_logs << " ???" << endl;
+			assert(posg == pos_new_logs);
+			assert(posp == pos_new_logs);
 		}
 		else {
 			// End of the logs block not found
