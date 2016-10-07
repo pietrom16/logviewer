@@ -250,17 +250,7 @@ int LogViewer::Run()
 	{
 		const string outLogFilename = outLogFile + ".log.html";
 
-		{
-			ifstream check(outLogFilename);
-			if(check.good() == false) {
-				// The file must exist to open it in read mode
-				htmlOutStream.open(outLogFilename, ios_base::out);
-				htmlOutStream << endl;
-				htmlOutStream.close();
-			}
-		}
-
-		htmlOutStream.open(outLogFilename, ios_base::in | ios_base::out);
+		htmlOutStream.open(outLogFilename, ios::out | ios::in | ios::trunc);
 
 		if(htmlOutStream.is_open() == false) {
 			cerr << "logviewer: warning: cannot open the output log file: " << outLogFilename << endl;
