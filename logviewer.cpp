@@ -1283,7 +1283,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			htmlOutStream.seekp(pos_new_logs, ios_base::beg);
 
 			//+TEST
-			cerr << "Status = " << CheckLogFilesDiagnostic() << endl;
+			cerr << "Status = " << CheckLogFilesDiagnostic() << endl; //+B+ EOF & FAIL
 			const streamoff posg = htmlOutStream.tellg();
 			const streamoff posp = htmlOutStream.tellp();
 			cerr << posg << " = " << posp << " = " << pos_new_logs << " ???" << endl;
