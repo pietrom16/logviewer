@@ -605,11 +605,11 @@ int LogViewer::CheckLogFilesDiagnostic() const
 {
 	int status = 0;
 
-	if(htmlOutStream.good() == true)       status = 0;
-	if(htmlOutStream.is_open() == false) --status;
-	if(htmlOutStream.fail() == true)     --status;
-	if(htmlOutStream.bad()  == true)     --status;
-	if(htmlOutStream.eof()  == true)     --status;
+	if(htmlOutStream.good() == true)       status  = 0;
+	if(htmlOutStream.is_open() == false)   status -= 1;
+	if(htmlOutStream.fail() == true)       status -= 10;
+	if(htmlOutStream.bad()  == true)       status -= 100;
+	if(htmlOutStream.eof()  == true)       status -= 1000;
 
 	return status;
 }
@@ -1283,6 +1283,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 			htmlOutStream.seekp(pos_new_logs, ios_base::beg);
 
 			//+TEST
+			cerr << "Status = " << CheckLogFilesDiagnostic() << endl;
 			const streamoff posg = htmlOutStream.tellg();
 			const streamoff posp = htmlOutStream.tellp();
 			cerr << posg << " = " << posp << " = " << pos_new_logs << " ???" << endl;
