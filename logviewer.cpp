@@ -1240,7 +1240,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		htmlOutStream.seekg(-assumedFooterLength, ios_base::end);
 
 		// Find the point where to start adding new logs
-		while(!htmlOutStream.eof())
+		while(!htmlOutStream.eof())		//+TODO Update
 		{
 			pos = htmlOutStream.tellg();
 
@@ -1248,7 +1248,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 			cerr << "pos: " << pos << " log: " << line << endl; //+T+
 
-			if(line.find(logsEndToken_body) != string::npos)
+			if(line.find(logsEndToken_body) != string::npos)	//+TODO rfind?
 				pos_end_body = pos;			// move before the element
 
 			if(line.find(logsEndToken_table) != string::npos)

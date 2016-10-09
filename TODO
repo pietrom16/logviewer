@@ -2,6 +2,7 @@ TODO - logviewer
 
 --- HTML output
     -- Fix HTML format.
+	-- Consider using: tinyxml2 (myProgs/Utilities/tinyxml2-master)
 	-- Add controls:
 	    - Go back before the controls.
 		- Minimum level: [1]-[7], up and down.
