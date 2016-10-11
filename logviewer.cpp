@@ -1200,15 +1200,6 @@ int LogViewer::MoveBackToEndLogsBlock()
 		// Search backwards for the end of the logs block
 		// Look for the last log message
 
-		/** //+TODO
-		 *	- Look for last </span>, too.
-		*/
-
-		string        token, line;
-		const string  logsEndToken_table("<table>");
-		const string  logsEndToken_body("</body>");
-		const string  logsEndToken_span("</span>");
-
 		/** Assumed end of HTML file structure:
 					...logs...
 					<br> <span style="color:red;">Log message</span>
@@ -1216,6 +1207,17 @@ int LogViewer::MoveBackToEndLogsBlock()
 				</body>
 			</html>
 		*/
+
+		string        token, line;
+		const string  logsEndToken_span("</span>");
+		const string  logsBegToken_table("<table>");
+		const string  logsEndToken_body("</body>");
+		size_t        posTokenLine      = 0;	// token position in the current line
+		streamoff     pos               = 0;	// current position in the file
+		streamoff     posNewLogs        = 0;	// position for the next new log
+		streamoff     posEndToken_span  = 0;	// </span> token position in the file
+		streamoff     posBegToken_table = 0;	// <table> token position in the file
+		streamoff     posEndToken_body  = 0;	// </body> token position in the file
 
 		long assumedFooterLength = 400;		// approximation in excess
 
@@ -1228,10 +1230,6 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 		if(size < assumedFooterLength)
 			assumedFooterLength = size;
-
-		streamoff pos = 0,
-		          pos_end_body = 0, pos_beg_table = 0, pos_last_span = 0,
-		          pos_new_logs = 0;
 
 		bool logsShown = false;  // true when at least one log has been shown on the HTML page
 		bool lastTable = false;  // to discriminate between first and last table
@@ -1248,47 +1246,48 @@ int LogViewer::MoveBackToEndLogsBlock()
 
 			cerr << "pos: " << pos << " log: " << line << endl; //+T+
 
-			if(line.find(logsEndToken_body) != string::npos)	//+TODO rfind?
-				pos_end_body = pos;			// move before the element
+			if(line.find(logsEndToken_span) != string::npos) {
+				posEndToken_span = htmlOutStream.tellg();   // move after the element
+				logsShown = true;
+			}
 
-			if(line.find(logsEndToken_table) != string::npos)
-			{
+			if(line.find(logsBegToken_table) != string::npos) {
 				if(logsShown) {
 					lastTable = true;
-					pos_beg_table = pos;	// move before the element
+					posBegToken_table = pos;	// move before the element
 				}
 			}
 
-			if(line.find(logsEndToken_span) != string::npos) {
-				pos_last_span = htmlOutStream.tellg();		// move after the element
-				logsShown = true;
+			if(line.find(logsEndToken_body) != string::npos) {
+				posEndToken_body = pos;		// move before the element
 			}
 		}
 
-		if(pos_beg_table && lastTable)
-			pos_new_logs = pos_beg_table;
-		else if(pos_end_body)
-			pos_new_logs = pos_end_body;
-		else if(pos_last_span)
-			pos_new_logs = pos_last_span;
+		if(posBegToken_table && lastTable)
+			posNewLogs = posBegToken_table;
+		else if(posEndToken_body)
+			posNewLogs = posEndToken_body;
+		else if(posEndToken_span)
+			posNewLogs = posEndToken_span;
 		else
-			pos_new_logs = 0;
+			posNewLogs = 0;
 
-		//+TODO: Move where last <table> is
-		cerr << "pos_end_body = " << pos_end_body << ";  pos_beg_table = " << pos_beg_table << endl; //+T+
-		cerr << "pos_new_logs = " << pos_new_logs << endl; //+T+
+		cerr << "</span> = " << posEndToken_span << "; <table> = " << posBegToken_table << "; </body> = " << posEndToken_body << endl; //+T+
+		cerr << "Pos new logs = " << posNewLogs << endl; //+T+
 
-		if(pos_new_logs != 0) {
-			htmlOutStream.seekg(pos_new_logs, ios_base::beg);
-			htmlOutStream.seekp(pos_new_logs, ios_base::beg);
+		//+TODO: Move to posNewLogs
+
+		if(posNewLogs != 0) {
+			htmlOutStream.seekg(posNewLogs, ios_base::beg);
+			htmlOutStream.seekp(posNewLogs, ios_base::beg);
 
 			//+TEST
 			cerr << "Status = " << CheckLogFilesDiagnostic() << endl; //+B+ EOF & FAIL
 			const streamoff posg = htmlOutStream.tellg();
 			const streamoff posp = htmlOutStream.tellp();
-			cerr << posg << " = " << posp << " = " << pos_new_logs << " ???" << endl;
-			assert(posg == pos_new_logs);
-			assert(posp == pos_new_logs);
+			cerr << posg << " = " << posp << " = " << posNewLogs << " ???" << endl;
+			assert(posg == posNewLogs);
+			assert(posp == posNewLogs);
 		}
 		else {
 			// End of the logs block not found

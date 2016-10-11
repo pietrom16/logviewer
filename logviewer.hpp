@@ -100,7 +100,7 @@ private:
 	std::string   outLogFileFormat;		// OS shell highlighting, HTML, markdown, ...
 
 	std::fstream  textOutStream;		// text output stream
-	std::fstream  htmlOutStream;		// HTML output stream
+	std::fstream  htmlOutStream;		// HTML input/output stream
 
 	bool          externalCtrl;
 	std::string   cmdFile;				// command file name, to control the program from outside
