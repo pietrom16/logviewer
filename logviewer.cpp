@@ -1270,7 +1270,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		else if(posEndToken_span)
 			posNewLogs = posEndToken_span;
 		else
-			posNewLogs = size;
+			posNewLogs = 0;		// end of the logs block not found
 
 		cerr << "</span> = " << posEndToken_span << "; <table> = " << posBegToken_table << "; </body> = " << posBegToken_body << endl; //+T+
 		cerr << "Pos new logs = " << posNewLogs << endl; //+T+
