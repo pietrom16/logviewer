@@ -1217,7 +1217,7 @@ int LogViewer::MoveBackToEndLogsBlock()
 		streamoff     posNewLogs        = 0;	// position for the next new log
 		streamoff     posEndToken_span  = 0;	// </span> token position in the file
 		streamoff     posBegToken_table = 0;	// <table> token position in the file
-		streamoff     posEndToken_body  = 0;	// </body> token position in the file
+		streamoff     posBegToken_body  = 0;	// </body> token position in the file
 
 		long assumedFooterLength = 400;		// approximation in excess
 
@@ -1259,20 +1259,20 @@ int LogViewer::MoveBackToEndLogsBlock()
 			}
 
 			if(line.find(logsEndToken_body) != string::npos) {
-				posEndToken_body = pos;		// move before the element
+				posBegToken_body = pos;		// move before the element
 			}
 		}
 
 		if(posBegToken_table && lastTable)
 			posNewLogs = posBegToken_table;
-		else if(posEndToken_body)
-			posNewLogs = posEndToken_body;
+		else if(posBegToken_body)
+			posNewLogs = posBegToken_body;
 		else if(posEndToken_span)
 			posNewLogs = posEndToken_span;
 		else
 			posNewLogs = 0;
 
-		cerr << "</span> = " << posEndToken_span << "; <table> = " << posBegToken_table << "; </body> = " << posEndToken_body << endl; //+T+
+		cerr << "</span> = " << posEndToken_span << "; <table> = " << posBegToken_table << "; </body> = " << posBegToken_body << endl; //+T+
 		cerr << "Pos new logs = " << posNewLogs << endl; //+T+
 
 		//+TODO: Move to posNewLogs
