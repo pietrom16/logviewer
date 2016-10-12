@@ -1237,7 +1237,8 @@ int LogViewer::MoveBackToEndLogsBlock()
 		// Go back a fixed number of characters
 		htmlOutStream.seekg(-assumedFooterLength, ios_base::end);
 
-		// Find the point where to start adding new logs
+		/// Find the point where to start adding new logs
+
 		while(!htmlOutStream.eof())		//+TODO Update
 		{
 			pos = htmlOutStream.tellg();
@@ -1275,14 +1276,20 @@ int LogViewer::MoveBackToEndLogsBlock()
 		cerr << "</span> = " << posEndToken_span << "; <table> = " << posBegToken_table << "; </body> = " << posBegToken_body << endl; //+T+
 		cerr << "Pos new logs = " << posNewLogs << endl; //+T+
 
-		//+TODO: Move to posNewLogs
+		/// Move to posNewLogs	//+TODO
+
+		// Reset htmlOutStream error state flags	//+?
+		htmlOutStream.clear();
 
 		if(posNewLogs != 0) {
+			//+TEST
+			cerr << "Status 1 = " << CheckLogFilesDiagnostic() << endl; //+B+ EOF & FAIL
+
 			htmlOutStream.seekg(posNewLogs, ios_base::beg);
 			htmlOutStream.seekp(posNewLogs, ios_base::beg);
 
 			//+TEST
-			cerr << "Status = " << CheckLogFilesDiagnostic() << endl; //+B+ EOF & FAIL
+			cerr << "Status 2 = " << CheckLogFilesDiagnostic() << endl; //+B+ EOF & FAIL
 			const streamoff posg = htmlOutStream.tellg();
 			const streamoff posp = htmlOutStream.tellp();
 			cerr << posg << " = " << posp << " = " << posNewLogs << " ???" << endl;
