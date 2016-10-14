@@ -1597,7 +1597,7 @@ int LogViewer::AddHtmlControls()
 	//+TODO - CSS settings
 
 	htmlOutStream
-	   << "\t\t<table> style=\"width:100%\""
+	   << "\t\t<table style=\"width:100%\">"
 	   << "	<tr>"
 	   << "		<th>Reload</th>"
 	   << "		<th>Min log level = </th>"
