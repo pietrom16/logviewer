@@ -7,6 +7,87 @@
 
 
 
-#p1 {background-color: rgba(16, 16, 16, 0.5);}  /* dark grey */
+/*  Logs highlighting: <p id="WARNING">Log message</p>  */
 
+#VERBOSE {
+    background-color: black;
+    color: blue;
+}
+
+#TRACE {
+    background-color: black;
+    color: blue;
+}
+
+#DETAIL {
+    background-color: black;
+    color: blue;
+}
+
+#DEBUG {
+    background-color: black;
+    color: blue;
+}
+
+#INFO {
+    background-color: black;
+    color: blue;
+}
+
+#NOTICE {
+    background-color: black;
+    color: blue;
+}
+
+#WARNING {
+    background-color: black;
+    color: yellow;
+}
+
+#ERROR {
+    background-color: black;
+    color: red;
+}
+
+#CRITICAL {
+    background-color: red;
+    color: yellow;
+}
+
+#SEVERE {
+    background-color: red;
+    color: blue;
+}
+
+#ALERT {
+    background-color: yellow;
+    color: blue;
+}
+
+#FATAL {
+    background-color: yellow;
+    color: red;
+}
+
+#EMERGENCY {
+    background-color: red;
+    color: blue;
+}
+
+
+body {
+    background-color: powderblue;
+    color: red;
+    font-family: courier;
+    font-size: 160%;
+    border: 1px solid powderblue;
+    padding: 30px;
+    margin: 50px;
+}
+h1 {
+    color: blue;
+}
+p {
+    color: red;
+}
 
