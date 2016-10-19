@@ -9,67 +9,67 @@
 
 /*  Logs highlighting: <p id="WARNING">Log message</p>  */
 
-#VERBOSE {
+p.verbose {
     background-color: black;
     color: blue;
 }
 
-#TRACE {
+p.trace {
     background-color: black;
     color: blue;
 }
 
-#DETAIL {
+p.detail {
     background-color: black;
     color: blue;
 }
 
-#DEBUG {
+p.debug {
     background-color: black;
     color: blue;
 }
 
-#INFO {
+p.info {
     background-color: black;
     color: blue;
 }
 
-#NOTICE {
+p.notice {
     background-color: black;
     color: blue;
 }
 
-#WARNING {
+p.warning {
     background-color: black;
     color: yellow;
 }
 
-#ERROR {
+p.error {
     background-color: black;
     color: red;
 }
 
-#CRITICAL {
+p.critical {
     background-color: red;
     color: yellow;
 }
 
-#SEVERE {
+p.severe {
     background-color: red;
     color: blue;
 }
 
-#ALERT {
+p.alert {
     background-color: yellow;
     color: blue;
 }
 
-#FATAL {
+p.fatal {
     background-color: yellow;
     color: red;
 }
 
-#EMERGENCY {
+p.emergency {
     background-color: red;
     color: blue;
 }
