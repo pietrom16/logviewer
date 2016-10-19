@@ -7,87 +7,91 @@
 
 
 
-/*  Logs highlighting: <p id="WARNING">Log message</p>  */
+/*  Logs highlighting: <log class="warning">Log message</log>  */
 
-p.verbose {
+log.verbose {
     background-color: black;
     color: blue;
 }
 
-p.trace {
+log.trace {
     background-color: black;
     color: blue;
 }
 
-p.detail {
+log.detail {
     background-color: black;
     color: blue;
 }
 
-p.debug {
+log.debug {
     background-color: black;
     color: blue;
 }
 
-p.info {
+log.info {
     background-color: black;
     color: blue;
 }
 
-p.notice {
+log.notice {
     background-color: black;
     color: blue;
 }
 
-p.warning {
+log.warning {
     background-color: black;
     color: yellow;
 }
 
-p.error {
+log.error {
     background-color: black;
     color: red;
 }
 
-p.critical {
+log.critical {
     background-color: red;
     color: yellow;
+    font-weight: bold;
 }
 
-p.severe {
+log.severe {
     background-color: red;
     color: blue;
+    font-weight: bold;
 }
 
-p.alert {
+log.alert {
     background-color: yellow;
     color: blue;
+    font-weight: bold;
 }
 
-p.fatal {
+log.fatal {
     background-color: yellow;
     color: red;
+    font-weight: bold;
 }
 
-p.emergency {
+log.emergency {
     background-color: red;
     color: blue;
+    font-weight: bold;
+}
+
+
+h1 {
+    color: white;
+    background-color: grey;
+    font-size: 150%;
+    border-style: solid;
+    border-radius: 5px;
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 
 body {
-    background-color: powderblue;
-    color: red;
     font-family: courier;
-    font-size: 160%;
-    border: 1px solid powderblue;
-    padding: 30px;
-    margin: 50px;
+    font-size: 100%;
 }
-h1 {
-    color: blue;
-}
-p {
-    color: red;
-}
-
