@@ -251,12 +251,9 @@ std::string LogFormatter::HeaderHTML() const
 	           << "<html>\n"
 	           << "\n"
 	           << "	<head>\n"
+	           << "		<link rel="stylesheet" href="logviewer.css">\n"
 	           << "		<meta charset=\"UTF-8\">\n"
 	           << "		<title>" << title << "</title>\n"
-	           << "		<style>\n"
-	           << "			body { background-color:black }\n"
-	           << "			body { font-family: \"courier new\"; }\n"
-	           << "		</style>\n"
 	           << "	</head>\n"
 	           << "\n"
 	           << "	<body>\n";
