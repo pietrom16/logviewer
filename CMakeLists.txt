@@ -41,6 +41,7 @@ message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS} " " ${CMA
 set(SRC
 	entrypoint.cpp
 	logviewer.cpp
+	logviewer_html.cpp
 	logviewer.hpp
 	logLevels.cpp
 	logLevels.h

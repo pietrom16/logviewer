@@ -77,10 +77,13 @@ private:
 	int SetCommandLineParams();
 	int ReadCommandLineParams(int argc, char *argv[]);
 	int WriteHeader();
+	int WriteHeader_html();
 	int WriteLog(const std::string &_log, int _level, const std::string &_file, char _tag = ' ', int _logNumber = -1);
 	int WriteFooter();
+	int WriteFooter_html();
 	int GenerateLogHeader();
 	int MoveBackToEndLogsBlock();
+	int MoveBackToEndLogsBlock_html();
 	int PrintExtraInfo();
 	int ReadKeyboard(std::ifstream &ifs, std::streamoff &pos);
 	int ReadExternalCommands(std::ifstream &ifs, std::streamoff &pos);
