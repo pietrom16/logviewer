@@ -49,6 +49,7 @@ set(SRC
 	LogContext.hpp
 	LogContext_test.cpp
 	LogFormatter.cpp
+	LogFormatter_html.cpp
 	LogFormatter.hpp
 	progArgs.cpp
 	progArgs.h

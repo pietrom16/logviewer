@@ -186,37 +186,6 @@ std::string LogFormatter::FormatConsole(const std::string &_log,
 }
 
 
-std::string LogFormatter::FormatHTML(const std::string &_log,
-									 int _level,
-									 const std::string &_file,
-                                     char _tag,
-                                     int _logNumber) const
-{
-	using namespace textModeFormatting;
-
-	std::string htmlLog;
-
-	htmlLog += "\t\t";		// indent with the <body> block
-
-	htmlLog += "<br>";
-
-	if(!_file.empty())
-		htmlLog += _file + ": ";
-
-	if(_logNumber > 0)
-		htmlLog += std::to_string(_logNumber) + ": ";
-
-	htmlLog +=   _tag
-	           + std::string("<span style=\"")
-	           + htmlLevel[_level]
-	           + std::string("\">")
-	           + _log
-	           + std::string("</span>");
-
-	return htmlLog;
-}
-
-
 std::string LogFormatter::FormatMarkdown(const std::string &_log,
 										 int _level,
 										 const std::string &_file,
@@ -241,43 +210,6 @@ std::string LogFormatter::Header() const
 }
 
 
-std::string LogFormatter::HeaderHTML() const
-{
-	using namespace textModeFormatting;
-
-	std::stringstream htmlHeader;
-
-	htmlHeader << "<!DOCTYPE html>\n"
-	           << "<html>\n"
-	           << "\n"
-	           << "	<head>\n"
-	           << "		<link rel=\"stylesheet\" type=\"text/css\" href=\"logviewer.css\">\n"
-	           << "		<meta charset=\"UTF-8\">\n"
-	           << "		<title>" << title << "</title>\n"
-	           << "	</head>\n"
-	           << "\n"
-	           << "	<body>\n";
-
-	return htmlHeader.str();
-}
-
-
-std::string LogFormatter::TitleHTML() const
-{
-	using namespace textModeFormatting;
-
-	std::stringstream htmlTitle;
-
-	htmlTitle << "		<span style=\"color:grey;\">\n"
-	          << "			<br>------------------------------------------------------------\n"
-	          << "			<br>" << title << "\n"
-	          << "			<br>------------------------------------------------------------\n"
-	          << "		</span>\n";
-
-	return htmlTitle.str();
-}
-
-
 // Footers
 
 std::string LogFormatter::Footer() const
@@ -288,19 +220,6 @@ std::string LogFormatter::Footer() const
 	else if(formats == "markdown") return FooterMarkdown();
 
 	return FooterPlain();
-}
-
-
-std::string LogFormatter::FooterHTML() const
-{
-	std::stringstream htmlFooter;
-
-	htmlFooter << "	</body>\n"
-	           << "</html>\n"
-	           << "\n";
-
-	return htmlFooter.str();
-
 }
 
 
