@@ -76,7 +76,7 @@ int LogViewer::WriteHeader_html()
 int LogViewer::WriteFooter_html()
 {
 	MoveBackToEndLogsBlock_html();
-	AddHtmlControls();
+	//+TODO AddHtmlControls();
 
 	htmlOutStream << logFormatter.FooterHTML() << endl;
 
@@ -208,7 +208,7 @@ int LogViewer::MoveBackToEndLogsBlock_html()
 
 int LogViewer::AddHtmlControls()
 {
-	//+TODO - CSS settings
+	//+TODO - Put real controls here
 
 	htmlOutStream
 	   << "\t\t<table style=\"width:100%\">"

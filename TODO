@@ -20,7 +20,8 @@ TODO - logviewer
     -- Write commands from HTML into the command file.
 	-- Read commands from the app.
 
--- Split logviewer.cpp in multiple shorter files.
+- Split logviewer.cpp in multiple shorter files.
+    . Separated HTML member functions.
 
 - Check command line user interaction is complete enough.
 
