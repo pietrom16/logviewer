@@ -339,8 +339,6 @@ int LogViewer::Run()
 
 				getline(inLogFs, line);
 
-				cerr << "line: " << line << endl; //+T+OK
-
 				if(line.empty())
 					break;
 
