@@ -82,7 +82,7 @@ log.emergency {
 
 h1 {
     color: white;
-    background-color: grey;
+	background-color: black;
     font-size: 150%;
     border-style: solid;
     border-radius: 5px;
@@ -93,6 +93,6 @@ h1 {
 
 body {
     background-color: black;
-    font-family: courier;
+	font-family: courier;
     font-size: 100%;
 }

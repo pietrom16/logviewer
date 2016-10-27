@@ -64,7 +64,7 @@ int LogViewer::WriteHeader_html()
 	if(size < 10) {
 		htmlOutStream.seekp(0, std::ios_base::beg);
 		htmlOutStream << logFormatter.HeaderHTML() << endl;
-		AddHtmlControls();
+		//+TODO AddHtmlControls();
 		htmlOutStream << logFormatter.TitleHTML() << endl;
 		++n;
 	}
