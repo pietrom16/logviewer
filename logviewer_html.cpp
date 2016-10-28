@@ -69,6 +69,10 @@ int LogViewer::WriteHeader_html()
 		++n;
 	}
 
+	// Add a CSS file, if not available
+	const std::string css = "logviewer.css";
+	//+TODO Embed default CSS file
+
 	return n;
 }
 
