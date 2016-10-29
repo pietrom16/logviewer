@@ -1,16 +1,7 @@
 TODO - logviewer
 
---- HTML output
-    -- Fix HTML format.
-	-- Consider using: tinyxml2 (myProgs/Utilities/tinyxml2-master)
-	-- HTML5 - Use CSS for aspect details:
-	    . Use an external CSS file.
-		- Use thinner font.
-		- If CSS file is missing, create a new one.
-		- If CSS file exists, just use it (allow user to specify style).
-		CSS syntax: <table style="width:400px">
-		ref.: http://www.w3schools.com/css/css_examples.asp
-	-- Add controls:
+--- HTML5 output
+    -- Add controls:
 	    - Go back before the controls.
 		- Minimum level: [1]-[7], up and down.
 		- Input log file name.

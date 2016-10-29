@@ -14,7 +14,6 @@
 #include "logviewer.hpp"
 #include "CSS_default.h"
 #include <cassert>
-//+TODO (C++17) #include <filesystem>
 #include <fstream>
 #include <iostream>
 
@@ -40,24 +39,6 @@ int LogViewer::CheckLogFilesDiagnostic() const
 int LogViewer::WriteHeader_html()
 {
 	int n = 0;
-
-	/* //+B+
-	// Write the header only if the HTML file does not start with "<!DOCTYPE"
-
-	htmlOutStream.seekg(0, std::ios_base::beg);
-	std::string token;
-	htmlOutStream >> token;
-
-	cerr << "Token = " << token << endl; //+T+ok
-
-	if(token != "<!DOCTYPE") {
-		cerr << logFormatter.HeaderHTML() << endl; //+T+ok
-		htmlOutStream.seekp(0, std::ios_base::beg);
-		htmlOutStream << logFormatter.HeaderHTML() << endl;
-		AddHtmlControls();
-		++n;
-	}
-	*/
 
 	// Write the header only if the HTML file is shorter than a fixed size
 	htmlOutStream.seekg(0, std::ios_base::end);
