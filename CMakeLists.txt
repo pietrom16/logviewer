@@ -14,13 +14,9 @@ project(${PRJ})
 
 # Specify the build type on the command line: Release, Debug, RelWithDebInfo, MinSizeRel
 if(CMAKE_BUILD_TYPE MATCHES "")
-	set(CMAKE_BUILD_TYPE Debug)
-	#set(CMAKE_BUILD_TYPE Release)
+	#set(CMAKE_BUILD_TYPE Debug)
+	set(CMAKE_BUILD_TYPE Release)
 endif()
-
-# Specify compiler path
-set(CMAKE_C_COMPILER /opt/local/bin/clang-mp-3.7)
-set(CMAKE_CXX_COMPILER /opt/local/bin/clang++-mp-3.7)
 
 # Specify C++ standard version
 set(CMAKE_CXX_FLAGS "-std=c++14 -stdlib=libc++")
