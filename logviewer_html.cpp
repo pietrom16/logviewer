@@ -72,7 +72,7 @@ int LogViewer::WriteHeader_html()
 	}
 
 	// Add a CSS file, if not available
-	const std::string cssPath = "logviewer.css";
+	const std::string cssPath = outLogFile + ".log.css";
 	{
 		std::ifstream check(cssPath);
 		if(check.good() == false) {
