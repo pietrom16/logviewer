@@ -59,7 +59,7 @@ std::string LogFormatter::HeaderHTML() const
 	           << "<html>\n"
 	           << "\n"
 	           << "	<head>\n"
-	           << "		<link rel=\"stylesheet\" type=\"text/css\" href=\"logviewer.css\">\n"
+	           << "		<link rel=\"stylesheet\" type=\"text/css\" href=\"" << cssFile << "\">\n"
 	           << "		<meta charset=\"UTF-8\">\n"
 	           << "		<title>" << title << "</title>\n"
 	           << "	</head>\n"

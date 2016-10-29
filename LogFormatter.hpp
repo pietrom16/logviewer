@@ -71,6 +71,8 @@ private:
 
 	std::string formats;
 	std::string title;
+
+	const std::string cssFile = "logviewer.css";
 };
 
 
