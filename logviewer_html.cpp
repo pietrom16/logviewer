@@ -137,7 +137,7 @@ int LogViewer::MoveBackToEndLogsBlock_html()
 
 		getline(htmlOutStream, line);
 
-		cerr << "pos: " << pos << " log: " << line << endl; //+T+
+		//cerr << "pos: " << pos << " log: " << line << endl; //+T+
 
 		if(line.find(logsEndToken_span) != string::npos) {
 			posEndToken_span = htmlOutStream.tellg();   // move after the element
@@ -165,8 +165,8 @@ int LogViewer::MoveBackToEndLogsBlock_html()
 	else
 		posNewLogs = 0;		// end of the logs block not found
 
-	cerr << "</span> = " << posEndToken_span << "; <table> = " << posBegToken_table << "; </body> = " << posBegToken_body << endl; //+T+
-	cerr << "Pos new logs = " << posNewLogs << endl; //+T+
+	//cerr << "</span> = " << posEndToken_span << "; <table> = " << posBegToken_table << "; </body> = " << posBegToken_body << endl; //+T+
+	//cerr << "Pos new logs = " << posNewLogs << endl; //+T+
 
 	/// Move to posNewLogs	//+TODO
 
@@ -175,16 +175,16 @@ int LogViewer::MoveBackToEndLogsBlock_html()
 
 	if(posNewLogs != 0) {
 		//+TEST
-		cerr << "Status 1 = " << CheckLogFilesDiagnostic() << endl; //+B+ EOF & FAIL
+		//cerr << "Status 1 = " << CheckLogFilesDiagnostic() << endl; //+B+ EOF & FAIL
 
 		htmlOutStream.seekg(posNewLogs, ios_base::beg);
 		htmlOutStream.seekp(posNewLogs, ios_base::beg);
 
 		//+TEST
-		cerr << "Status 2 = " << CheckLogFilesDiagnostic() << endl; //+B+ EOF & FAIL
+		//cerr << "Status 2 = " << CheckLogFilesDiagnostic() << endl; //+B+ EOF & FAIL
 		const streamoff posg = htmlOutStream.tellg();
 		const streamoff posp = htmlOutStream.tellp();
-		cerr << posg << " = " << posp << " = " << posNewLogs << " ???" << endl;
+		//cerr << posg << " = " << posp << " = " << posNewLogs << " ???" << endl;
 		assert(posg == posNewLogs);
 		assert(posp == posNewLogs);
 	}
