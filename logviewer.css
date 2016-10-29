@@ -1,3 +1,5 @@
+R"***(
+
 /* logviewer.css */
 
 /* If this file is not available, it will be automatically created.
@@ -82,7 +84,7 @@ log.emergency {
 
 h1 {
     color: white;
-	background-color: black;
+	background-color: rgb(16, 16, 16);  /* dark grey */
     font-size: 150%;
     border-style: solid;
     border-radius: 5px;
@@ -96,3 +98,5 @@ body {
 	font-family: courier;
 	font-size: 80%;
 }
+
+)***"

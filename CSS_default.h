@@ -19,7 +19,9 @@
 namespace log_viewer {
 
 
-static const std::string css_default = "";
+static const std::string css_default =
+    #include "logviewer.css"
+    ;
 
 
 } // log_viewer
