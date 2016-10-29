@@ -610,14 +610,14 @@ void LogViewer::PrintHelp(const ProgArgs &_args, const char* _progName, LogLevel
 	size_t pos = progName.rfind(slash) + 1;
 
 	cout << string(110, '-') << "\n";
-	cout << "\n" << progName.substr(pos) << ": a text mode log file viewer.\n";
+	cout << "\n" << progName.substr(pos) << ": a text mode/HTML log file viewer.\n";
 	cout << "\n" << "Features:\n";
 	cout << "\t- Log file format agnostic.\n";
 	cout << "\t- Dynamic log level threshold: in the proximity of logs with high level,\n";
 	cout << "\t  automatically lower the level threshold to provide context for critical cases.\n";
 	cout << "\t- Log level based highlighting. Levels can be numeric (1-7) or strings.\n";
 	cout << "\t- Filtering capability.\n";
-	cout << "\t- Text mode, runs everywhere after recompilation.\n";
+	cout << "\t- Text mode, runs everywhere after recompilation. Can produce HTML output.\n";
 	cout << "\t- Controllable by a human and through a command file.\n";
 	cout << "\t- Free software, GPL 3 license.\n";
 	cout << "\nParameters:\n";
