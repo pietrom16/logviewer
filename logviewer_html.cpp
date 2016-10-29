@@ -12,7 +12,9 @@
 
 
 #include "logviewer.hpp"
+#include "CSS_default.h"
 #include <cassert>
+//+TODO (C++17) #include <filesystem>
 #include <fstream>
 #include <iostream>
 
@@ -70,8 +72,14 @@ int LogViewer::WriteHeader_html()
 	}
 
 	// Add a CSS file, if not available
-	const std::string css = "logviewer.css";
-	//+TODO Embed default CSS file
+	const std::string cssPath = "logviewer.css";
+	{
+		std::ifstream check(cssPath);
+		if(check.good() == false) {
+			std::ofstream css(cssPath);
+			css << css_default << endl;
+		}
+	}
 
 	return n;
 }
