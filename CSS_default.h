@@ -13,6 +13,17 @@
 #ifndef CSS_DEFAULT_H
 #define CSS_DEFAULT_H
 
+#include <string>
+
+
+namespace log_viewer {
+
+
+static const std::string css_default = "";
+
+
+} // log_viewer
+
 
 
 #endif // CSS_DEFAULT_H
