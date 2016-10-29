@@ -78,7 +78,10 @@ int LogViewer::WriteHeader_html()
 		if(check.good() == false) {
 			std::ofstream css(cssPath);
 			css << css_default << endl;
+			std::cout << "Written new default CSS file: " << cssPath << std::endl;
 		}
+		else
+			std::cout << "Default CSS file already exists: " << cssPath << std::endl;
 	}
 
 	return n;
