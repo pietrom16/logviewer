@@ -1,8 +1,8 @@
 # logviewer
 
-#### - Log files viewer & text highlighter.
+### Log files viewer & text highlighter.
 
-Features:
+## Features:
 
 - Text mode log viewer, runs everywhere after recompilation.
 
@@ -18,21 +18,22 @@ Features:
 
 - Filtering capability.
 
-- Text highlighter: specifying custom keywords with a priority level, highlights text files,
+- __***Text highlighter:***__ specifying custom keywords with a priority level, highlights text files,
   shows context, and hides non relevant parts.
 
 - Free software, GPL 3 license.
 
 
-For better performance, consider logging to a ramdisk.
+For better performance (and reduce SSD wearing), consider writing the output logs on a ramdisk.
 
 
-Requirements:
+## Requirements:
+
 - C++11
 - Default build system: CMake
 
 
-##### - Example: Apache log file
+#### - Example: Apache log file
 
 Original log file:
 
@@ -47,7 +48,7 @@ Command:  `logviewer --input "./test/example.log" --minLevel 4 --contextWidth 3 
 
 ![Output:](./test/testApache_log.png)
 
-##### - Example: underline a Wikipedia page
+#### - Example: underline a Wikipedia page
 
 Original text:
 
