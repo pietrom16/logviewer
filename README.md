@@ -32,8 +32,9 @@ For better performance (and reduce SSD wearing), consider writing the output log
 - C++11
 - Default build system: CMake
 
+==========
 
-#### - Example: Apache log file
+### - Example: Apache log file
 
 Original log file:
 
@@ -48,7 +49,9 @@ Command:  `logviewer --input "./test/example.log" --minLevel 4 --contextWidth 3 
 
 ![Output:](./test/testApache_log.png)
 
-#### - Example: underline a Wikipedia page
+---------
+
+### - Example: underline a Wikipedia page
 
 Original text:
 
