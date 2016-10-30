@@ -6,7 +6,7 @@ Features:
 
 - Text mode log viewer, runs everywhere after recompilation.
 
-- __***Dynamic log level threshold***__: in the proximity of logs with high level,
+- ***Dynamic log level threshold:*** in the proximity of logs with high level,
   automatically lower the level threshold to provide context for critical cases.
 
 - Log level based highlighting (on Linux, OS-X, Windows).
