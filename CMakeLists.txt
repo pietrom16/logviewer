@@ -35,6 +35,7 @@ endif()
 message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS} " " ${CMAKE_BUILD_TYPE})
 
 set(SRC
+	CSS_default.h
 	entrypoint.cpp
 	logviewer.cpp
 	logviewer_html.cpp
@@ -47,14 +48,17 @@ set(SRC
 	LogFormatter.cpp
 	LogFormatter_html.cpp
 	LogFormatter.hpp
+	logviewer.css
 	progArgs.cpp
 	progArgs.h
 	ReadKeyboard.cpp
 	ReadKeyboard.h
 	ReadKeyboard_test.cpp
+	README.md
 	RunInternalTests.cpp
 	RunInternalTests.h
 	textModeFormatting.h
+	TODO
 )
 
 add_executable(${PRJ} ${SRC})
