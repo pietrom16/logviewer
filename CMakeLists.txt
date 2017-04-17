@@ -34,7 +34,22 @@ endif()
 
 message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS} " " ${CMAKE_BUILD_TYPE})
 
-add_definitions(-DQT_GUI)
+
+### Qt library
+
+find_package(Qt5Widgets)
+
+if(Qt5Widgets)
+	message("Qt5 library found. Building graphic GUI interface.")
+	add_definitions(-DQT_GUI)
+	# Find includes in corresponding build directories
+	set(CMAKE_INCLUDE_CURRENT_DIR ON)
+	# Instruct CMake to run moc automatically when needed
+	set(CMAKE_AUTOMOC ON)
+else()
+	message("Qt5 library not found. Building console interface only.")
+endif()
+
 
 set(SRC_CORE
 	CSS_default.h
@@ -75,4 +90,9 @@ set(SRC
 
 add_executable(${PRJ} ${SRC})
 add_executable(${PRJ}_test test_logsGenerator.cpp)
+
+if(Qt5Widgets)
+	# Use the Widgets module from Qt 5
+	target_link_libraries(${PRJ} Qt5::Widgets)
+endif()
 
