@@ -1,6 +1,6 @@
 # CMakeLists.txt - logviewer
 #
-# Copyright 2012-2016 Pietro Mele
+# Copyright 2012-2017 Pietro Mele
 
 cmake_minimum_required(VERSION 3.0)
 
@@ -33,6 +33,8 @@ endif()
 #add_definitions(-DREAD_KEYBOARD_TEST)
 
 message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS} " " ${CMAKE_BUILD_TYPE})
+
+add_definitions(-DQT_GUI)
 
 set(SRC_CORE
 	CSS_default.h

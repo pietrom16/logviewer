@@ -21,7 +21,7 @@
 
 #include "logviewer.hpp"
 #ifdef QT_GUI
-#include "qlogviewer.hpp"
+#include "QLogViewer.hpp"
 #endif
 
 int main(int argc, char* argv[])
