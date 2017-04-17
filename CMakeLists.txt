@@ -85,8 +85,14 @@ set(SRC_QT
 
 set(SRC
 	${SRC_CORE}
-	${SRC_QT}
 )
+
+if(Qt5Widgets)
+	set(SRC
+		${SRC_CORE}
+		${SRC_QT}
+	)
+endif()
 
 add_executable(${PRJ} ${SRC})
 add_executable(${PRJ}_test test_logsGenerator.cpp)
