@@ -1,5 +1,14 @@
 TODO - logviewer
 
+--- Qt5 GUI
+    - It must be optional:
+	    - At build time (conditional compilation).
+		- At run time (launch in text mode/graphics mode).
+	- Based on: QPlainTextEdit (http://doc.qt.io/qt-5/qplaintextedit.html)
+	    - https://forum.qt.io/topic/44640/using-qplaintextedit-as-a-log-viewer
+	- Start from an example, and refine it:
+	    -
+
 --- HTML5 output
     -- Add controls:
 	    - Go back before the controls.
