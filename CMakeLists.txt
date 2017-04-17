@@ -1,6 +1,8 @@
+###############################################################################
 # CMakeLists.txt - logviewer
 #
 # Copyright 2012-2017 Pietro Mele
+###############################################################################
 
 cmake_minimum_required(VERSION 3.0)
 
@@ -11,6 +13,9 @@ message("Building project: ${PRJ}")
 message("==============================================")
 
 project(${PRJ})
+
+#------------------------------------------------------------------------------
+### Project configuration
 
 # Specify the build type on the command line: Release, Debug, RelWithDebInfo, MinSizeRel
 if(CMAKE_BUILD_TYPE MATCHES "")
@@ -34,7 +39,7 @@ endif()
 
 message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS} " " ${CMAKE_BUILD_TYPE})
 
-
+#------------------------------------------------------------------------------
 ### Qt library
 
 find_package(Qt5Widgets)
@@ -50,6 +55,8 @@ else()
 	message("Qt5 library not found. Building console interface only.")
 endif()
 
+#------------------------------------------------------------------------------
+### Source files
 
 set(SRC_CORE
 	CSS_default.h
@@ -93,6 +100,9 @@ if(Qt5Widgets)
 		${SRC_QT}
 	)
 endif()
+
+#------------------------------------------------------------------------------
+### Build
 
 add_executable(${PRJ} ${SRC})
 add_executable(${PRJ}_test test_logsGenerator.cpp)
