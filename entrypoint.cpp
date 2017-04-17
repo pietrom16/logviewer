@@ -20,6 +20,9 @@
  */
 
 #include "logviewer.hpp"
+#ifdef QT_GUI
+#include "qlogviewer.hpp"
+#endif
 
 int main(int argc, char* argv[])
 {
@@ -32,9 +35,16 @@ int main(int argc, char* argv[])
 #endif // RUN_INTERNAL_TESTS
 
 
+#ifndef QT_GUI
 	LogViewer logViewer(argc, argv);
-
 	logViewer.Run();
+#else
+	QLogViewer logViewer(argc, argv);
+	if(logViewer.QtGui())
+		logViewer.RunQt();
+	else
+		logViewer.Run();
+#endif
 
 	exit(0);
 }
