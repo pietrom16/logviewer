@@ -39,7 +39,7 @@ message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS} " " ${CMA
 
 find_package(Qt5Widgets)
 
-if(Qt5Widgets)
+if(Qt5Widgets_FOUND)
 	message("Qt5 library found. Building graphic GUI interface.")
 	add_definitions(-DQT_GUI)
 	# Find includes in corresponding build directories
@@ -97,8 +97,7 @@ endif()
 add_executable(${PRJ} ${SRC})
 add_executable(${PRJ}_test test_logsGenerator.cpp)
 
-if(Qt5Widgets)
-	# Use the Widgets module from Qt 5
+if(Qt5Widgets_FOUND)
 	target_link_libraries(${PRJ} Qt5::Widgets)
 endif()
 
