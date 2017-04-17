@@ -13,6 +13,17 @@
 #ifndef QLOGVIEWER_HPP
 #define QLOGVIEWER_HPP
 
+#include "logviewer.hpp"
 
+namespace log_viewer {
+
+
+class QLogViewer : public LogViewer
+{
+
+};
+
+
+} // log_viewer
 
 #endif // QLOGVIEWER_HPP

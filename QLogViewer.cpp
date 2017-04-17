@@ -12,3 +12,9 @@
 
 #include "QLogViewer.hpp"
 
+namespace log_viewer {
+
+
+
+} // log_viewer
+
