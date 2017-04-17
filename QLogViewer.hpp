@@ -14,11 +14,12 @@
 #define QLOGVIEWER_HPP
 
 #include "logviewer.hpp"
+#include <QPlainTextEdit>
 
 namespace log_viewer {
 
 
-class QLogViewer : public LogViewer
+class QLogViewer : public LogViewer, public QPlainTextEdit
 {
 
 };
