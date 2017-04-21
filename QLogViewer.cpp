@@ -14,7 +14,17 @@
 
 namespace log_viewer {
 
+int QLogViewer::RunQt()
+{
+	std::cout << "Launching LogViewer GUI..." << std::endl;
 
+	auto mainDialog = new QPlainTextEdit;
+	mainDialog->setPlainText("Hello, world!");
+	mainDialog->appendPlainText("Appending some text…");
+	mainDialog->show();
+
+	return 0;
+}
 
 } // log_viewer
 

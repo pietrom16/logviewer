@@ -26,14 +26,7 @@ public:
 	QLogViewer(int argc, char* argv[]) : LogViewer(argc, argv) {}
 	virtual ~QLogViewer() {}
 
-	int RunQt() {
-		std::cout << "Launching LogViewer GUI..." << std::endl;
-		auto mainDialog = new QPlainTextEdit;
-		mainDialog->setPlainText("Hello, world!");
-		mainDialog->appendPlainText("Appending some text…");
-		mainDialog->show();
-		return 0;
-	}
+	int RunQt();
 };
 
 
