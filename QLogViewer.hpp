@@ -14,6 +14,7 @@
 #define QLOGVIEWER_HPP
 
 #include "logviewer.hpp"
+#include <iostream>
 #include <QPlainTextEdit>
 
 namespace log_viewer {
@@ -21,7 +22,14 @@ namespace log_viewer {
 
 class QLogViewer : public LogViewer, public QPlainTextEdit
 {
+public:
+	QLogViewer() : LogViewer() {}
+	virtual ~QLogViewer() {}
 
+	int RunQt() {
+		std::cerr << "Hello world!" << std::endl;
+		return 0;
+	}
 };
 
 
