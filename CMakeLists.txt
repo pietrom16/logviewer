@@ -42,11 +42,14 @@ message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS} " " ${CMA
 #------------------------------------------------------------------------------
 ### Qt library
 
+set(QT_GUI "0")
+
 find_package(Qt5Widgets)
 
 if(Qt5Widgets_FOUND)
 	message("Qt5 library found. Building graphic GUI interface.")
 	add_definitions(-DQT_GUI)
+	set(QT_GUI "1")
 	# Find includes in corresponding build directories
 	set(CMAKE_INCLUDE_CURRENT_DIR ON)
 	# Instruct CMake to run moc automatically when needed
@@ -94,7 +97,7 @@ set(SRC
 	${SRC_CORE}
 )
 
-if(Qt5Widgets)
+if(QT_GUI MATCHES "1")
 	set(SRC
 		${SRC_CORE}
 		${SRC_QT}
