@@ -23,7 +23,7 @@ namespace log_viewer {
 class QLogViewer : public LogViewer, public QPlainTextEdit
 {
 public:
-	QLogViewer() : LogViewer() {}
+	QLogViewer(int argc, char* argv[]) : LogViewer(argc, argv) {}
 	virtual ~QLogViewer() {}
 
 	int RunQt() {
