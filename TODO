@@ -2,10 +2,10 @@ TODO - logviewer
 
 --- Qt5 GUI
     . Check why Qt is not found.
-	- It must be optional:
+	. It must be optional:
 	    . At build time (conditional compilation).
-		- At run time (launch in text mode/graphics mode).
-	- Based on: QPlainTextEdit (http://doc.qt.io/qt-5/qplaintextedit.html)
+		. At run time (launch in text mode/graphics mode).
+	. Based on: QPlainTextEdit (http://doc.qt.io/qt-5/qplaintextedit.html)
 	    - https://forum.qt.io/topic/44640/using-qplaintextedit-as-a-log-viewer
 	- Start from an example, and refine it:
 	    -
@@ -55,8 +55,9 @@ TODO - logviewer
 
 BUGS
 
-- Check if it is normal that destructors are not called before exit.
-- Check timing in text view.
+- Bug: Check if it is normal that destructors are not called before exit.
+- Bug: Check timing in text view.
+- Bug: After running in GUI mode, the text console behaves erroneously.
 
 
 TESTING
