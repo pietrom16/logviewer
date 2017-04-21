@@ -56,11 +56,19 @@ int main(int argc, char* argv[])
 	}
 
 #ifndef QT_GUI
+	if(!consoleMode) {
+		std::cerr << "LogViewer warning: GUI mode not available in this build." << std::endl;
+	}
 	LogViewer logViewer(argc, argv);
 	logViewer.Run();
-
 	exit(0);
 #else
+	if(consoleMode)
+	{
+		LogViewer logViewer(argc, argv);
+		logViewer.Run();
+		exit(0);
+	}
 	QApplication app(argc, argv);
 //+	QLogViewer *logViewer = new QLogViewer();
 //+	if(logViewer->QtGui())
