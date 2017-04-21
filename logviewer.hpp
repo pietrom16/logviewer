@@ -44,7 +44,7 @@ struct ResetDefaults;
 class LogViewer
 {
 public:
-	LogViewer();
+	LogViewer() {}
 	LogViewer(const std::string &_logFile, int _minLogLevel = 0);
 	LogViewer(int argc, char* argv[]);
 	~LogViewer();
