@@ -3,7 +3,7 @@
  *
  * logviewer: Utility to display log files in real time on the console.
  *
- * Copyright (C) 2012-2016 Pietro Mele
+ * Copyright (C) 2012-2017 Pietro Mele
  * Released under a GPL 3 license.
  *
  * pietrom16@gmail.com
@@ -81,7 +81,7 @@ void PrintHelp()
 	cout << "\n"
 	    << "logviewer: Utility to display log files in real time on the console and on the GUI.\n"
 	    << "\n"
-	    << "Copyright (C) 2012-2016 Pietro Mele\n"
+	    << "Copyright (C) 2012-2017 Pietro Mele\n"
 	    << "Released under a GPL 3 license.\n"
 	    << "\n"
 	    << "Parameters:\n"

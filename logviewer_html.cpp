@@ -3,7 +3,7 @@
  *
  * Utility to display log files in real time on and HTML file.
  *
- * Copyright (C) 2012-2016 Pietro Mele
+ * Copyright (C) 2012-2017 Pietro Mele
  * Released under a GPL 3 license.
  *
  * pietrom16@gmail.com
