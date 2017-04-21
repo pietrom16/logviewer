@@ -70,12 +70,8 @@ int main(int argc, char* argv[])
 		exit(0);
 	}
 	QApplication app(argc, argv);
-//+	QLogViewer *logViewer = new QLogViewer();
-//+	if(logViewer->QtGui())
-//+		logViewer->RunQt();
-//+	else
-//+	    logViewer->Run();
-
+	QLogViewer *qLogViewer = new QLogViewer();
+	qLogViewer->RunQt();
 	return app.exec();
 #endif
 }
