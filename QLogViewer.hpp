@@ -20,7 +20,7 @@
 namespace log_viewer {
 
 
-class QLogViewer : public LogViewer, public QPlainTextEdit
+class QLogViewer : public LogViewer
 {
 public:
 	QLogViewer(int argc, char* argv[]) : LogViewer(argc, argv) {}
