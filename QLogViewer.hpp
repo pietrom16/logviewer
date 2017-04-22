@@ -33,3 +33,8 @@ public:
 } // log_viewer
 
 #endif // QLOGVIEWER_HPP
+
+/** References
+ *  http://www.qtcentre.org/threads/51208-example-of-QPlainTextEdit-subclass-to-handle-large-text-files?s=dfb71c603e0e7db09af8f02331c95cd9
+ *  https://github.com/Andersbakken/LazyTextEdit
+ */
