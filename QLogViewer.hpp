@@ -26,7 +26,7 @@ public:
 	QLogViewer(int argc, char* argv[]) : LogViewer(argc, argv) {}
 	virtual ~QLogViewer() {}
 
-	int RunQt();
+	virtual int RunQt();
 };
 
 
