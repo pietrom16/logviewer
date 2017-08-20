@@ -18,9 +18,13 @@ message("==============================================")
 ### Project configuration
 
 # Specify the build type on the command line: Release, Debug, RelWithDebInfo, MinSizeRel
+message("TEMP - CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
 if(CMAKE_BUILD_TYPE MATCHES "")
 	#set(CMAKE_BUILD_TYPE Debug)
 	set(CMAKE_BUILD_TYPE Release)
+	message("CMAKE_BUILD_TYPE set to default: ${CMAKE_BUILD_TYPE}")
+else()
+	message("CMAKE_BUILD_TYPE set to: ${CMAKE_BUILD_TYPE}")
 endif()
 
 # Specify C++ standard version
@@ -39,7 +43,7 @@ endif()
 #add_definitions(-DLOGCONTEXT_TEST)
 #add_definitions(-DREAD_KEYBOARD_TEST)
 
-message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS} " " ${CMAKE_BUILD_TYPE})
+message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS})
 
 #------------------------------------------------------------------------------
 ### Qt library
