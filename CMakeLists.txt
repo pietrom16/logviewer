@@ -29,6 +29,9 @@ endif()
 
 # Specify C++ standard version
 set(CMAKE_CXX_FLAGS "-std=c++14 -stdlib=libc++")
+set(CMAKE_CXX_STANDARD 14)
+add_compile_options(-std=c++14)
+link_libraries("-stdlib=libc++")
 
 # Extra code in debug mode
 if(CMAKE_BUILD_TYPE MATCHES "Release")
