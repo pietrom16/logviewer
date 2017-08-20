@@ -8,11 +8,11 @@ cmake_minimum_required(VERSION 3.0)
 
 set(PRJ logviewer)
 
+project(${PRJ})
+
 message("==============================================")
 message("Building project: ${PRJ}")
 message("==============================================")
-
-project(${PRJ})
 
 #------------------------------------------------------------------------------
 ### Project configuration
@@ -27,7 +27,9 @@ endif()
 set(CMAKE_CXX_FLAGS "-std=c++14 -stdlib=libc++")
 
 # Extra code in debug mode
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
+if(CMAKE_BUILD_TYPE MATCHES "Release")
+	message("Building in release mode.")
+else()
 	message("Building extra checks and output in debug mode.")
 	add_definitions(-DVERBOSE)
 endif()
@@ -44,18 +46,26 @@ message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS} " " ${CMA
 
 set(QT_GUI "0")
 
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+#TMP
+#set(CMAKE_PREFIX_PATH "/opt/Qt/Qt5.8.0")
+#set(QT_QMAKE_EXECUTABLE ${CMAKE_PREFIX_PATH}/5.8/clang_64/bin/qmake)
+message("QT_QMAKE_EXECUTABLE = ${QT_QMAKE_EXECUTABLE}")
+
 find_package(Qt5Widgets)
 
 if(Qt5Widgets_FOUND)
 	message("Qt5 library found. Building graphic GUI interface.")
 	add_definitions(-DQT_GUI)
 	set(QT_GUI "1")
-	# Find includes in corresponding build directories
-	set(CMAKE_INCLUDE_CURRENT_DIR ON)
 	# Instruct CMake to run moc automatically when needed
 	set(CMAKE_AUTOMOC ON)
 else()
-	message("Qt5 library not found. Building console interface only.")
+	message("Qt5 library not found.")
+	message("Searched for Qt5 here: ${CMAKE_PREFIX_PATH}")
+	message("Building console interface only.")
 endif()
 
 #------------------------------------------------------------------------------
