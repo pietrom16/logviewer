@@ -89,22 +89,25 @@ set(SRC_CORE
 	LogFormatter.cpp
 	LogFormatter_html.cpp
 	LogFormatter.hpp
-	logviewer.css
 	progArgs.cpp
 	progArgs.h
 	ReadKeyboard.cpp
 	ReadKeyboard.h
 	ReadKeyboard_test.cpp
-	README.md
 	RunInternalTests.cpp
 	RunInternalTests.h
 	textModeFormatting.h
-	TODO
 )
 
 set(SRC_QT
 	QLogViewer.cpp
 	QLogViewer.hpp
+)
+
+set(DOC
+	logviewer.css
+	README.md
+	TODO
 )
 
 set(SRC
