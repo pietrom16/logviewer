@@ -49,11 +49,6 @@ set(QT_GUI "0")
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-#TMP
-#set(CMAKE_PREFIX_PATH "/opt/Qt/Qt5.8.0")
-#set(QT_QMAKE_EXECUTABLE ${CMAKE_PREFIX_PATH}/5.8/clang_64/bin/qmake)
-message("QT_QMAKE_EXECUTABLE = ${QT_QMAKE_EXECUTABLE}")
-
 find_package(Qt5Widgets)
 
 if(Qt5Widgets_FOUND)
@@ -65,6 +60,8 @@ if(Qt5Widgets_FOUND)
 else()
 	message("Qt5 library not found.")
 	message("Searched for Qt5 here: ${CMAKE_PREFIX_PATH}")
+	message("One way to fix this, if Qt is already installed, is to set the QTDIR environment ")
+	message("variable and add the Qt's bin path to the system's PATH.")
 	message("Building console interface only.")
 endif()
 

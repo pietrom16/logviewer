@@ -2,6 +2,8 @@ TODO - logviewer
 
 --- Qt5 GUI
     . Check why Qt is not found.
+		QTDIR=/opt/Qt/Qt5.8.0/5.8/clang_64
+		PATH=$PATH:/opt/Qt/Qt5.8.0/5.8/clang_64/bin
 	. It must be optional:
 	    . At build time (conditional compilation).
 		. At run time (launch in text mode/graphics mode).
