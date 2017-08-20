@@ -260,7 +260,7 @@ int LogViewer::Run()
 	}
 
 	if(markdownOutput) {
-		//+TODO
+		//TODO
 	}
 
 	PrintExtraInfo();
@@ -583,7 +583,7 @@ std::string LogViewer::GetLogDate(const std::string &_logFile)
 	if (hFile == INVALID_HANDLE_VALUE)
 		return "?\n";
 	else {
-		//+TODO
+		//TODO
 /*		if(GetLastWriteTime(hFile, szBuf, MAX_PATH)) {
 			std::wstring wlogDate = std::wstring(szBuf);
 			typedef std::codecvt_utf8<wchar_t> convert_typeX;
@@ -662,7 +662,7 @@ void LogViewer::PrintHelp(const ProgArgs &_args, const char* _progName, LogLevel
 	cout << "\n   quit           Exit the program.\n";
 	cout << "\n   Note: only one command per line.\n";
 
-	//+TEST //+TODO: Windows version
+	//+TEST //TODO: Windows version
 	cout << "\n- To print multiple log files simultaneously, a script like this can be used \n"
 			"   (the temporal sequence of logs from different sources is not guaranteed):\n";
 	cout << "\t " << progName.substr(pos) << " -i file1.log -f &\n";
@@ -1055,7 +1055,7 @@ int LogViewer::WriteHeader()
 	}
 
 	if(markdownOutput) {
-		//+TODO
+		//TODO
 	}
 
 	return n;
@@ -1084,7 +1084,7 @@ int LogViewer::WriteLog(const std::string &_log, int _level, const std::string &
 	}
 
 	if(markdownOutput) {
-		//+TODO
+		//TODO
 	}
 
 	WriteFooter();
@@ -1112,7 +1112,7 @@ int LogViewer::WriteFooter()
 	}
 
 	if(markdownOutput) {
-		//+TODO
+		//TODO
 	}
 
 	return n;
@@ -1177,7 +1177,7 @@ int LogViewer::PrintExtraInfo()
 		cout << "Copying the HTML logs in: " << outLogFile << ".log.html" << endl;
 
 	if(markdownOutput)
-		; //+TODO
+		; //TODO
 
 	if(newLogsOnly)
 		cout << "Not showing past logs." << endl;
@@ -1423,7 +1423,7 @@ int LogViewer::ReadExternalCommands(std::ifstream &ifs, std::streamoff &pos)
 				inLogFs.open(logFile);
 			}
 		}
-		//+TODO - Add commands here
+		//TODO - Add commands here
 		else {
 			cerr << "Warning: command token not recognised: " << cmd_token << endl;
 			cerr << "Warning: command not executed: " << cmd << endl;

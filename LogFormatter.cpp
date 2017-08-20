@@ -192,7 +192,7 @@ std::string LogFormatter::FormatMarkdown(const std::string &_log,
 										 char _tag,
 										 int _logNumber) const
 {
-	//+TODO
+	//TODO
 	return _log;
 }
 

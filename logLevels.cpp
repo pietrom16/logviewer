@@ -205,7 +205,7 @@ int LogLevels::LogLevelMapping(const std::string &_tag) const
 
 	for (size_t i = 0; i < _tag.size(); ++i)
 	{
-		colorCode += _tag[i];		//+TODO: more randomness
+		colorCode += _tag[i];		//TODO: more randomness
 	}
 
 	colorCode = colorCode % 7;		// use the first 7 colors only

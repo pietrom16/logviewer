@@ -47,7 +47,7 @@ int LogViewer::WriteHeader_html()
 	if(size < 10) {
 		htmlOutStream.seekp(0, std::ios_base::beg);
 		htmlOutStream << logFormatter.HeaderHTML() << endl;
-		//+TODO AddHtmlControls();
+		//TODO AddHtmlControls();
 		htmlOutStream << logFormatter.TitleHTML() << endl;
 		++n;
 	}
@@ -75,7 +75,7 @@ int LogViewer::WriteHeader_html()
 int LogViewer::WriteFooter_html()
 {
 	MoveBackToEndLogsBlock_html();
-	//+TODO AddHtmlControls();
+	//TODO AddHtmlControls();
 
 	htmlOutStream << logFormatter.FooterHTML() << endl;
 
@@ -131,7 +131,7 @@ int LogViewer::MoveBackToEndLogsBlock_html()
 
 	/// Find the point where to start adding new logs
 
-	while(!htmlOutStream.eof())		//+TODO Update
+	while(!htmlOutStream.eof())		//TODO Update
 	{
 		pos = htmlOutStream.tellg();
 
@@ -168,7 +168,7 @@ int LogViewer::MoveBackToEndLogsBlock_html()
 	//cerr << "</span> = " << posEndToken_span << "; <table> = " << posBegToken_table << "; </body> = " << posBegToken_body << endl; //+T+
 	//cerr << "Pos new logs = " << posNewLogs << endl; //+T+
 
-	/// Move to posNewLogs	//+TODO
+	/// Move to posNewLogs	//TODO
 
 	// Reset htmlOutStream error state flags	//+?
 	htmlOutStream.clear();
@@ -207,7 +207,7 @@ int LogViewer::MoveBackToEndLogsBlock_html()
 
 int LogViewer::AddHtmlControls()
 {
-	//+TODO - Put real controls here
+	//TODO - Put real controls here
 
 	htmlOutStream
 	   << "\t\t<table style=\"width:100%\">"

@@ -12,7 +12,7 @@ using namespace std;
 
 int LogContext_test()
 {
-	//+TODO Generate test log file
+	//TODO Generate test log file
 	{
 		//fstream ofs("LogContext_test.log");
 		//ofs << "" << endl;

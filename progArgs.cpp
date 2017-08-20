@@ -239,7 +239,7 @@ int ProgArgs::Parse(int _argc, char *_argv[])
 
 	int  nUnknownArgs = 0;
 
-	//+TODO - Fix this code; it partially works
+	//TODO - Fix this code; it partially works
 #if 0
 	bool unknown = true;
 
