@@ -19,7 +19,7 @@ message("==============================================")
 
 # Specify the build type on the command line: Release, Debug, RelWithDebInfo, MinSizeRel
 message("TEMP - CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
-if(CMAKE_BUILD_TYPE MATCHES "")
+if(${CMAKE_BUILD_TYPE} MATCHES "")
 	#set(CMAKE_BUILD_TYPE Debug)
 	set(CMAKE_BUILD_TYPE Release)
 	message("CMAKE_BUILD_TYPE set to default: ${CMAKE_BUILD_TYPE}")
@@ -34,7 +34,7 @@ add_compile_options(-std=c++14)
 link_libraries("-stdlib=libc++")
 
 # Extra code in debug mode
-if(CMAKE_BUILD_TYPE MATCHES "Release")
+if(${CMAKE_BUILD_TYPE} MATCHES "Release")
 	message("Building in release mode.")
 else()
 	message("Building extra checks and output in debug mode.")

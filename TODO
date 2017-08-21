@@ -24,6 +24,10 @@ TODO - logviewer
     -- Write commands from HTML into the command file.
 	-- Read commands from the app.
 
+- CMake:
+	- Fix getting command line parameters.
+	- Use a specific compiler.
+
 - Split logviewer.cpp in multiple shorter files.
     . Separated HTML member functions.
 
