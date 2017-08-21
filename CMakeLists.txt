@@ -124,6 +124,8 @@ endif()
 #------------------------------------------------------------------------------
 ### Build
 
+message("Compiling: ${SRC}")
+
 add_executable(${PRJ} ${SRC})
 add_executable(${PRJ}_test test_logsGenerator.cpp)
 
