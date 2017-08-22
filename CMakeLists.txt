@@ -10,6 +10,7 @@ set(PRJ logviewer)
 
 project(${PRJ})
 
+message("")
 message("==============================================")
 message("Building project: ${PRJ}")
 message("==============================================")
@@ -18,13 +19,11 @@ message("==============================================")
 ### Project configuration
 
 # Specify the build type on the command line: Release, Debug, RelWithDebInfo, MinSizeRel
-message("TEMP - CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
-if(${CMAKE_BUILD_TYPE} MATCHES "")
-	#set(CMAKE_BUILD_TYPE Debug)
+if(CMAKE_BUILD_TYPE)
+	message("CMAKE_BUILD_TYPE set to: ${CMAKE_BUILD_TYPE}")
+else()
 	set(CMAKE_BUILD_TYPE Release)
 	message("CMAKE_BUILD_TYPE set to default: ${CMAKE_BUILD_TYPE}")
-else()
-	message("CMAKE_BUILD_TYPE set to: ${CMAKE_BUILD_TYPE}")
 endif()
 
 # Specify C++ standard version
@@ -34,7 +33,7 @@ add_compile_options(-std=c++14)
 link_libraries("-stdlib=libc++")
 
 # Extra code in debug mode
-if(${CMAKE_BUILD_TYPE} MATCHES "Release")
+if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
 	message("Building in release mode.")
 else()
 	message("Building extra checks and output in debug mode.")
@@ -51,7 +50,7 @@ message("Building with: " ${CMAKE_CXX_COMPILER} " " ${CMAKE_CXX_FLAGS})
 #------------------------------------------------------------------------------
 ### Qt library
 
-set(QT_GUI "0")
+set(QT_GUI 0)
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -61,7 +60,7 @@ find_package(Qt5Widgets)
 if(Qt5Widgets_FOUND)
 	message("Qt5 library found. Building graphic GUI interface.")
 	add_definitions(-DQT_GUI)
-	set(QT_GUI "1")
+	set(QT_GUI 1)
 	# Instruct CMake to run moc automatically when needed
 	set(CMAKE_AUTOMOC ON)
 else()
@@ -114,7 +113,7 @@ set(SRC
 	${SRC_CORE}
 )
 
-if(QT_GUI MATCHES "1")
+if(QT_GUI EQUAL 1)
 	set(SRC
 		${SRC_CORE}
 		${SRC_QT}
