@@ -4,13 +4,14 @@ TODO - logviewer
     . Check why Qt is not found.
 		QTDIR=/opt/Qt/Qt5.8.0/5.8/clang_64
 		PATH=$PATH:/opt/Qt/Qt5.8.0/5.8/clang_64/bin
+		--> TODO: double check!
 	. It must be optional:
 	    . At build time (conditional compilation).
 		. At run time (launch in text mode/graphics mode).
 	. Based on: QPlainTextEdit (http://doc.qt.io/qt-5/qplaintextedit.html)
 	    - https://forum.qt.io/topic/44640/using-qplaintextedit-as-a-log-viewer
 	- Start from an example, and refine it:
-	    -
+	    - Copy the Qt bits from the test project to this one.
 
 --- HTML5 output
     -- Add controls:
@@ -35,10 +36,10 @@ TODO - logviewer
 
 - Add option to delete existing output file before adding new logs.
 
-- Use set of conditions to pick logs even if below the threshold when other logs are met (i.e. extend the context feature).
 
 -- Show multiple log files.
 
+- Use set of conditions to pick logs even if below the threshold when other logs are met (i.e. extend the context feature).
 - Use conditions to pick specific logs on the basis of other logs.
     E.g.:
 	- If a specific log is present, change min log level.
