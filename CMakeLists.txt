@@ -55,17 +55,21 @@ set(QT_GUI 0)
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
+
+message("Searching for Qt5 here: ${CMAKE_PREFIX_PATH}")
+
 find_package(Qt5Widgets)
 
 if(Qt5Widgets_FOUND)
 	message("Qt5 library found. Building graphic GUI interface.")
 	add_definitions(-DQT_GUI)
 	set(QT_GUI 1)
-	# Instruct CMake to run moc automatically when needed
-	set(CMAKE_AUTOMOC ON)
 else()
 	message("Qt5 library not found.")
 	message("Searched for Qt5 here: ${CMAKE_PREFIX_PATH}")
+	message("QTDIR = ${QTDIR}")
 	message("One way to fix this, if Qt is already installed, is to set the QTDIR environment ")
 	message("variable and add the Qt's bin path to the system's PATH.")
 	message("Building console interface only.")
@@ -126,7 +130,7 @@ endif()
 message("Compiling: ${SRC}")
 
 add_executable(${PRJ} ${SRC})
-add_executable(${PRJ}_test test_logsGenerator.cpp)
+#add_executable(${PRJ}_test test_logsGenerator.cpp)
 
 if(Qt5Widgets_FOUND)
 	target_link_libraries(${PRJ} Qt5::Widgets)
