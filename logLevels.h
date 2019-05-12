@@ -36,7 +36,14 @@ public:
 					 err_fileNotFound  = -2;
 
 public:
-	LogLevels() { InitLogLevels(); }
+	LogLevels()
+	{
+		InitLogLevels();
+		multiLineLogs = false;
+		prevLevel = 0;
+	}
+	
+	void SetMultiLineLogs(bool multiLine = true) { multiLineLogs = multiLine; }
 
 	int InitLogLevels();
 	int InitLogLevels(const std::vector<TagLevel> &_levels);
@@ -90,6 +97,9 @@ private:
 	bool pickFirstTag;			// pick the highest level tag if false
 	bool warnUnknownLogLevel;
 	int  indentation;
+
+	bool multiLineLogs;			// log messages spanning multiple lines
+	int  prevLevel;				// level of the multi-line log
 
 	static std::string ToUppercase(const std::string &_str);
 };
