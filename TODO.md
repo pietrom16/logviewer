@@ -1,4 +1,9 @@
-TODO - logviewer
+# TODO - logviewer
+
+-- Multiline logs
+	- Automatic recognition of multiline logs
+		- If the next log line has no timestamp and log level, treat it as a continuation of the previous log.
+		- No need to specify a command line parameter to recognize multiline logs.
 
 --- HTML5 output
     -- Add controls:
@@ -43,13 +48,13 @@ TODO - logviewer
 -- rdKb: destroied, but never recreated.
 
 
-BUGS
+## BUGS
 
 - Check if it is normal that destructors are not called before exit.
 - Check timing in text view.
 
 
-TESTING
+## TESTING
 
 --input "/Users/pietro/myProgs/logger/logviewer/test/testText.txt" --logLevels "/Users/pietro/myProgs/logger/logviewer/test/testText_logLevels.txt" -ln --text -d ".;" -m 0
 --input ./test.log -of HTML
