@@ -141,7 +141,7 @@ namespace textModeFormatting
 	// Predefined text formats as levels
 
 	static const int level[][nLevels] = {
-		{ 0  },	/* not used */
+		{ 11 },	/* not used */
 		{ 11 },	/* VERBOSE_, cyan */
 		{ 07 },	/* DETAIL_, white */
 		{ 10 },	/* INFO_, green */
