@@ -220,7 +220,7 @@ int LogLevels::LogLevelMapping(const std::string &_tag) const
 int LogLevels::FindLogLevel(const std::string &_log,
 							std::string &_levelTag,
 							bool _pickFirstTag,
-							int _column) const
+							int _column)
 {
 	int levelVal = 0;
 
@@ -258,7 +258,7 @@ int LogLevels::FindLogLevel(const std::string &_log,
 
 int LogLevels::FindLogLevel(const std::string &_log,
 							bool _pickFirstTag,
-							int _column) const
+							int _column)
 {
 	int levelVal = 0;
 

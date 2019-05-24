@@ -66,13 +66,13 @@ public:
 	// empty string/negative value if not found
 	int FindLogLevel(const std::string &_log, std::string &_levelTag,
 					 bool _pickFirstTag = false,
-					 int _column = -1) const;
+					 int _column = -1);
 
 	// Return log level value in a log message;
 	// negative value if not found
 	int FindLogLevel(const std::string &_log,
 					 bool _pickFirstTag = false,
-					 int _column = -1) const;
+					 int _column = -1);
 
 	// Return the log level tag in a log message; empty string if not found
 	std::string FindLogLevelTag(const std::string &_log,
