@@ -238,7 +238,10 @@ int LogLevels::FindLogLevel(const std::string &_log,
 	{
 		levelVal = FindLogLevelVal(_log, _pickFirstTag);
 
-		if (levelVal < 0 && warnUnknownLogLevel && _log.size() > 0) {
+		if(levelVal < 0 && multiLineLogs) {
+			levelVal = prevLevel;
+		}
+		else if(levelVal < 0 && warnUnknownLogLevel && _log.size() > 0) {
 			levelVal = 4;
 #ifdef _WIN32
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
@@ -248,6 +251,8 @@ int LogLevels::FindLogLevel(const std::string &_log,
 
 		_levelTag = levels[levelVal].tag;
 	}
+
+	prevLevel = levelVal;
 
 	return levelVal;
 }
@@ -275,7 +280,11 @@ int LogLevels::FindLogLevel(const std::string &_log,
 	{
 		levelVal = FindLogLevelVal(_log, _pickFirstTag);
 
-		if(levelVal < 0)
+		if(levelVal < 0 && multiLineLogs)
+		{
+			levelVal = prevLevel;
+		}
+		else if(levelVal < 0)
 		{
 			if(warnUnknownLogLevel && _log.size() > 0)
 			{
@@ -290,6 +299,8 @@ int LogLevels::FindLogLevel(const std::string &_log,
 				levelVal = 0;
 		}
 	}
+
+	prevLevel = levelVal;
 
 	return levelVal;
 }
