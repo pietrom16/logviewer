@@ -94,12 +94,12 @@ public:
 private:
 	std::vector<TagLevel> levels;
 
-	bool pickFirstTag;			// pick the highest level tag if false
-	bool warnUnknownLogLevel;
-	int  indentation;
+	bool pickFirstTag = false;			// pick the highest level tag if false
+	bool warnUnknownLogLevel = false;
+	int  indentation = 0;
 
-	bool multiLineLogs;			// log messages spanning multiple lines
-	int  prevLevel;				// level of the multi-line log
+	bool multiLineLogs = true;			// log messages spanning multiple lines
+	int  prevLevel = 0;					// level of the multi-line log
 
 	static std::string ToUppercase(const std::string &_str);
 };
