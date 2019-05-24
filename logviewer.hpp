@@ -121,6 +121,8 @@ private:
 	int           logNumberField;		// log/line numbers to be printed for each log message
 	bool          printLogNumber;		// print the log/line numbers
 
+	bool          multiLineLogs;		// log messages spanning multiple lines
+
 	bool          textParsing;			// parse the input file as normal text, not as a log file
 
 	// Log levels

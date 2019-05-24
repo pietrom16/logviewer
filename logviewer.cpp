@@ -112,6 +112,8 @@ int LogViewer::SetDefaultValues()
 	logNumberField = -1;
 	printLogNumber = false;
 
+	multiLineLogs = true;
+
 	textParsing = false;
 
 	levelColumn = -1;
@@ -195,6 +197,7 @@ int LogViewer::Run()
 	using namespace std;
 
 	GenerateLogHeader();
+	logLevels.SetMultiLineLogs(multiLineLogs);
 
 	/// Open log file
 
@@ -744,6 +747,10 @@ int LogViewer::SetCommandLineParams()
 	progArgs.AddArg(arg);
 	arg.Set("--printLogNumber", "-ln", "Print the log/line numbers", true, false);
 	progArgs.AddArg(arg);
+	arg.Set("--multiLineLogs", "-mll", "Logs can span multiple lines", true, false, "1");
+	progArgs.AddArg(arg);
+	arg.Set("--singleLineLogs", "-sll", "Logs cannot span multiple lines", true, false, "0");
+	progArgs.AddArg(arg);
 	arg.Set("--subString", "-s", "Print the logs which contain the specified substring", true, true);
 	progArgs.AddArg(arg);
 	arg.Set("--notSubString", "-ns", "Print the logs which do not contain the specified substring", true, true);
@@ -852,6 +859,14 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 
 	if(progArgs.GetValue("--printLogNumber")) {
 		printLogNumber = true;
+	}
+
+	if (progArgs.GetValue("--singleLineLogs")) {
+		multiLineLogs = false;
+	}
+
+	if (progArgs.GetValue("--multiLineLogs")) {
+		multiLineLogs = true;
 	}
 
 	if(progArgs.GetValue("--subString"))
