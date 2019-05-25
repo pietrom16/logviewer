@@ -117,7 +117,7 @@ int LogViewer::SetDefaultValues()
 	textParsing = false;
 
 	levelColumn = -1;
-	minLevel = 0;
+	minLevel = 1;
 	beepLevel = -1;
 	warnUnknownLogLevel = false;
 
@@ -826,7 +826,7 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 		minLevel = logLevels.GetVal(minLev);
 	}
 	else if(textParsing)
-		minLevel = 0;
+		minLevel = 1;
 
 	if(progArgs.GetValue("--printNewLogsOnly")) {
 		newLogsOnly = true;
