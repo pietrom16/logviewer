@@ -56,7 +56,7 @@
 
 ## TESTING
 
---input "/Users/pietro/myProgs/logger/logviewer/test/testText.txt" --logLevels "/Users/pietro/myProgs/logger/logviewer/test/testText_logLevels.txt" -ln --text -d ".;" -m 0
+--input "./test/testText.txt" --logLevels "./test/testText_logLevels.txt" -ln --text -d ".;" -m 0
 --input ./test.log -of HTML
 --input ./test.log -of HTML -o /Volumes/Phoenix_test/test_log.html
-
+--input ./test/testMultiline.log -m 0
