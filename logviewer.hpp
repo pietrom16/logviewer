@@ -64,7 +64,7 @@ public:
 	void  PrintVersion(const char* _progName);
 	void  PrintLogFilesDiagnostic(const std::string &_msg) const;
 
-	static const int  version = 6, subversion = 5, subsubversion = 0;
+	static const int  version = 6, subversion = 6, subsubversion = 0;
 	/* Versioning conventions:
 	 *	- Even subversion number: stable version.
 	 *	- Odd subversion number: unstable/development version.
