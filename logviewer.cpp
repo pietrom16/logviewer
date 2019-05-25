@@ -3,7 +3,7 @@
  *
  * Utility to display log files in real time on the console.
  *
- * Copyright (C) 2012-2016 Pietro Mele
+ * Copyright (C) 2012-2019 Pietro Mele
  * Released under a GPL 3 license.
  *
  * pietrom16@gmail.com
@@ -706,7 +706,7 @@ void LogViewer::PrintVersion(const char* _progName)
 	}
 
 	cout << "\n\t" << progName << aka << " version " << version << "." << subversion << "." << subsubversion << "\n";
-	cout << "\n\t" << "Copyright 2012-2016 Pietro Mele" << "\n";
+	cout << "\n\t" << "Copyright 2012-2019 Pietro Mele" << "\n";
 	cout << "\n\t" << "Released under a GPL 3 license." << "\n";
 	cout << "\n\t" << "pietrom16@gmail.com"
 		 << "\n\t" << "https://sites.google.com/site/pietrom16" << "\n";
