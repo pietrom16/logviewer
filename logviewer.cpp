@@ -1046,6 +1046,12 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 	if(textParsing == false)
 		delimiters.append("\n");	// new line as default delimiter for logs
 
+	// Check for conflicting parameters
+
+	if(textParsing) {
+		multiLineLogs = false;
+	}
+
 	return 0;
 }
 
