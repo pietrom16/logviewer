@@ -1,10 +1,5 @@
 # TODO - logviewer
 
--- Multiline logs
-	- Automatic recognition of multiline logs
-		- If the next log line has no timestamp and log level, treat it as a continuation of the previous log.
-		- No need to specify a command line parameter to recognize multiline logs.
-
 --- HTML5 output
     -- Add controls:
 	    - Go back before the controls.
