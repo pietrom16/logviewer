@@ -535,7 +535,7 @@ int LogViewer::Run()
 			this_thread::sleep_for(pause);
 
 		if(verbose) {
-			cout << "." << flush;
+			//cout << "." << flush;
 			newLine = true;
 		}
 	}
