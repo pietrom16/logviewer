@@ -3,7 +3,7 @@
  *
  * Utility to display log files in real time on the console.
  *
- * Copyright (C) 2012-2017 Pietro Mele
+ * Copyright (C) 2012-2019 Pietro Mele
  * Released under a GPL 3 license.
  *
  * pietrom16@gmail.com
@@ -112,10 +112,12 @@ int LogViewer::SetDefaultValues()
 	logNumberField = -1;
 	printLogNumber = false;
 
+	multiLineLogs = true;
+
 	textParsing = false;
 
 	levelColumn = -1;
-	minLevel = 0;
+	minLevel = 1;
 	beepLevel = -1;
 	warnUnknownLogLevel = false;
 
@@ -195,6 +197,7 @@ int LogViewer::Run()
 	using namespace std;
 
 	GenerateLogHeader();
+	logLevels.SetMultiLineLogs(multiLineLogs);
 
 	/// Open log file
 
@@ -532,7 +535,7 @@ int LogViewer::Run()
 			this_thread::sleep_for(pause);
 
 		if(verbose) {
-			cout << "." << flush;
+			//cout << "." << flush;
 			newLine = true;
 		}
 	}
@@ -703,7 +706,7 @@ void LogViewer::PrintVersion(const char* _progName)
 	}
 
 	cout << "\n\t" << progName << aka << " version " << version << "." << subversion << "." << subsubversion << "\n";
-	cout << "\n\t" << "Copyright 2012-2017 Pietro Mele" << "\n";
+	cout << "\n\t" << "Copyright 2012-2019 Pietro Mele" << "\n";
 	cout << "\n\t" << "Released under a GPL 3 license." << "\n";
 	cout << "\n\t" << "pietrom16@gmail.com"
 		 << "\n\t" << "https://sites.google.com/site/pietrom16" << "\n";
@@ -743,6 +746,10 @@ int LogViewer::SetCommandLineParams()
 	arg.Set("--printLogFile", "-f", "Print the log file name for each message (useful if multiple log files are shown simultaneously)", true, false);
 	progArgs.AddArg(arg);
 	arg.Set("--printLogNumber", "-ln", "Print the log/line numbers", true, false);
+	progArgs.AddArg(arg);
+	arg.Set("--multiLineLogs", "-mll", "Logs can span multiple lines", true, false, "1");
+	progArgs.AddArg(arg);
+	arg.Set("--singleLineLogs", "-sll", "Logs cannot span multiple lines", true, false, "0");
 	progArgs.AddArg(arg);
 	arg.Set("--subString", "-s", "Print the logs which contain the specified substring", true, true);
 	progArgs.AddArg(arg);
@@ -819,7 +826,7 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 		minLevel = logLevels.GetVal(minLev);
 	}
 	else if(textParsing)
-		minLevel = 0;
+		minLevel = 1;
 
 	if(progArgs.GetValue("--printNewLogsOnly")) {
 		newLogsOnly = true;
@@ -852,6 +859,14 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 
 	if(progArgs.GetValue("--printLogNumber")) {
 		printLogNumber = true;
+	}
+
+	if (progArgs.GetValue("--singleLineLogs")) {
+		multiLineLogs = false;
+	}
+
+	if (progArgs.GetValue("--multiLineLogs")) {
+		multiLineLogs = true;
 	}
 
 	if(progArgs.GetValue("--subString"))
@@ -1030,6 +1045,12 @@ int LogViewer::ReadCommandLineParams(int argc, char *argv[])
 
 	if(textParsing == false)
 		delimiters.append("\n");	// new line as default delimiter for logs
+
+	// Check for conflicting parameters
+
+	if(textParsing) {
+		multiLineLogs = false;
+	}
 
 	return 0;
 }

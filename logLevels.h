@@ -3,7 +3,7 @@
  *
  * Definitions of the log levels as string tokens and numerical values.
  *
- * Copyright (C) 2012-2016 Pietro Mele
+ * Copyright (C) 2012-2019 Pietro Mele
  * Released under a GPL 3 license.
  *
  * pietrom16@gmail.com
@@ -36,7 +36,14 @@ public:
 					 err_fileNotFound  = -2;
 
 public:
-	LogLevels() { InitLogLevels(); }
+	LogLevels()
+	{
+		InitLogLevels();
+		multiLineLogs = false;
+		prevLevel = 0;
+	}
+	
+	void SetMultiLineLogs(bool multiLine = true) { multiLineLogs = multiLine; }
 
 	int InitLogLevels();
 	int InitLogLevels(const std::vector<TagLevel> &_levels);
@@ -59,13 +66,13 @@ public:
 	// empty string/negative value if not found
 	int FindLogLevel(const std::string &_log, std::string &_levelTag,
 					 bool _pickFirstTag = false,
-					 int _column = -1) const;
+					 int _column = -1);
 
 	// Return log level value in a log message;
 	// negative value if not found
 	int FindLogLevel(const std::string &_log,
 					 bool _pickFirstTag = false,
-					 int _column = -1) const;
+					 int _column = -1);
 
 	// Return the log level tag in a log message; empty string if not found
 	std::string FindLogLevelTag(const std::string &_log,
@@ -87,9 +94,12 @@ public:
 private:
 	std::vector<TagLevel> levels;
 
-	bool pickFirstTag;			// pick the highest level tag if false
-	bool warnUnknownLogLevel;
-	int  indentation;
+	bool pickFirstTag = false;			// pick the highest level tag if false
+	bool warnUnknownLogLevel = false;
+	int  indentation = 0;
+
+	bool multiLineLogs = true;			// log messages spanning multiple lines
+	int  prevLevel = 0;					// level of the multi-line log
 
 	static std::string ToUppercase(const std::string &_str);
 };

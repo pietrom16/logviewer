@@ -3,7 +3,7 @@
  *
  * Utility to display log files in real time on the console.
  *
- * Copyright (C) 2012-2017 Pietro Mele
+ * Copyright (C) 2012-2019 Pietro Mele
  * Released under a GPL 3 license.
  *
  * pietrom16@gmail.com
@@ -64,7 +64,7 @@ public:
 	void  PrintVersion(const char* _progName);
 	void  PrintLogFilesDiagnostic(const std::string &_msg) const;
 
-	static const int  version = 6, subversion = 4, subsubversion = 0;
+	static const int  version = 6, subversion = 6, subsubversion = 0;
 	/* Versioning conventions:
 	 *	- Even subversion number: stable version.
 	 *	- Odd subversion number: unstable/development version.
@@ -120,6 +120,8 @@ private:
 	int           logNumber;			// log/line numbers
 	int           logNumberField;		// log/line numbers to be printed for each log message
 	bool          printLogNumber;		// print the log/line numbers
+
+	bool          multiLineLogs;		// log messages spanning multiple lines
 
 	bool          textParsing;			// parse the input file as normal text, not as a log file
 

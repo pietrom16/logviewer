@@ -1,4 +1,4 @@
-TODO - logviewer
+# TODO - logviewer
 
 --- Qt5 GUI
     . Check why Qt is not found.
@@ -60,16 +60,16 @@ TODO - logviewer
 -- rdKb: destroied, but never recreated.
 
 
-BUGS
+## BUGS
 
 - Bug: Check if it is normal that destructors are not called before exit.
 - Bug: Check timing in text view.
 - Bug: After running in GUI mode, the text console behaves erroneously.
 
 
-TESTING
+## TESTING
 
---input "/Users/pietro/myProgs/logger/logviewer/test/testText.txt" --logLevels "/Users/pietro/myProgs/logger/logviewer/test/testText_logLevels.txt" -ln --text -d ".;" -m 0
+--input "./test/testText.txt" --logLevels "./test/testText_logLevels.txt" -ln --text -d ".;" -m 0
 --input ./test.log -of HTML
 --input ./test.log -of HTML -o /Volumes/Phoenix_test/test_log.html
-
+--input ./test/testMultiline.log -m 0

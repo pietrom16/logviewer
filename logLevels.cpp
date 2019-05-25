@@ -3,7 +3,7 @@
  *
  * Definitions of the log levels as string tokens and numerical values.
  *
- * Copyright (C) 2012-2016 Pietro Mele
+ * Copyright (C) 2012-2019 Pietro Mele
  * Released under a GPL 3 license.
  *
  * pietrom16@gmail.com
@@ -220,7 +220,7 @@ int LogLevels::LogLevelMapping(const std::string &_tag) const
 int LogLevels::FindLogLevel(const std::string &_log,
 							std::string &_levelTag,
 							bool _pickFirstTag,
-							int _column) const
+							int _column)
 {
 	int levelVal = 0;
 
@@ -238,7 +238,10 @@ int LogLevels::FindLogLevel(const std::string &_log,
 	{
 		levelVal = FindLogLevelVal(_log, _pickFirstTag);
 
-		if (levelVal < 0 && warnUnknownLogLevel && _log.size() > 0) {
+		if(levelVal < 0 && multiLineLogs) {
+			levelVal = prevLevel;
+		}
+		else if(levelVal < 0 && warnUnknownLogLevel && _log.size() > 0) {
 			levelVal = 4;
 #ifdef _WIN32
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
@@ -249,6 +252,8 @@ int LogLevels::FindLogLevel(const std::string &_log,
 		_levelTag = levels[levelVal].tag;
 	}
 
+	prevLevel = levelVal;
+
 	return levelVal;
 }
 
@@ -258,7 +263,7 @@ int LogLevels::FindLogLevel(const std::string &_log,
 
 int LogLevels::FindLogLevel(const std::string &_log,
 							bool _pickFirstTag,
-							int _column) const
+							int _column)
 {
 	int levelVal = 0;
 
@@ -275,7 +280,11 @@ int LogLevels::FindLogLevel(const std::string &_log,
 	{
 		levelVal = FindLogLevelVal(_log, _pickFirstTag);
 
-		if(levelVal < 0)
+		if(levelVal < 0 && multiLineLogs)
+		{
+			levelVal = prevLevel;
+		}
+		else if(levelVal < 0)
 		{
 			if(warnUnknownLogLevel && _log.size() > 0)
 			{
@@ -290,6 +299,8 @@ int LogLevels::FindLogLevel(const std::string &_log,
 				levelVal = 0;
 		}
 	}
+
+	prevLevel = levelVal;
 
 	return levelVal;
 }
