@@ -9,4 +9,4 @@ Log message n.6 is another example of multiline log.
 More text for log n.6.
 
 Even more text for log n.6, after an empty line.
-0.00255 2012-08-31T21:16:53 FATAL - Test log message n.7
+0.00255 2012-08-31T21:16:53 INFO - Test log message n.7
